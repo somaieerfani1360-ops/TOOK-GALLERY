@@ -9,11 +9,12 @@
         :root {
             --primary: #ff3b8d;
             --primary-light: #ff6bac;
-            --whatsapp-green: #25D366;
-            --admin-purple: #7b1fa2;
             --user-blue: #0084ff;
             --gray-bg: #f0f2f5;
             --border-color: #e0e0e0;
+            --admin-blue: #1976d2;
+            --admin-green: #4CAF50;
+            --admin-red: #f44336;
         }
         
         * {
@@ -40,7 +41,6 @@
             height: 100%;
         }
         
-        /* تغییر مهم: ارتفاع دقیق */
         .chat-container {
             width: 100%;
             max-width: 900px;
@@ -53,6 +53,7 @@
             flex-direction: column;
             margin: 20px;
             min-height: 0;
+            position: relative;
         }
         
         /* هدر چت */
@@ -129,6 +130,290 @@
             justify-content: center;
         }
         
+        /* دکمه منو همبرگری */
+        .hamburger-menu {
+            background: transparent;
+            border: none;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            padding: 5px;
+            margin-right: 10px;
+        }
+        
+        .hamburger-menu span {
+            width: 25px;
+            height: 3px;
+            background: white;
+            border-radius: 2px;
+            transition: 0.3s;
+        }
+        
+        .hamburger-menu:hover span {
+            background: rgba(255,255,255,0.8);
+        }
+        
+        /* منوی کشویی */
+        .admin-dropdown {
+            position: absolute;
+            top: 70px;
+            right: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            width: 250px;
+            z-index: 1000;
+            display: none;
+            overflow: hidden;
+        }
+        
+        .admin-dropdown.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+        
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .admin-dropdown-header {
+            background: var(--admin-blue);
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .admin-dropdown-item {
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            border-bottom: 1px solid var(--border-color);
+            transition: background 0.3s;
+        }
+        
+        .admin-dropdown-item:hover {
+            background: #f5f5f5;
+        }
+        
+        .admin-dropdown-item i {
+            color: var(--admin-blue);
+            width: 20px;
+        }
+        
+        /* پنل ادمین - مدال */
+        .admin-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            z-index: 9999;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .admin-overlay.show {
+            display: flex;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .admin-panel {
+            background: white;
+            border-radius: 15px;
+            width: 100%;
+            max-width: 1000px;
+            max-height: 90vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            animation: scaleIn 0.3s ease;
+        }
+        
+        @keyframes scaleIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        
+        .admin-panel-header {
+            background: linear-gradient(90deg, var(--admin-blue), #2196f3);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+        
+        .admin-panel-header h2 {
+            font-size: 20px;
+        }
+        
+        .close-admin-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .admin-panel-content {
+            flex: 1;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* استایل‌های پنل ادمین داخلی */
+        .admin-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .admin-stat-card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .admin-stat-card i {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        
+        .admin-stat-number {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 5px 0;
+        }
+        
+        .admin-stat-label {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .admin-messages-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+        
+        .admin-message-item {
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            transition: all 0.3s;
+        }
+        
+        .admin-message-item.new {
+            border-right: 4px solid var(--admin-red);
+            background: #fff5f5;
+        }
+        
+        .admin-message-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .admin-user-id {
+            font-weight: bold;
+            color: var(--admin-blue);
+        }
+        
+        .admin-message-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .admin-btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 14px;
+        }
+        
+        .admin-btn-reply {
+            background: var(--admin-blue);
+            color: white;
+        }
+        
+        .admin-btn-resolve {
+            background: var(--admin-green);
+            color: white;
+        }
+        
+        .admin-reply-form {
+            margin-top: 15px;
+            padding: 15px;
+            background: #f0f7ff;
+            border-radius: 8px;
+            display: none;
+        }
+        
+        .admin-reply-form.show {
+            display: block;
+        }
+        
+        .admin-reply-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            min-height: 80px;
+            font-family: inherit;
+            font-size: 14px;
+        }
+        
+        .admin-reply-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .admin-btn-send {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .admin-btn-cancel {
+            background: #757575;
+            color: white;
+        }
+        
         /* راهنمای ارسال سریع */
         .quick-replies {
             display: flex;
@@ -158,7 +443,7 @@
             border-color: var(--primary);
         }
         
-        /* بدنه چت - تغییر مهم */
+        /* بدنه چت */
         .chat-body {
             flex: 1;
             min-height: 0;
@@ -243,7 +528,7 @@
             border: 1px solid var(--border-color);
         }
         
-        /* فوتور چت - تغییر مهم */
+        /* فوتور چت */
         .chat-footer {
             background: white;
             padding: 15px 20px;
@@ -342,7 +627,30 @@
             color: white;
         }
         
-        /* ریسپانسیو - تغییرات کامل */
+        /* نوتیفیکیشن */
+        .notification {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #4CAF50;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            z-index: 10000;
+            animation: slideIn 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(-50%) translateY(-20px); opacity: 0; }
+            to { transform: translateX(-50%) translateY(0); opacity: 1; }
+        }
+        
+        /* ریسپانسیو */
         @media (max-width: 768px) {
             body {
                 padding: 0;
@@ -355,185 +663,26 @@
                 max-height: 100vh;
                 border-radius: 0;
                 margin: 0;
-                min-height: 0;
-                position: fixed;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
             }
             
-            .chat-header {
-                padding: 15px;
+            .admin-stats {
+                grid-template-columns: repeat(2, 1fr);
             }
             
-            .avatar {
-                width: 40px;
-                height: 40px;
-                font-size: 18px;
-            }
-            
-            .user-details h2 {
-                font-size: 16px;
-            }
-            
-            .user-details p {
-                font-size: 12px;
-            }
-            
-            .quick-replies {
-                padding: 10px 15px;
-                gap: 8px;
-            }
-            
-            .quick-reply {
-                font-size: 12px;
-                padding: 6px 12px;
-            }
-            
-            .chat-body {
-                padding: 15px 10px;
-                min-height: 0;
-            }
-            
-            .message {
-                max-width: 85%;
-                margin-bottom: 10px;
-                padding: 10px 14px;
-            }
-            
-            .system-message {
-                padding: 12px;
-                margin: 15px auto;
-                font-size: 13px;
-            }
-            
-            .date-separator {
-                margin: 15px 0;
-            }
-            
-            .date-separator span {
-                padding: 4px 12px;
-                font-size: 11px;
-            }
-            
-            .chat-footer {
-                padding: 10px 15px;
-                min-height: 60px;
-            }
-            
-            .message-input {
-                padding: 10px 15px;
-                min-height: 40px;
-                font-size: 14px;
-            }
-            
-            .send-btn {
-                width: 45px;
-                height: 45px;
-                font-size: 18px;
-            }
-            
-            .action-btn {
-                width: 35px;
-                height: 35px;
-                font-size: 18px;
-            }
-            
-            .support-buttons {
-                padding: 10px 15px;
-                min-height: 60px;
-                gap: 15px;
-            }
-            
-            .support-btn {
-                padding: 8px 12px;
-                font-size: 13px;
-                gap: 5px;
-                flex: 1;
-                max-width: 150px;
+            .admin-panel {
+                max-height: 100vh;
+                border-radius: 0;
             }
         }
         
         @media (max-width: 480px) {
-            .chat-header {
-                padding: 12px;
+            .admin-stats {
+                grid-template-columns: 1fr;
             }
             
-            .header-info {
-                gap: 10px;
+            .admin-message-actions {
+                flex-direction: column;
             }
-            
-            .quick-replies {
-                padding: 8px 10px;
-            }
-            
-            .quick-reply {
-                font-size: 11px;
-                padding: 5px 10px;
-            }
-            
-            .chat-body {
-                padding: 10px 8px;
-            }
-            
-            .message {
-                max-width: 90%;
-                padding: 8px 12px;
-                font-size: 14px;
-            }
-            
-            .chat-footer {
-                padding: 8px 12px;
-            }
-            
-            .message-input {
-                padding: 8px 12px;
-                min-height: 35px;
-                font-size: 13px;
-            }
-            
-            .send-btn {
-                width: 40px;
-                height: 40px;
-                font-size: 16px;
-            }
-            
-            .action-btn {
-                width: 32px;
-                height: 32px;
-                font-size: 16px;
-            }
-            
-            .support-buttons {
-                padding: 8px 12px;
-                flex-wrap: wrap;
-            }
-            
-            .support-btn {
-                padding: 6px 10px;
-                font-size: 12px;
-                min-width: 120px;
-                justify-content: center;
-            }
-        }
-        
-        /* دکمه مخفی ادمین */
-        .admin-secret-btn {
-            position: absolute;
-            top: 10px;
-            right: 60px;
-            background: transparent;
-            border: none;
-            color: white;
-            opacity: 0.3;
-            cursor: pointer;
-            font-size: 16px;
-            transition: opacity 0.3s;
-        }
-        
-        .admin-secret-btn:hover {
-            opacity: 1;
         }
     </style>
 </head>
@@ -545,9 +694,11 @@
                 <i class="fas fa-arrow-right"></i>
             </button>
             
-            <!-- دکمه مخفی برای دسترسی پشتیبان -->
-            <button class="admin-secret-btn" onclick="openAdminPanel()" title="ورود پشتیبان">
-                <i class="fas fa-user-secret"></i>
+            <!-- دکمه منو همبرگری (سه خط) -->
+            <button class="hamburger-menu" id="hamburgerMenu">
+                <span></span>
+                <span></span>
+                <span></span>
             </button>
             
             <div class="header-info">
@@ -563,6 +714,26 @@
             <div class="status-indicator">
                 <div class="online-dot"></div>
                 <span>آنلاین</span>
+            </div>
+        </div>
+        
+        <!-- منوی کشویی -->
+        <div class="admin-dropdown" id="adminDropdown">
+            <div class="admin-dropdown-header">
+                <i class="fas fa-user-secret"></i>
+                <h4>منوی پشتیبان</h4>
+            </div>
+            <div class="admin-dropdown-item" onclick="openAdminPanel()">
+              <i class="fas fa-sign-in-alt"></i>
+                <span>ورود پشتیبان</span>
+            </div>
+            <div class="admin-dropdown-item" onclick="viewAllMessages()">
+                <i class="fas fa-history"></i>
+                <span>مشاهده تاریخچه</span>
+            </div>
+            <div class="admin-dropdown-item" onclick="refreshChat()">
+                <i class="fas fa-sync-alt"></i>
+                <span>بروزرسانی چت</span>
             </div>
         </div>
         
@@ -625,10 +796,50 @@
         </div>
     </div>
 
+    <!-- پنل ادمین (مدال) -->
+    <div class="admin-overlay" id="adminOverlay">
+        <div class="admin-panel">
+            <div class="admin-panel-header">
+                <h2><i class="fas fa-user-secret"></i> پنل پشتیبان - Took Gallery</h2>
+                <button class="close-admin-btn" onclick="closeAdminPanel()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="admin-panel-content">
+                <div class="admin-stats">
+                    <div class="admin-stat-card">
+                        <i class="fas fa-envelope" style="color: var(--admin-red);"></i>
+                        <div class="admin-stat-number" id="adminNewCount">0</div>
+                        <div class="admin-stat-label">پیام‌های جدید</div>
+                    </div>
+                    <div class="admin-stat-card">
+                        <i class="fas fa-users" style="color: var(--admin-blue);"></i>
+                        <div class="admin-stat-number" id="adminUserCount">0</div>
+                        <div class="admin-stat-label">کاربران فعال</div>
+                    </div>
+                    <div class="admin-stat-card">
+                        <i class="fas fa-check" style="color: var(--admin-green);"></i>
+                        <div class="admin-stat-number" id="adminRepliedCount">0</div>
+                        <div class="admin-stat-label">پاسخ داده شده</div>
+                    </div>
+                    <div class="admin-stat-card">
+                        <i class="fas fa-clock" style="color: #ff9800;"></i>
+                        <div class="admin-stat-number" id="adminTodayCount">0</div>
+                        <div class="admin-stat-label">امروز</div>
+                    </div>
+                </div>
+                
+                <div class="admin-messages-container" id="adminMessagesContainer">
+                    <!-- پیام‌های کاربران اینجا نمایش داده می‌شوند -->
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         // ==================== تنظیمات سیستم ====================
         const ADMIN_SECRET = 'TOOK123'; // کد مخفی پشتیبان
-        const ADMIN_PANEL_URL = 'support-admin.html';
         
         // تولید ID کاربر
         let userId = localStorage.getItem('chat_user_id');
@@ -637,7 +848,243 @@
             localStorage.setItem('chat_user_id', userId);
         }
         
-        // ==================== ذخیره پیام در سیستم ====================
+        // ==================== مدیریت منو ====================
+        const hamburgerMenu = document.getElementById('hamburgerMenu');
+        const adminDropdown = document.getElementById('adminDropdown');
+        
+        hamburgerMenu.addEventListener('click', (e) => {
+            e.stopPropagation();
+            adminDropdown.classList.toggle('show');
+        });
+        
+        // بستن منو هنگام کلیک خارج
+        document.addEventListener('click', (e) => {
+            if (!hamburgerMenu.contains(e.target) && !adminDropdown.contains(e.target)) {
+                adminDropdown.classList.remove('show');
+            }
+        });
+        
+        // ==================== پنل ادمین ====================
+        const adminOverlay = document.getElementById('adminOverlay');
+        let isAdminLoggedIn = false;
+        
+        function openAdminPanel() {
+            adminDropdown.classList.remove('show');
+            
+            // اگر قبلاً لاگین نشده، کد دسترسی بپرس
+            if (!isAdminLoggedIn) {
+                const secret = prompt('لطفاً کد دسترسی پشتیبان را وارد کنید:');
+                if (secret !== ADMIN_SECRET) {
+                    if (secret !== null) {
+                        alert('کد دسترسی اشتباه است!');
+                    }
+                    return;
+                }
+                isAdminLoggedIn = true;
+            }
+            
+            // بارگذاری پنل ادمین
+            loadAdminPanel();
+            adminOverlay.classList.add('show');
+        }
+        
+        function closeAdminPanel() {
+            adminOverlay.classList.remove('show');
+        }
+        
+        // ==================== بارگذاری پنل ادمین ====================
+        function loadAdminPanel() {
+            const allMessages = JSON.parse(localStorage.getItem('all_chat_messages')) || [];
+            const adminQueue = JSON.parse(localStorage.getItem('admin_queue')) || [];
+            
+            // آپدیت آمار
+            updateAdminStats(allMessages);
+            
+            // نمایش پیام‌ها
+            displayAdminMessages(adminQueue.length > 0 ? adminQueue : 
+                allMessages.filter(m => m.sender === 'user' && m.status === 'pending'));
+        }
+        
+        function updateAdminStats(messages) {
+            const newMsgs = messages.filter(m => m.status === 'pending' && m.sender === 'user').length;
+            const repliedMsgs = messages.filter(m => m.status === 'replied').length;
+            
+            // تعداد کاربران منحصر به فرد
+            const uniqueUsers = [...new Set(messages.filter(m => m.sender === 'user').map(m => m.user_id))];
+            
+            // پیام‌های امروز
+            const today = new Date().toLocaleDateString('fa-IR');
+            const todayMsgs = messages.filter(m => m.date === today).length;
+            
+            document.getElementById('adminNewCount').textContent = newMsgs;
+            document.getElementById('adminUserCount').textContent = uniqueUsers.length;
+            document.getElementById('adminRepliedCount').textContent = repliedMsgs;
+            document.getElementById('adminTodayCount').textContent = todayMsgs;
+        }
+        
+        function displayAdminMessages(messages) {
+            const container = document.getElementById('adminMessagesContainer');
+            
+            if (!messages || messages.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: #666;">
+                        <i class="far fa-smile" style="font-size: 50px; color: #bdbdbd; margin-bottom: 15px;"></i>
+                        <h4>هیچ پیام جدیدی وجود ندارد</h4>
+                        <p>کاربران هنوز پیامی ارسال نکرده‌اند.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // مرتب‌سازی بر اساس تاریخ (جدیدترین اول)
+            messages.sort((a, b) => (b.id || 0) - (a.id || 0));
+            
+            let html = '';
+            messages.forEach(msg => {
+                const userIdShort = msg.user_id ? msg.user_id.substring(0, 8) + '...' : 'ناشناس';
+                html += `
+                    <div class="admin-message-item ${msg.status === 'pending' ? 'new' : ''}">
+                        <div class="admin-message-header">
+                            <div>
+                                <span class="admin-user-id"><i class="fas fa-user"></i> ${userIdShort}</span>
+                                <span style="font-size: 12px; color: #666; margin-right: 10px;">${msg.date || ''}</span>
+                                <span style="font-size: 12px; color: #666;"><i class="far fa-clock"></i> ${msg.time || ''}</span>
+                            </div>
+                        </div>
+                        
+                        <div style="padding: 10px 0; font-size: 15px;">
+                            ${msg.text || 'بدون متن'}
+                        </div>
+                        
+                        ${msg.status === 'pending' ? `
+                        <div class="admin-message-actions">
+                            <button class="admin-btn admin-btn-reply" onclick="showAdminReplyForm('${msg.user_id}', ${msg.id})">
+                                <i class="fas fa-reply"></i> پاسخ
+                            </button>
+                            <button class="admin-btn admin-btn-resolve" onclick="resolveAdminMessage(${msg.id})">
+                                <i class="fas fa-check"></i> حل شد
+                            </button>
+                        </div>
+                        
+                        <div class="admin-reply-form" id="adminReplyForm-${msg.id}">
+                            <textarea class="admin-reply-input" id="adminReplyText-${msg.id}" 
+                                      placeholder="پاسخ خود را بنویسید..."></textarea>
+                            <div class="admin-reply-buttons">
+                                <button class="admin-btn admin-btn-send" onclick="sendAdminReply('${msg.user_id}', ${msg.id})">
+                                    <i class="fas fa-paper-plane"></i> ارسال پاسخ
+                                </button>
+                                <button class="admin-btn admin-btn-cancel" onclick="hideAdminReplyForm(${msg.id})">
+                                    انصراف
+                                </button>
+                            </div>
+                        </div>
+                        ` : ''}
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+        
+        // ==================== مدیریت پاسخ‌های ادمین ====================
+        function showAdminReplyForm(userId, messageId) {
+            // مخفی کردن فرم‌های دیگر
+            document.querySelectorAll('.admin-reply-form').forEach(form => {
+                form.classList.remove('show');
+            });
+            
+            // نمایش فرم جاری
+            const form = document.getElementById(`adminReplyForm-${messageId}`);
+            form.classList.add('show');
+            document.getElementById(`adminReplyText-${messageId}`).focus();
+        }
+        
+        function hideAdminReplyForm(messageId) {
+            const form = document.getElementById(`adminReplyForm-${messageId}`);
+            form.classList.remove('show');
+            document.getElementById(`adminReplyText-${messageId}`).value = '';
+        }
+        
+        function sendAdminReply(userId, messageId) {
+            const replyText = document.getElementById(`adminReplyText-${messageId}`).value.trim();
+            
+            if (!replyText) {
+                alert('لطفاً متن پاسخ را وارد کنید.');
+                return;
+            }
+            
+            // ذخیره پاسخ
+            const allMessages = JSON.parse(localStorage.getItem('all_chat_messages')) || [];
+            
+            const adminReply = {
+                id: Date.now(),
+                user_id: userId,
+                sender: 'admin',
+                text: replyText,
+                time: new Date().toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit' }),
+                date: new Date().toLocaleDateString('fa-IR'),
+                is_read: false,
+                status: 'replied',
+                replied_to: messageId
+            };
+            
+            allMessages.push(adminReply);
+            localStorage.setItem('all_chat_messages', JSON.stringify(allMessages));
+            
+            // آپدیت وضعیت پیام اصلی
+            const messageIndex = allMessages.findIndex(m => m.id == messageId);
+            if (messageIndex !== -1) {
+                allMessages[messageIndex].status = 'replied';
+                localStorage.setItem('all_chat_messages', JSON.stringify(allMessages));
+            }
+            
+            // حذف از صف مدیریت
+            const adminQueue = JSON.parse(localStorage.getItem('admin_queue')) || [];
+            const newQueue = adminQueue.filter(m => m.id != messageId);
+            localStorage.setItem('admin_queue', JSON.stringify(newQueue));
+            
+            // همچنین ذخیره در چت کاربر
+            const userChatKey = 'user_' + userId;
+            const userMessages = JSON.parse(localStorage.getItem(userChatKey)) || [];
+            userMessages.push(adminReply);
+            localStorage.setItem(userChatKey, JSON.stringify(userMessages));
+            
+            // مخفی کردن فرم
+            hideAdminReplyForm(messageId);
+            
+            // اعلان موفقیت
+            showNotification('✅ پاسخ با موفقیت ارسال شد!');
+            
+            // بازخوانی پنل
+            setTimeout(() => loadAdminPanel(), 500);
+            
+            // اگر کاربر همان کاربر فعلی است، چت را رفرش کن
+            if (userId === userId) {
+                setTimeout(() => loadChat(), 1000);
+            }
+        }
+        
+        function resolveAdminMessage(messageId) {
+            if (confirm('آیا این پیام حل شده است؟')) {
+                const allMessages = JSON.parse(localStorage.getItem('all_chat_messages')) || [];
+                const messageIndex = allMessages.findIndex(m => m.id == messageId);
+                
+                if (messageIndex !== -1) {
+                    allMessages[messageIndex].status = 'resolved';
+                    localStorage.setItem('all_chat_messages', JSON.stringify(allMessages));
+                }
+                
+                // حذف از صف مدیریت
+                const adminQueue = JSON.parse(localStorage.getItem('admin_queue')) || [];
+                const newQueue = adminQueue.filter(m => m.id != messageId);
+                localStorage.setItem('admin_queue', JSON.stringify(newQueue));
+                
+                showNotification('پیام به عنوان حل شده علامت‌گذاری شد.');
+                setTimeout(() => loadAdminPanel(), 500);
+            }
+        }
+        
+        // ==================== سیستم چت کاربر ====================
         function saveMessage(sender, text, isAdminReply = false) {
             const message = {
                 id: Date.now(),
@@ -670,7 +1117,6 @@
             return message;
         }
         
-        // ==================== بارگذاری چت ====================
         function loadChat() {
             const chatBody = document.getElementById('chatBody');
             
@@ -701,7 +1147,6 @@
             displayMessages(userMessages);
         }
         
-        // ==================== نمایش پیام‌ها ====================
         function displayMessages(messages) {
             const chatBody = document.getElementById('chatBody');
             chatBody.innerHTML = '';
@@ -724,7 +1169,7 @@
                 chatBody.innerHTML += `
                     <div class="message ${messageClass}">
                         <div class="message-text">${msg.text}</div>
-                        <div class="message-time">
+            <div class="message-time">
                             ${msg.time} 
                             ${msg.sender === 'admin' ? '(پشتیبان)' : ''}
                         </div>
@@ -736,7 +1181,6 @@
             chatBody.scrollTop = chatBody.scrollHeight;
         }
         
-        // ==================== ارسال پیام ====================
         function sendMessage() {
             const input = document.getElementById('messageInput');
             const text = input.value.trim();
@@ -762,115 +1206,55 @@
             }, 1000);
         }
         
-        // ==================== چک کردن پاسخ‌های جدید پشتیبان ====================
-        function checkForAdminReplies() {
-            const allMessages = JSON.parse(localStorage.getItem('all_chat_messages')) || [];
-            const userMessages = JSON.parse(localStorage.getItem('user_' + userId)) || [];
-            
-            // پیدا کردن پاسخ‌های جدید پشتیبان برای این کاربر
-            const newReplies = allMessages.filter(msg => 
-                msg.sender === 'admin' && 
-                msg.user_id === userId &&
-                !userMessages.some(m => m.id === msg.id)
-            );
-            
-            if (newReplies.length > 0) {
-                // اضافه کردن پاسخ‌های جدید به لیست کاربر
-                newReplies.forEach(reply => {
-                    userMessages.push(reply);
-                });
-                localStorage.setItem('user_' + userId, JSON.stringify(userMessages));
-                loadChat();
-                
-                // نوتیفیکیشن
-                if (newReplies.length === 1) {
-                    showNotification('پاسخ جدید از پشتیبان دریافت شد!');
-                } else {
-                    showNotification(`${newReplies.length} پاسخ جدید از پشتیبان دریافت شد!`);
-                }
-            }
-        }
-        
-        // ==================== ارسال سریع ====================
+        // ==================== توابع کمکی ====================
         function sendQuickReply(text) {
             document.getElementById('messageInput').value = text;
             sendMessage();
         }
         
-        // ==================== تماس تلفنی ====================
         function callSupport() {
             if (confirm('آیا می‌خواهید با پشتیبانی تماس بگیرید؟\nشماره: ۰۹۱۲۱۲۳۴۵۶۷')) {
                 window.location.href = 'tel:09121234567';
             }
         }
         
-        // ==================== ارسال ایمیل ====================
         function sendEmail() {
             window.location.href = 'mailto:support@tookgallery.com?subject=پشتیبانی Took Gallery';
         }
         
-        // ==================== پیوست فایل ====================
         function attachFile() {
             alert('امکان آپلود فایل در نسخه نمونه فعال نیست.');
         }
         
-        // ==================== ایموجی ====================
         function toggleEmoji() {
             alert('کیبورد ایموجی در نسخه نمونه فعال نیست.');
         }
         
-        // ==================== پنل مخفی پشتیبان ====================
-        function openAdminPanel() {
-            const secret = prompt('لطفاً کد دسترسی پشتیبانی را وارد کنید:');
-            if (secret === ADMIN_SECRET) {
-                window.open(ADMIN_PANEL_URL + '?secret=' + secret, '_blank');
-            } else if (secret) {
-                alert('کد دسترسی اشتباه است!');
-            }
+        function viewAllMessages() {
+            adminDropdown.classList.remove('show');
+            alert('این قابلیت در نسخه فعلی فعال نیست.');
         }
         
-        // ==================== نوتیفیکیشن ====================
+        function refreshChat() {
+            adminDropdown.classList.remove('show');
+            loadChat();
+            showNotification('چت بروزرسانی شد.');
+        }
+        
         function showNotification(message) {
-            // ایجاد یک نوتیفیکیشن موقت
             const notification = document.createElement('div');
-            notification.style.cssText = `
-                position: fixed;
-                top: 20px;
-                left: 50%;
-                transform: translateX(-50%);
-                background: #4CAF50;
-                color: white;
-                padding: 15px 25px;
-                border-radius: 10px;
-                box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-                z-index: 10000;
-                animation: slideIn 0.3s ease;
-            `;
-            notification.innerHTML = `<i class="fas fa-bell"></i> ${message}`;
+            notification.className = 'notification';
+            notification.innerHTML = `<i class="fas fa-check-circle"></i> ${message}`;
             document.body.appendChild(notification);
             
             setTimeout(() => {
-                notification.style.animation = 'slideOut 0.3s ease';
+                notification.style.animation = 'slideIn 0.3s ease reverse';
                 setTimeout(() => notification.remove(), 300);
             }, 3000);
         }
         
         // ==================== اجرای اولیه ====================
         document.addEventListener('DOMContentLoaded', () => {
-            // اضافه کردن استایل‌های انیمیشن
-            const style = document.createElement('style');
-            style.textContent = `
-                @keyframes slideIn {
-                    from { transform: translateX(-50%) translateY(-20px); opacity: 0; }
-                    to { transform: translateX(-50%) translateY(0); opacity: 1; }
-                }
-                @keyframes slideOut {
-                    from { transform: translateX(-50%) translateY(0); opacity: 1; }
-                    to { transform: translateX(-50%) translateY(-20px); opacity: 0; }
-                }
-            `;
-            document.head.appendChild(style);
-            
             // بارگذاری چت
             loadChat();
             
@@ -881,44 +1265,41 @@
                 }
             });
             
-            // چک کردن پاسخ‌های جدید هر 3 ثانیه
-            setInterval(checkForAdminReplies, 3000);
+            // چک کردن پاسخ‌های جدید هر 5 ثانیه
+            setInterval(() => {
+                const allMessages = JSON.parse(localStorage.getItem('all_chat_messages')) || [];
+                const userMessages = JSON.parse(localStorage.getItem('user_' + userId)) || [];
+                
+                // پیدا کردن پاسخ‌های جدید پشتیبان برای این کاربر
+                const newReplies = allMessages.filter(msg => 
+                    msg.sender === 'admin' && 
+                    msg.user_id === userId &&
+                    !userMessages.some(m => m.id === msg.id)
+                );
+                
+                if (newReplies.length > 0) {
+                    // اضافه کردن پاسخ‌های جدید به لیست کاربر
+                    newReplies.forEach(reply => {
+                        userMessages.push(reply);
+                    });
+                    localStorage.setItem('user_' + userId, JSON.stringify(userMessages));
+                    loadChat();
+                    
+                    // نوتیفیکیشن
+                    if (newReplies.length === 1) {
+                        showNotification('پاسخ جدید از پشتیبان دریافت شد!');
+                    } else {
+                        showNotification(`${newReplies.length} پاسخ جدید از پشتیبان دریافت شد!`);
+                    }
+                }
+            }, 5000);
             
-            // تنظیم ارتفاع برای موبایل
-            if (window.innerWidth <= 768) {
-                const chatBody = document.getElementById('chatBody');
-                const container = document.querySelector('.chat-container');
-                
-                const headerHeight = document.querySelector('.chat-header').offsetHeight;
-                const quickRepliesHeight = document.querySelector('.quick-replies').offsetHeight;
-                const footerHeight = document.querySelector('.chat-footer').offsetHeight;
-                const supportButtonsHeight = document.querySelector('.support-buttons').offsetHeight;
-                
-                const totalFixedHeight = headerHeight + quickRepliesHeight + footerHeight + supportButtonsHeight;
-                const availableHeight = window.innerHeight - totalFixedHeight;
-                
-                chatBody.style.height = availableHeight + 'px';
-                chatBody.style.minHeight = '200px';
-            }
-        });
-        
-        // ==================== تنظیم مجدد ارتفاع در صورت تغییر سایز ====================
-        window.addEventListener('resize', function() {
-            if (window.innerWidth <= 768) {
-                const chatBody = document.getElementById('chatBody');
-                const container = document.querySelector('.chat-container');
-                
-                const headerHeight = document.querySelector('.chat-header').offsetHeight;
-                const quickRepliesHeight = document.querySelector('.quick-replies').offsetHeight;
-                const footerHeight = document.querySelector('.chat-footer').offsetHeight;
-                const supportButtonsHeight = document.querySelector('.support-buttons').offsetHeight;
-                
-                const totalFixedHeight = headerHeight + quickRepliesHeight + footerHeight + supportButtonsHeight;
-                const availableHeight = window.innerHeight - totalFixedHeight;
-                
-                chatBody.style.height = availableHeight + 'px';
-                chatBody.style.minHeight = '200px';
-            }
+            // اگر پنل ادمین باز است، هر 10 ثانیه رفرش کن
+            setInterval(() => {
+                if (adminOverlay.classList.contains('show')) {
+                    loadAdminPanel();
+                }
+            }, 10000);
         });
     </script>
 </body>
