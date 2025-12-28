@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پنل پشتیبان - Took Gallery</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #ff3b8d;
+            --primary-light: #ff6bac;
+            --dark: #333;
+            --light: #fff;
+            --gray: #f8f8f8;
+            --border: #ffd6e8;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+        }
+        
+        body {
+            background: #f5f5f5;
+            min-height: 100vh;
+        }
+        
+        .admin-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* هدر پنل */
+        .admin-header {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 20px rgba(255, 59, 141, 0.1);
+            border: 2px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .admin-header h1 {
+            color: var(--primary);
+            font-size: 28px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .admin-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .admin-avatar {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 22px;
+        }
+        
+        /* دکمه‌ها */
+        .admin-actions {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .action-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .refresh-btn {
+            background: #4CAF50;
+            color: white;
+        }
+        
+        .logout-btn {
+            background: #f44336;
+            color: white;
+        }
+        
+        .stats-btn {
+            background: #2196F3;
+            color: white;
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        /* شبکه تیکت‌ها */
+        .tickets-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .ticket-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .ticket-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            border-color: var(--border);
+        }
+        
+        .ticket-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 5px;
+            height: 100%;
+        }
+        
+        .ticket-new::before {
+            background: #ff3b8d;
+        }
+        
+        .ticket-pending::before {
+            background: #FF9800;
+        }
+        
+        .ticket-answered::before {
+            background: #4CAF50;
+        }
+        
+        .ticket-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+        }
+        
+        .status-badge {
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+        
+        .status-new {
+            background: rgba(255, 59, 141, 0.1);
+            color: #ff3b8d;
+        }
+        
+        .status-pending {
+            background: rgba(255, 152, 0, 0.1);
+            color: #FF9800;
+        }
+        
+        .status-answered {
+            background: rgba(76, 175, 80, 0.1);
+            color: #4CAF50;
+        }
+        
+        .message-preview {
+            color: #666;
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .ticket-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            color: #888;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+        
+        /* آمار */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .stat-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 30px;
+        }
+        
+        .stat-new .stat-icon {
+            background: rgba(255, 59, 141, 0.1);
+            color: #ff3b8d;
+        }
+        
+        .stat-pending .stat-icon {
+            background: rgba(255, 152, 0, 0.1);
+            color: #FF9800;
+        }
+        
+        .stat-answered .stat-icon {
+            background: rgba(76, 175, 80, 0.1);
+            color: #4CAF50;
+        }
+        
+        .stat-total .stat-icon {
+            background: rgba(103, 58, 183, 0.1);
+            color: #673ab7;
+        }
+        
+        .stat-number {
+            font-size: 32px;
+            font-weight: bold;
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 15px;
+        }
+        
+        /* مدال چت */
+        .chat-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .chat-modal.active {
+            display: flex;
+        }
+        
+        .chat-window {
+            background: white;
+            width: 100%;
+            max-width: 900px;
+            height: 85vh;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        
+        .chat-header {
+            background: linear-gradient(90deg, var(--primary), var(--primary-light));
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .chat-body {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: #f8f9fa;
+        }
+        
+        .admin-message {
+            background: white;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
+            max-width: 70%;
+            margin-left: auto;
+            margin-right: 30px;
+            border-bottom-right-radius: 5px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .user-message {
+            background: #e3f2fd;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
+            max-width: 70%;
+            margin-right: auto;
+            margin-left: 30px;
+            border-bottom-left-radius: 5px;
+        }
+        
+        .message-time {
+            font-size: 12px;
+            color: #888;
+            margin-top: 5px;
+            text-align: left;
+        }
+        
+        .chat-input {
+            padding: 20px;
+            border-top: 1px solid #eee;
+            display: flex;
+            gap: 10px;
+            background: white;
+        }
+        
+        .chat-input textarea {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-size: 16px;
+            resize: none;
+            min-height: 60px;
+        }
+        
+        .send-chat-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 22px;
+            transition: all 0.3s;
+        }
+        
+        .send-chat-btn:hover {
+            background: var(--primary-light);
+        }
+        
+        /* ریسپانسیو */
+        @media (max-width: 768px) {
+            .tickets-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .admin-header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .admin-actions {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- چک ورود -->
+    <script>
+        if (localStorage.getItem('adminLoggedIn') !== 'true') {
+            window.location.href = 'admin-login.html';
+        }
+    </script>
+
+    <div class="admin-container">
+        <!-- هدر پنل -->
+        <div class="admin-header">
+            <h1>
+                <i class="fas fa-headset"></i>
+                پنل مدیریت پشتیبانی
+            </h1>
+            
+            <div class="admin-info">
+                <div class="admin-avatar" id="adminAvatar">
+                    <!-- با JavaScript پر می‌شود -->
+                </div>
+                <div>
+                    <div style="font-weight: 600; color: #333;" id="adminName">
+                        <!-- با JavaScript پر می‌شود -->
+                    </div>
+                    <div style="font-size: 14px; color: #666;">
+                        <i class="fas fa-clock"></i>
+                        <span id="currentTime">--:--</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- دکمه‌های اکشن -->
+        <div class="admin-actions">
+            <button class="action-btn refresh-btn" onclick="refreshTickets()">
+                <i class="fas fa-sync-alt"></i>
+                به‌روزرسانی
+            </button>
+            
+            <button class="action-btn stats-btn" onclick="showStats()">
+                <i class="fas fa-chart-bar"></i>
+                آمار امروز
+            </button>
+            
+            <button class="action-btn logout-btn" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i>
+                خروج از پنل
+            </button>
+        </div>
+        
+        <!-- آمار -->
+        <div class="stats-container" id="statsContainer" style="display: none;">
+            <div class="stat-card stat-new">
+                <div class="stat-icon">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <div class="stat-number" id="statNew">0</div>
+                <div class="stat-label">تیکت جدید</div>
+            </div>
+            
+            <div class="stat-card stat-pending">
+                <div class="stat-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="stat-number" id="statPending">0</div>
+                <div class="stat-label">در حال بررسی</div>
+            </div>
+            
+            <div class="stat-card stat-answered">
+                <div class="stat-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="stat-number" id="statAnswered">0</div>
+                <div class="stat-label">پاسخ داده</div>
+            </div>
+            
+            <div class="stat-card stat-total">
+                <div class="stat-icon">
+                    <i class="fas fa-inbox"></i>
+                </div>
+                <div class="stat-number" id="statTotal">0</div>
+                <div class="stat-label">کل تیکت‌ها</div>
+            </div>
+        </div>
+        
+        <!-- شبکه تیکت‌ها -->
+        <div class="tickets-grid" id="ticketsContainer">
+            <!-- تیکت‌ها اینجا با JavaScript لود می‌شوند -->
+        </div>
+    </div>
+    
+    <!-- مدال چت -->
+    <div class="chat-modal" id="chatModal">
+        <div class="chat-window">
+            <!-- محتوای چت با JavaScript پر می‌شود -->
+        </div>
+    </div>
+
+    <script>
+        // تیکت‌های نمونه
+        let tickets = JSON.parse(localStorage.getItem('adminTickets')) || [
+            {
+                id: 1,
+                userId: 'user123',
+                userName: 'علی محمدی',
+                userPhone: '۰۹۱۲۱۲۳۴۵۶۷',
+                message: 'سفارش من در چه حالتی هست؟ لطفاً وضعیت سفارش من را بررسی کنید.',
+                status: 'new',
+                timestamp: new Date().toISOString(),
+                messages: [
+                    { sender: 'user', text: 'سفارش من در چه حالتی هست؟', time: '۱۴:۳۰' },
+                    { sender: 'admin', text: 'با سلام، شماره سفارش خود را بفرستید.', time: '۱۴:۳۲' }
+                ]
+            },
+            {
+                id: 2,
+                userId: 'user456',
+                userName: 'مریم کریمی',
+                userPhone: '۰۹۳۵۵۵۵۶۷۸',
+                message: 'محصولی که خریدم مشکل داره، چطور می‌تونم مرجوع کنم؟',
+                status: 'pending',
+                timestamp: new Date().toISOString(),
+                messages: [
+                    { sender: 'user', text: 'محصولی که خریدم مشکل داره، چطور می‌تونم مرجوع کنم؟', time: '۱۵:۲۰' }
+                ]
+            }
+        ];
+        
+        // بارگذاری اطلاعات ادمین
+        function loadAdminInfo() {
+            const username = localStorage.getItem('adminUsername') || 'پشتیبان';
+            const adminAvatar = document.getElementById('adminAvatar');
+            const adminName = document.getElementById('adminName');
+            
+            adminAvatar.innerHTML = username.charAt(0);
+            adminName.textContent = username;
+            
+            // به‌روزرسانی زمان
+            updateTime();
+            setInterval(updateTime, 60000);
+        }
+        
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('currentTime').textContent = 
+                now.toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit' });
+        }
+        
+        // بارگذاری تیکت‌ها
+        function loadTickets() {
+            const container = document.getElementById('ticketsContainer');
+            let html = '';
+            
+            // مرتب‌سازی بر اساس تاریخ (جدیدترین اول)
+            tickets.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+            
+            tickets.forEach(ticket => {
+                const messagePreview = ticket.message.length > 100 
+                    ? ticket.message.substring(0, 100) + '...' 
+                    : ticket.message;
+                
+                html += `
+                    <div class="ticket-card ticket-${ticket.status}" onclick="openChat(${ticket.id})">
+                        <div class="ticket-header">
+                            <div class="user-info">
+                                <div class="user-avatar">
+                                    ${ticket.userName.charAt(0)}
+                                </div>
+                                <div>
+                                    <div style="font-weight: 600;">${ticket.userName}</div>
+                                    <div style="font-size: 14px; color: #666;">${ticket.userPhone}</div>
+                                </div>
+                            </div>
+                            <span class="status-badge status-${ticket.status}">
+                                ${ticket.status === 'new' ? 'جدید' : 
+                                  ticket.status === 'pending' ? 'در حال بررسی' : 'پاسخ داده'}
+                            </span>
+                        </div>
+                        
+                        <div class="message-preview">
+                            ${messagePreview}
+                        </div>
+                        
+                        <div class="ticket-footer">
+                            <span>${new Date(ticket.timestamp).toLocaleString('fa-IR')}</span>
+                            <span>${ticket.messages.length} پیام</span>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+            updateStats();
+        }
+        
+        // به‌روزرسانی آمار
+        function updateStats() {
+            const newTickets = tickets.filter(t => t.status === 'new').length;
+            const pendingTickets = tickets.filter(t => t.status === 'pending').length;
+            const answeredTickets = tickets.filter(t => t.status === 'answered').length;
+            const totalTickets = tickets.length;
+            
+            document.getElementById('statNew').textContent = newTickets;
+            document.getElementById('statPending').textContent = pendingTickets;
+            document.getElementById('statAnswered').textContent = answeredTickets;
+            document.getElementById('statTotal').textContent = totalTickets;
+        }
+        
+        // نمایش/مخفی کردن آمار
+        function showStats() {
+            const statsContainer = document.getElementById('statsContainer');
+            const isVisible = statsContainer.style.display === 'flex';
+            statsContainer.style.display = isVisible ? 'none' : 'flex';
+            updateStats();
+        }
+        
+        // باز کردن چت
+        function openChat(ticketId) {
+            const ticket = tickets.find(t => t.id === ticketId);
+            if (!ticket) return;
+            
+            // تغییر وضعیت به "در حال بررسی"
+            if (ticket.status === 'new') {
+                ticket.status = 'pending';
+                saveTickets();
+            }
+            
+            // ساخت پنجره چت
+            const modal = document.getElementById('chatModal');
+            const chatWindow = document.querySelector('.chat-window');
+            
+            let chatHTML = `
+                <div class="chat-header">
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <div style="width: 50px; height: 50px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px;">
+                            ${ticket.userName.charAt(0)}
+                        </div>
+                        <div>
+                            <h3 style="margin: 0; font-size: 18px;">${ticket.userName}</h3>
+                            <p style="margin: 5px 0 0; opacity: 0.9;">${ticket.userPhone}</p>
+                        </div>
+                    </div>
+                    <button onclick="closeChat()" style="background: none; border: none; color: white; font-size: 24px; cursor: pointer;">×</button>
+                </div>
+                
+                <div class="chat-body" id="adminChatBody">
+                    <!-- پیام‌ها -->
+                </div>
+                
+                <div class="chat-input">
+                    <textarea id="adminMessageInput" 
+                              placeholder="پاسخ خود را بنویسید..." 
+                              onkeypress="if(event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); sendAdminMessage(${ticketId}); }"></textarea>
+                    <button class="send-chat-btn" onclick="sendAdminMessage(${ticketId})">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            `;
+            
+            chatWindow.innerHTML = chatHTML;
+            modal.classList.add('active');
+            
+            // بارگذاری پیام‌ها
+            loadAdminChat(ticketId);
+        }
+        
+        // بارگذاری پیام‌های چت
+        function loadAdminChat(ticketId) {
+            const ticket = tickets.find(t => t.id === ticketId);
+            const container = document.getElementById('adminChatBody');
+            
+            if (!ticket || !container) return;
+            
+            let html = '';
+            ticket.messages.forEach(msg => {
+                const messageClass = msg.sender === 'user' ? 'user-message' : 'admin-message';
+                const senderName = msg.sender === 'user' ? ticket.userName : 'شما (پشتیبان)';
+                
+                html += `
+                    <div class="${messageClass}">
+                        <div style="font-weight: 500; margin-bottom: 5px;">${senderName}</div>
+                        <div>${msg.text}</div>
+                        <div class="message-time">${msg.time}</div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+            container.scrollTop = container.scrollHeight;
+        }
+        
+        // ارسال پیام توسط پشتیبان
+        function sendAdminMessage(ticketId) {
+            const input = document.getElementById('adminMessageInput');
+            const text = input.value.trim();
+            
+            if (!text) return;
+            
+            const ticket = tickets.find(t => t.id === ticketId);
+            if (!ticket) return;
+            
+            // اضافه کردن پیام پشتیبان
+            ticket.messages.push({
+                sender: 'admin',
+                text: text,
+                time: new Date().toLocaleTimeString('fa-IR')
+            });
+            
+            // تغییر وضعیت تیکت
+            ticket.status = 'answered';
+            
+            // ذخیره تغییرات
+            saveTickets();
+            
+            // به‌روزرسانی چت و لیست
+            input.value = '';
+            loadAdminChat(ticketId);
+            setTimeout(() => {
+                loadTickets();
+            }, 500);
+        }
+        
+        // بستن چت
+        function closeChat() {
+            document.getElementById('chatModal').classList.remove('active');
+            loadTickets(); // به‌روزرسانی لیست
+        }
+        
+        // ذخیره تیکت‌ها
+        function saveTickets() {
+            localStorage.setItem('adminTickets', JSON.stringify(tickets));
+        }
+        
+        // به‌روزرسانی تیکت‌ها
+        function refreshTickets() {
+            // دریافت پیام‌های جدید از کاربران
+            const userMessages = JSON.parse(localStorage.getItem('supportMessages')) || [];
+            
+            userMessages.forEach((msg, index) => {
+                if (!tickets.some(t => t.userId === `user${index}`)) {
+                    tickets.push({
+                        id: tickets.length + 1,
+                        userId: `user${index}`,
+                        userName: msg.name || 'کاربر جدید',
+                        userPhone: msg.phone || 'نامشخص',
+                        message: msg.message,
+                        status: 'new',
+                        timestamp: new Date().toISOString(),
+                        messages: [
+                            { sender: 'user', text: msg.message, time: new Date().toLocaleTimeString('fa-IR') }
+                        ]
+                    });
+                }
+            });
+            
+            saveTickets();
+            loadTickets();
+            
+            // نمایش نوتیفیکیشن
+            showNotification('تیکت‌ها به‌روزرسانی شدند', 'success');
+        }
+        
+        // خروج از پنل
+        function logout() {
+            if (confirm('آیا می‌خواهید از پنل خارج شوید؟')) {
+                localStorage.removeItem('adminLoggedIn');
+                localStorage.removeItem('adminUsername');
+                window.location.href = 'admin-login.html';
+            }
+        }
+        
+        // نمایش نوتیفیکیشن
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.innerHTML = `
+                <div style="
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: ${type === 'success' ? '#4CAF50' : type === 'error' ? '#f44336' : '#2196F3'};
+                    color: white;
+                    padding: 15px 25px;
+                    border-radius: 10px;
+                    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+                    z-index: 9999;
+                    display: flex;
+                    align-items: center;
+                    gap: 15px;
+                    animation: slideIn 0.3s ease;
+                ">
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+                    <span>${message}</span>
+                    <button onclick="this.parentElement.remove()" style="
+                        background: none;
+                        border: none;
+                        color: white;
+                        font-size: 20px;
+                        cursor: pointer;
+                        margin-right: auto;
+                    ">×</button>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // حذف خودکار پس از 5 ثانیه
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.remove();
+                }
+            }, 5000);
+        }
+        
+        // بارگذاری اولیه
+        document.addEventListener('DOMContentLoaded', () => {
+            loadAdminInfo();
+            loadTickets();
+            
+            // به‌روزرسانی خودکار هر 30 ثانیه
+            setInterval(() => {
+                refreshTickets();
+            }, 30000);
+        });
+    </script>
+</body>
+</html>
