@@ -3,17 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>چت پشتیبانی - Took Gallery</title>
+    <title>Took Gallery - سایت خام</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- اضافه کردن Swiper -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css">
     <style>
         :root {
             --primary: #ff3b8d;
             --primary-light: #ff6bac;
-            --whatsapp-green: #25D366;
-            --admin-purple: #7b1fa2;
-            --user-blue: #0084ff;
-            --gray-bg: #f0f2f5;
-            --border-color: #e0e0e0;
+            --dark: #333;
+            --light: #fff;
+            --gray: #f8f8f8;
+            --border: #ffd6e8;
         }
         
         * {
@@ -23,766 +24,1057 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-        }
-        
         body {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            height: 100%;
+            background: #fff5f9;
+            color: var(--dark);
+            border-top: 5px solid var(--primary);
+            line-height: 1.6;
         }
         
-        /* تغییر مهم: ارتفاع دقیق */
-        .chat-container {
+        .container {
             width: 100%;
-            max-width: 900px;
-            height: calc(100vh - 40px);
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            margin: 20px;
-            min-height: 0;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 15px;
         }
         
-        /* هدر چت */
-        .chat-header {
+        /* === نوار بالایی اصلاح شده === */
+        .top-bar {
             background: linear-gradient(90deg, var(--primary), var(--primary-light));
             color: white;
-            padding: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            position: relative;
-            flex-shrink: 0;
-        }
-        
-        .header-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .avatar {
-            width: 50px;
-            height: 50px;
-            background: rgba(255,255,255,0.2);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-        }
-        
-        .user-details h2 {
-            font-size: 18px;
-            margin-bottom: 5px;
-        }
-        
-        .user-details p {
+            padding: 10px 0;
             font-size: 14px;
-            opacity: 0.9;
+            width: 100%;
+            direction: rtl;
         }
         
-        .status-indicator {
+        .top-bar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .top-bar span {
             display: flex;
             align-items: center;
             gap: 8px;
+        }
+        
+        /* هدر اصلی */
+        .main-header {
+            background: white;
+            box-shadow: 0 3px 15px rgba(255, 59, 141, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        /* جستجو */
+        .search-box {
+            flex: 1;
+            max-width: 600px;
+            margin: 0 30px;
+            position: relative;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 12px 45px 12px 20px;
+            border: 2px solid var(--border);
+            border-radius: 30px;
+            font-size: 16px;
+        }
+        
+        .search-btn {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--primary);
+            font-size: 18px;
+            cursor: pointer;
+        }
+        
+        /* آیکون‌های هدر */
+        .header-icons {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+        
+        .icon-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--dark);
+            text-decoration: none;
+            position: relative;
+        }
+        
+        .icon-box i {
+            font-size: 22px;
+            margin-bottom: 4px;
+        }
+        
+        .icon-text {
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--primary);
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        /* منوی اصلی */
+        .main-nav {
+            background: linear-gradient(90deg, var(--primary), var(--primary-light));
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+        
+        .nav-list {
+            display: flex;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .nav-list li {
+            flex: 1;
+            text-align: center;
+        }
+        
+        .nav-list a {
+            display: block;
+            color: white;
+            padding: 16px 10px;
+            font-weight: 500;
+            text-decoration: none;
+        }
+        
+        /* بخش‌های محتوا */
+        .main-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border);
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .section-title {
+            color: var(--primary);
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .timer {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-size: 18px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        /* === بخش دسته‌بندی محصولات === */
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        @media (min-width: 768px) {
+            .categories-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .categories-grid {
+                grid-template-columns: repeat(6, 1fr);
+            }
+        }
+        
+        .category-card {
+            background: white;
+            border: 2px dashed var(--border);
+            border-radius: 12px;
+            padding: 25px 15px;
+            text-align: center;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .category-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 10px 20px rgba(255, 59, 141, 0.1);
+        }
+        
+        .category-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #ff3b8d, #ff6bac);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            color: white;
+            font-size: 30px;
+        }
+        
+        .category-card h3 {
+            color: var(--dark);
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+        
+        .category-card p {
+            color: #666;
             font-size: 14px;
         }
         
-        .online-dot {
-            width: 10px;
-            height: 10px;
-            background: #4CAF50;
+        /* اسلایدر فروش شگفت‌انگیز */
+        .swiper {
+            width: 100%;
+            padding: 20px 0 40px;
+        }
+        
+        .swiper-slide {
+            height: auto;
+        }
+        
+        .swiper-product-card {
+            background: var(--gray);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .swiper-product-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--border);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .product-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: linear-gradient(135deg, #ff3b8d, #ff6bac);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            z-index: 1;
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .product-image i {
+            font-size: 70px;
+            color: var(--primary);
+            opacity: 0.8;
+        }
+        
+        .product-info h3 {
+            color: var(--dark);
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        
+        .price {
+            color: var(--primary);
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        /* شبکه محصولات */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: 25px;
+        }
+        
+        @media (min-width: 768px) {
+            .products-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+        
+        .product-card {
+            background: var(--gray);
+            border: 2px dashed var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            min-height: 280px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .wishlist-btn {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: none;
+            border: none;
+            color: var(--primary-light);
+            font-size: 20px;
+            cursor: pointer;
+        }
+        
+        .add-to-cart {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+        
+        /* دکمه‌های ناوبری Swiper */
+        .swiper-button-next,
+        .swiper-button-prev {
+            background: white;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            color: var(--primary);
+        }
+        
+        .swiper-button-next:after,
+        .swiper-button-prev:after {
+            font-size: 18px;
+        }
+        
+        /* دکمه واتساپ */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background: #25D366;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4);
+            z-index: 100;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+        }
+        
+        /* پشتیبانی آنلاین */
+        .support-float {
+            position: fixed;
+            bottom: 100px;
+            left: 30px;
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 25px;
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+            z-index: 100;
+            cursor: pointer;
             animation: pulse 2s infinite;
+            transition: all 0.3s;
+        }
+        
+        .support-float:hover {
+            transform: scale(1.1);
+            animation: none;
         }
         
         @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1; }
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
         }
         
-        .back-btn {
+        /* === استایل منوی موبایل === */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--primary);
+            cursor: pointer;
+        }
+        
+        /* overlay */
+        .menu-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 9998;
+        }
+        
+        .menu-overlay.active {
+            display: block;
+        }
+        
+        /* دکمه بستن منو */
+        .close-menu {
+            position: absolute;
+            top: 20px;
+            left: 20px;
             background: none;
             border: none;
             color: white;
-            font-size: 20px;
+            font-size: 24px;
             cursor: pointer;
-            flex-shrink: 0;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            z-index: 10000;
         }
         
-        /* راهنمای ارسال سریع */
-        .quick-replies {
-            display: flex;
-            gap: 10px;
-            padding: 12px 20px;
-            background: white;
-            border-bottom: 1px solid var(--border-color);
-            overflow-x: auto;
-            flex-shrink: 0;
-        }
-        
-        .quick-reply {
-            background: var(--gray-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 8px 16px;
-            font-size: 14px;
-            cursor: pointer;
-            white-space: nowrap;
-            transition: all 0.3s;
-            flex-shrink: 0;
-        }
-        
-        .quick-reply:hover {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
-        }
-        
-        /* بدنه چت - تغییر مهم */
-        .chat-body {
-            flex: 1;
-            min-height: 0;
-            background: var(--gray-bg);
-            padding: 20px;
-            overflow-y: auto;
-            background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNlZGVkZWQiIGZpbGwtb3BhY2l0eT0iMC4zIj48cGF0aCBkPSJNMzYgMzRoLTIuNEMzMS45IDM0IDMwIDMyLjEgMzAgMjkuNlYyMGMwLTIuOC0yLjItNS01LTVoLTIuNEMxNy45IDE1IDE2IDEzLjEgMTYgMTAuNlY0SDZBMiAyIDAgMCAwIDQgNnY0NGEyIDIgMCAwIDAgMiAoaDQ4YTIgMiAwIDAgMCAyLTJWMTZhMiAyIDAgMCAwLTItMkgzNnoiLz48L2c+PC9nPjwvc3ZnPg==');
-            background-repeat: repeat;
-            background-size: 300px;
-        }
-        
-        /* پیام‌ها */
-        .message {
-            max-width: 70%;
-            margin-bottom: 15px;
-            padding: 12px 16px;
-            border-radius: 18px;
-            position: relative;
-            word-wrap: break-word;
-            line-height: 1.4;
-            animation: fadeIn 0.3s ease;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .message-user {
-            background: var(--user-blue);
-            color: white;
-            margin-left: auto;
-            border-bottom-right-radius: 5px;
-        }
-        
-        .message-admin {
-            background: white;
-            color: #333;
-            margin-right: auto;
-            border-bottom-left-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        
-        .message-time {
-            font-size: 11px;
-            opacity: 0.8;
-            margin-top: 5px;
-            text-align: left;
-        }
-        
-        .message-user .message-time {
-            text-align: right;
-            color: rgba(255,255,255,0.8);
-        }
-        
-        /* سیستم‌های پیام */
-        .system-message {
-            background: rgba(255, 255, 255, 0.9);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            padding: 15px;
-            margin: 20px auto;
-            max-width: 80%;
-            text-align: center;
-            font-size: 14px;
-            color: #666;
-        }
-        
-        /* تاریخ */
-        .date-separator {
-            text-align: center;
-            margin: 20px 0;
-            position: relative;
-        }
-        
-        .date-separator span {
-            background: rgba(255, 255, 255, 0.9);
-            padding: 5px 15px;
-            border-radius: 15px;
-            font-size: 12px;
-            color: #666;
-            border: 1px solid var(--border-color);
-        }
-        
-        /* فوتور چت - تغییر مهم */
-        .chat-footer {
-            background: white;
-            padding: 15px 20px;
-            border-top: 1px solid var(--border-color);
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            flex-shrink: 0;
-        }
-        
-        .message-input {
-            flex: 1;
-            padding: 12px 18px;
-            border: 2px solid var(--border-color);
-            border-radius: 25px;
-            font-size: 16px;
-            outline: none;
-            transition: border-color 0.3s;
-            min-height: 45px;
-            max-height: 100px;
-        }
-        
-        .message-input:focus {
-            border-color: var(--primary);
-        }
-        
-        .send-btn {
-            background: var(--primary);
-            color: white;
-            border: none;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 20px;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-        
-        .send-btn:hover {
-            background: var(--primary-light);
-            transform: scale(1.05);
-        }
-        
-        .action-btn {
-            background: none;
-            border: none;
-            color: var(--primary);
-            font-size: 22px;
-            cursor: pointer;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background 0.3s;
-            flex-shrink: 0;
-        }
-        
-        .action-btn:hover {
-            background: rgba(255, 59, 141, 0.1);
-        }
-        
-        /* دکمه‌های پایین */
-        .support-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            padding: 15px;
-            background: white;
-            border-top: 1px solid var(--border-color);
-            flex-shrink: 0;
-        }
-        
-        .support-btn {
-            background: white;
-            border: 2px solid var(--primary);
-            color: var(--primary);
-            padding: 12px 25px;
-            border-radius: 25px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-shrink: 0;
-        }
-        
-        .support-btn:hover {
-            background: var(--primary);
-            color: white;
-        }
-        
-        /* ریسپانسیو - تغییرات کامل */
+        /* ریسپانسیو */
         @media (max-width: 768px) {
-            body {
-                padding: 0;
+            .mobile-menu-btn {
                 display: block;
-                height: 100%;
             }
             
-            .chat-container {
-                height: 100vh;
-                max-height: 100vh;
-                border-radius: 0;
-                margin: 0;
-                min-height: 0;
+            /* استایل منوی موبایل */
+            .main-nav {
+                display: none;
                 position: fixed;
                 top: 0;
-                left: 0;
+                right: -100%;
+                width: 80%;
+                height: 100vh;
+                background: linear-gradient(135deg, #ff3b8d, #ff6bac);
+                z-index: 9999;
+                transition: right 0.3s ease;
+                padding-top: 80px;
+                box-shadow: -5px 0 15px rgba(0,0,0,0.2);
+                overflow-y: auto;
+                margin-top: 0;
+                border-radius: 0;
+            }
+            
+            .main-nav.active {
+                display: block;
                 right: 0;
-                bottom: 0;
             }
             
-            .chat-header {
-                padding: 15px;
+            .nav-list {
+                flex-direction: column;
+                padding: 0;
             }
             
-            .avatar {
-                width: 40px;
-                height: 40px;
-                font-size: 18px;
+            .nav-list li {
+                width: 100%;
+                border-bottom: 1px solid rgba(255,255,255,0.2);
             }
             
-            .user-details h2 {
+            .nav-list a {
+                padding: 18px 25px;
+                text-align: right;
                 font-size: 16px;
-            }
-            
-            .user-details p {
-                font-size: 12px;
-            }
-            
-            .quick-replies {
-                padding: 10px 15px;
-                gap: 8px;
-            }
-            
-            .quick-reply {
-                font-size: 12px;
-                padding: 6px 12px;
-            }
-            
-            .chat-body {
-                padding: 15px 10px;
-                min-height: 0;
-            }
-            
-            .message {
-                max-width: 85%;
-                margin-bottom: 10px;
-                padding: 10px 14px;
-            }
-            
-            .system-message {
-                padding: 12px;
-                margin: 15px auto;
-                font-size: 13px;
-            }
-            
-            .date-separator {
-                margin: 15px 0;
-            }
-            
-            .date-separator span {
-                padding: 4px 12px;
-                font-size: 11px;
-            }
-            
-            .chat-footer {
-                padding: 10px 15px;
-                min-height: 60px;
-            }
-            
-            .message-input {
-                padding: 10px 15px;
-                min-height: 40px;
-                font-size: 14px;
-            }
-            
-            .send-btn {
-                width: 45px;
-                height: 45px;
-                font-size: 18px;
-            }
-            
-            .action-btn {
-                width: 35px;
-                height: 35px;
-                font-size: 18px;
-            }
-            
-            .support-buttons {
-                padding: 10px 15px;
-                min-height: 60px;
+                display: flex;
+                align-items: center;
                 gap: 15px;
             }
             
-            .support-btn {
-                padding: 8px 12px;
-                font-size: 13px;
-                gap: 5px;
-                flex: 1;
-                max-width: 150px;
+            .nav-list a i {
+                font-size: 20px;
+                width: 25px;
+            }
+            
+            .search-box {
+                display: none;
+            }
+            
+            .icon-text {
+                display: none;
+            }
+            
+            .support-float {
+                bottom: 100px;
+                left: 20px;
+                width: 50px;
+                height: 50px;
+                font-size: 22px;
+            }
+            
+            .whatsapp-float {
+                bottom: 30px;
+                left: 20px;
+                width: 50px;
+                height: 50px;
+                font-size: 25px;
+            }
+            
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .timer {
+                align-self: center;
+            }
+            
+            .categories-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
         
-        @media (max-width: 480px) {
-            .chat-header {
-                padding: 12px;
-            }
-            
-            .header-info {
-                gap: 10px;
-            }
-            
-            .quick-replies {
-                padding: 8px 10px;
-            }
-            
-            .quick-reply {
-                font-size: 11px;
-                padding: 5px 10px;
-            }
-            
-            .chat-body {
-                padding: 10px 8px;
-            }
-            
-            .message {
-                max-width: 90%;
-                padding: 8px 12px;
-                font-size: 14px;
-            }
-            
-            .chat-footer {
-                padding: 8px 12px;
-            }
-            
-            .message-input {
-                padding: 8px 12px;
-                min-height: 35px;
-                font-size: 13px;
-            }
-            
-            .send-btn {
-                width: 40px;
-                height: 40px;
-                font-size: 16px;
-            }
-            
-            .action-btn {
-                width: 32px;
-                height: 32px;
-                font-size: 16px;
-            }
-            
-            .support-buttons {
-                padding: 8px 12px;
-                flex-wrap: wrap;
-            }
-            
-            .support-btn {
-                padding: 6px 10px;
-                font-size: 12px;
-                min-width: 120px;
-                justify-content: center;
+        @media (min-width: 769px) {
+            .mobile-only {
+                display: none !important;
             }
         }
     </style>
 </head>
 <body>
-    <div class="chat-container">
-        <!-- هدر چت -->
-        <div class="chat-header">
-            <button class="back-btn" onclick="window.location.href='index.html'">
-                <i class="fas fa-arrow-right"></i>
-            </button>
-            
-            <div class="header-info">
-                <div class="avatar">
-                    <i class="fas fa-headset"></i>
-                </div>
-                <div class="user-details">
-                    <h2>پشتیبانی Took Gallery</h2>
-                    <p>پاسخگویی ۲۴ ساعته</p>
-                </div>
-            </div>
-            
-            <div class="status-indicator">
-                <div class="online-dot"></div>
-                <span>آنلاین</span>
-            </div>
-        </div>
-        
-        <!-- راهنمای ارسال سریع -->
-        <div class="quick-replies" id="quickReplies">
-            <div class="quick-reply" onclick="sendQuickReply('وضعیت سفارش من چطوره؟')">وضعیت سفارش</div>
-            <div class="quick-reply" onclick="sendQuickReply('چطور می‌تونم سفارشم رو پیگیری کنم؟')">پیگیری سفارش</div>
-            <div class="quick-reply" onclick="sendQuickReply('قیمت محصولات شامل تخفیف میشه؟')">تخفیف‌ها</div>
-            <div class="quick-reply" onclick="sendQuickReply('زمان ارسال سفارش چقدره؟')">زمان ارسال</div>
-            <div class="quick-reply" onclick="sendQuickReply('با پشتیبان صحبت کن')">صحبت با پشتیبان</div>
-        </div>
-        
-        <!-- بدنه چت -->
-        <div class="chat-body" id="chatBody">
-            <!-- پیام سیستم -->
-            <div class="system-message">
-                <i class="fas fa-info-circle"></i>
-                پشتیبانی Took Gallery خوش آمدید. سوالات خود را بپرسید.
-            </div>
-            
-            <!-- تاریخ -->
-            <div class="date-separator">
-                <span>امروز</span>
-            </div>
-            
-            <!-- پیام‌ها اینجا با JavaScript اضافه می‌شوند -->
-        </div>
-        
-        <!-- فوتور چت -->
-        <div class="chat-footer">
-            <button class="action-btn" onclick="toggleEmoji()">
-                <i class="far fa-smile"></i>
-            </button>
-            
-            <button class="action-btn" onclick="attachFile()">
-                <i class="fas fa-paperclip"></i>
-            </button>
-            
-            <input type="text" 
-                   class="message-input" 
-                   id="messageInput" 
-                   placeholder="پیام خود را بنویسید..."
-                   onkeypress="if(event.key === 'Enter') sendMessage()">
-            
-            <button class="send-btn" onclick="sendMessage()">
-                <i class="fas fa-paper-plane"></i>
-            </button>
-        </div>
-        
-        <!-- دکمه‌های اضافی -->
-        <div class="support-buttons">
-            <button class="support-btn" onclick="callSupport()">
-                <i class="fas fa-phone"></i>
-                تماس تلفنی
-            </button>
-            <button class="support-btn" onclick="sendEmail()">
-                <i class="fas fa-envelope"></i>
-                ارسال ایمیل
-            </button>
+    <!-- Overlay منو -->
+    <div class="menu-overlay" id="menuOverlay" onclick="closeMobileMenu()"></div>
+
+    <!-- نوار بالایی اصلاح شده -->
+    <div class="top-bar">
+        <div class="container">
+            <span><i class="fas fa-shipping-fast"></i> ارسال رایگان برای خریدهای بالای ۲۰۰ هزار تومان</span>
+            <span><i class="fas fa-phone"></i> پشتیبانی: ۰۹۱۲۱۲۳۴۵۶۷</span>
         </div>
     </div>
 
-    <script>
-        // پیام‌های ذخیره شده
-        let chatMessages = JSON.parse(localStorage.getItem('supportChat')) || [
-            {
-                id: 1,
-                sender: 'admin',
-                text: 'سلام! 👋 به پشتیبانی Took Gallery خوش آمدید. چطور می‌تونم کمکتون کنم؟',
-                time: '۱۰:۰۵',
-                date: 'امروز'
-            }
-        ];
-        
-        // بارگذاری چت
-        function loadChat() {
-            const chatBody = document.getElementById('chatBody');
-            chatBody.innerHTML = '';
-            
-            // پیام سیستم
-            chatBody.innerHTML += `
-                <div class="system-message">
-                    <i class="fas fa-info-circle"></i>
-                    پشتیبانی Took Gallery خوش آمدید. سوالات خود را بپرسید.
+    <!-- هدر اصلی -->
+    <header class="main-header">
+        <div class="container">
+            <div class="header-content">
+                <!-- دکمه منوی موبایل -->
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                    <i class="fas fa-bars"></i>
+                </button>
+
+                <!-- لوگو -->
+                <div class="logo">
+                    <i class="fas fa-gem"></i>
+                    <span>Took Gallery</span>
                 </div>
+
+                <!-- جستجو -->
+                <div class="search-box">
+                    <input type="text" placeholder="جستجوی محصولات..." id="searchInput">
+                    <button class="search-btn" onclick="searchProducts()">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+
+                <!-- آیکون‌های هدر -->
+                <div class="header-icons">
+                    <a href="profile.html" class="icon-box">
+                        <i class="far fa-user"></i>
+                        <div class="icon-text">پروفایل</div>
+                    </a>
+                    
+                    <a href="wishlist.html" class="icon-box">
+                        <i class="far fa-heart"></i>
+                        <div class="icon-text">علاقه‌مندی</div>
+                    </a>
+                    
+                    <a href="cart.html" class="icon-box">
+                        <i class="fas fa-shopping-bag"></i>
+                        <div class="icon-text">سبد خرید</div>
+                        <span class="cart-count">۰</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- منوی اصلی -->
+            <nav class="main-nav" id="mainNav">
+                <!-- دکمه بستن منو -->
+                <button class="close-menu" onclick="closeMobileMenu()">
+                    <i class="fas fa-times"></i>
+                </button>
                 
-                <div class="date-separator">
-                    <span>امروز</span>
-                </div>
-            `;
+                <ul class="nav-list">
+                    <li><a href="index.html"><i class="fas fa-home"></i> خانه</a></li>
+                    <li><a href="shop.html"><i class="fas fa-store"></i> فروشگاه</a></li>
+                    <li><a href="discounts.html"><i class="fas fa-percent"></i> تخفیف‌ها</a></li>
+                    <li><a href="amazing.html"><i class="fas fa-crown"></i> شگفت‌انگیز</a></li>
+                    <li><a href="gifts.html"><i class="fas fa-gift"></i> هدیه</a></li>
+                    <li><a href="guide.html"><i class="fas fa-question-circle"></i> راهنما</a></li>
+                    <li><a href="contact.html"><i class="fas fa-phone"></i> تماس</a></li>
+                    
+                    <!-- موارد مخصوص موبایل -->
+                    <li class="mobile-only"><a href="profile.html" id="authLink">
+                        <i class="fas fa-user"></i>
+                        <span id="authText">عضویت / ورود</span>
+                    </a></li>
+                    
+                    <li class="mobile-only"><a href="support.html">
+                        <i class="fas fa-headset"></i> پشتیبانی آنلاین
+                    </a></li>
+                    
+                    <li class="mobile-only"><a href="orders.html" onclick="trackOrder()">
+                        <i class="fas fa-truck"></i> پیگیری سفارش
+                    </a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+        <!-- محتوای اصلی -->
+    <main class="container">
+        <!-- بخش دسته‌بندی‌ها -->
+        <section class="main-section">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fas fa-th-large"></i>
+                    دسته‌بندی محصولات
+                </h2>
+            </div>
             
-            // نمایش پیام‌ها
-            chatMessages.forEach(msg => {
-                const messageClass = msg.sender === 'user' ? 'message-user' : 'message-admin';
-                chatBody.innerHTML += `
-                    <div class="message ${messageClass}">
-                        <div class="message-text">${msg.text}</div>
-                        <div class="message-time">${msg.time}</div>
+            <div class="categories-grid">
+                <!-- دسته‌بندی ۱ -->
+                <div class="category-card" onclick="showCategory('الکترونیک')">
+                    <div class="category-icon">
+                        <i class="fas fa-laptop"></i>
                     </div>
-                `;
-            });
-            
-            // اسکرول به پایین
-            chatBody.scrollTop = chatBody.scrollHeight;
-        }
+                    <h3>الکترونیک</h3>
+                    <p>۲۰ محصول</p>
+                </div>
+                
+                <!-- دسته‌بندی ۲ -->
+                <div class="category-card" onclick="showCategory('پوشاک')">
+                    <div class="category-icon">
+                        <i class="fas fa-tshirt"></i>
+                    </div>
+                    <h3>پوشاک</h3>
+                    <p>۱۵ محصول</p>
+                </div>
+                
+                <!-- دسته‌بندی ۳ -->
+                <div class="category-card" onclick="showCategory('خانه و آشپزخانه')">
+                    <div class="category-icon">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <h3>خانه و آشپزخانه</h3>
+                    <p>۲۵ محصول</p>
+                </div>
+                
+                <!-- دسته‌بندی ۴ -->
+                <div class="category-card" onclick="showCategory('لوازم آرایشی')">
+                    <div class="category-icon">
+                        <i class="fas fa-spa"></i>
+                    </div>
+                    <h3>لوازم آرایشی</h3>
+                    <p>۱۸ محصول</p>
+                </div>
+                
+                <!-- دسته‌بندی ۵ -->
+                <div class="category-card" onclick="showCategory('کتاب و لوازم تحریر')">
+                    <div class="category-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <h3>کتاب و تحریر</h3>
+                    <p>۳۰ محصول</p>
+                </div>
+                
+                <!-- دسته‌بندی ۶ -->
+                <div class="category-card" onclick="showCategory('اسباب بازی')">
+                    <div class="category-icon">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <h3>اسباب بازی</h3>
+                    <p>۱۲ محصول</p>
+                </div>
+            </div>
+        </section>
         
-        // ارسال پیام
-        function sendMessage() {
-            const input = document.getElementById('messageInput');
-            const text = input.value.trim();
+        <!-- فروش شگفت‌انگیز -->
+        <section class="main-section">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fas fa-bolt"></i>
+                    فروش شگفت‌انگیز
+                </h2>
+                <div class="timer">
+                    <i class="fas fa-clock"></i>
+                    <span id="countdown">۲۳:۵۹:۵۹</span>
+                </div>
+            </div>
             
-            if (!text) return;
-            
-            // اضافه کردن پیام کاربر
-            const newMessage = {
-                id: chatMessages.length + 1,
-                sender: 'user',
-                text: text,
-                time: new Date().toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit' }),
-                date: 'امروز'
-            };
-            
-            chatMessages.push(newMessage);
-            
-            // ذخیره در localStorage برای پنل پشتیبان
-            const supportMessages = JSON.parse(localStorage.getItem('supportMessages')) || [];
-            supportMessages.push({
-                name: 'کاربر چت',
-                message: text,
-                date: new Date().toLocaleString('fa-IR'),
-                status: 'جدید',
-                type: 'chat'
-            });
-            localStorage.setItem('supportMessages', JSON.stringify(supportMessages));
-            
-            localStorage.setItem('supportChat', JSON.stringify(chatMessages));
-            
-            // نمایش پیام کاربر
-            loadChat();
-            input.value = '';
-            
-            // پاسخ خودکار پشتیبان (شبیه‌سازی)
-            setTimeout(() => {
-                const responses = [
-                    "متشکرم از پیام شما. لطفاً صبور باشید...",
-                    "در حال بررسی سوال شما هستم...",
-                    "لطفاً شماره سفارش خود را بفرستید.",
-                    "برای اطلاعات بیشتر با شماره ۰۹۱۲۱۲۳۴۵۶۷ تماس بگیرید.",
-                    "سوال شما برای پشتیبان ارسال شد. به زودی پاسخ می‌دهیم."
-                ];
+            <!-- Swiper -->
+            <div class="swiper mySwiper">
+                <div class="swiper-wrapper">
+                    <!-- محصول ۱ -->
+                    <div class="swiper-slide">
+                        <div class="swiper-product-card">
+                            <div class="product-badge">۴۰٪ تخفیف</div>
+                            <div class="product-image">
+                                <i class="fas fa-headphones"></i>
+                            </div>
+                            <div class="product-info">
+                                <h3>نمونه محصول ۱</h3>
+                                <div class="price">۱۲۹,۰۰۰ تومان</div>
+                                <button class="add-to-cart" onclick="addToCart('نمونه محصول ۱')">افزودن به سبد</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- محصول ۲ -->
+                    <div class="swiper-slide">
+                        <div class="swiper-product-card">
+                            <div class="product-badge">۳۰٪ تخفیف</div>
+                            <div class="product-image">
+                                <i class="fas fa-mobile-alt"></i>
+                            </div>
+                            <div class="product-info">
+                                <h3>نمونه محصول ۲</h3>
+                                <div class="price">۲۵۰,۰۰۰ تومان</div>
+                                <button class="add-to-cart" onclick="addToCart('نمونه محصول ۲')">افزودن به سبد</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- محصول ۳ -->
+                    <div class="swiper-slide">
+                        <div class="swiper-product-card">
+                            <div class="product-badge">۲۰٪ تخفیف</div>
+                            <div class="product-image">
+                                <i class="fas fa-tv"></i>
+                            </div>
+                            <div class="product-info">
+                                <h3>نمونه محصول ۳</h3>
+                                <div class="price">۳۸۰,۰۰۰ تومان</div>
+                                <button class="add-to-cart" onclick="addToCart('نمونه محصول ۳')">افزودن به سبد</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- محصول ۴ -->
+                    <div class="swiper-slide">
+                        <div class="swiper-product-card">
+                            <div class="product-badge">۵۰٪ تخفیف</div>
+                            <div class="product-image">
+                                <i class="fas fa-camera"></i>
+                            </div>
+                            <div class="product-info">
+                                <h3>نمونه محصول ۴</h3>
+                                <div class="price">۱۵۰,۰۰۰ تومان</div>
+                                <button class="add-to-cart" onclick="addToCart('نمونه محصول ۴')">افزودن به سبد</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 
-                const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                <!-- دکمه‌های ناوبری -->
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            </div>
+        </section>
+        
+        <!-- محصولات جدید -->
+        <section class="main-section">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fas fa-certificate"></i>
+                    محصولات جدید
+                </h2>
+            </div>
+            
+            <div class="products-grid">
+                <!-- محصول ۱ -->
+                <div class="product-card">
+                    <button class="wishlist-btn" onclick="toggleWishlist(this)">
+                        <i class="far fa-heart"></i>
+                    </button>
+                    <div class="product-image">
+                        <i class="fas fa-watch"></i>
+                    </div>
+                    <div class="product-info">
+                        <h3>محصول جدید ۱</h3>
+                        <div class="price">۹۵,۰۰۰ تومان</div>
+                        <button class="add-to-cart" onclick="addToCart('محصول جدید ۱')">افزودن به سبد</button>
+                    </div>
+                </div>
                 
-                const adminReply = {
-                    id: chatMessages.length + 1,
-                    sender: 'admin',
-                    text: randomResponse,
-                    time: new Date().toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit' }),
-                    date: 'امروز'
-                };
+                <!-- محصول ۲ -->
+                <div class="product-card">
+                    <button class="wishlist-btn" onclick="toggleWishlist(this)">
+                        <i class="far fa-heart"></i>
+                    </button>
+                    <div class="product-image">
+                        <i class="fas fa-shoe-prints"></i>
+                    </div>
+                    <div class="product-info">
+                        <h3>محصول جدید ۲</h3>
+                        <div class="price">۱۷۵,۰۰۰ تومان</div>
+                        <button class="add-to-cart" onclick="addToCart('محصول جدید ۲')">افزودن به سبد</button>
+                    </div>
+                </div>
                 
-                chatMessages.push(adminReply);
-                localStorage.setItem('supportChat', JSON.stringify(chatMessages));
-                loadChat();
+                <!-- محصول ۳ -->
+                <div class="product-card">
+                    <button class="wishlist-btn" onclick="toggleWishlist(this)">
+                        <i class="far fa-heart"></i>
+                    </button>
+                    <div class="product-image">
+                        <i class="fas fa-basketball-ball"></i>
+                    </div>
+                    <div class="product-info">
+                        <h3>محصول جدید ۳</h3>
+                        <div class="price">۲۲۰,۰۰۰ تومان</div>
+                        <button class="add-to-cart" onclick="addToCart('محصول جدید ۳')">افزودن به سبد</button>
+                    </div>
+                </div>
+                
+                <!-- محصول ۴ -->
+                <div class="product-card">
+                    <button class="wishlist-btn" onclick="toggleWishlist(this)">
+                        <i class="far fa-heart"></i>
+                    </button>
+                    <div class="product-image">
+                        <i class="fas fa-guitar"></i>
+                    </div>
+                    <div class="product-info">
+                        <h3>محصول جدید ۴</h3>
+                        <div class="price">۱۳۰,۰۰۰ تومان</div>
+                        <button class="add-to-cart" onclick="addToCart('محصول جدید ۴')">افزودن به سبد</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- دکمه واتساپ -->
+    <a href="https://wa.me/989121234567" class="whatsapp-float" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+    
+    <!-- پشتیبانی آنلاین -->
+    <div class="support-float" onclick="openSupport()">
+        <i class="fas fa-headset"></i>
+    </div>
+
+    <!-- اسکریپت‌ها -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+    <script>
+        // تایمر معکوس
+        function startCountdown() {
+            let time = 23 * 60 * 60 + 59 * 60 + 59;
+            
+            const countdownElement = document.getElementById('countdown');
+            
+            const timer = setInterval(() => {
+                if (time <= 0) {
+                    clearInterval(timer);
+                    countdownElement.textContent = "۰۰:۰۰:۰۰";
+                    return;
+                }
+                
+                const hours = Math.floor(time / 3600);
+                const minutes = Math.floor((time % 3600) / 60);
+                const seconds = time % 60;
+                
+                countdownElement.textContent = 
+                    `${hours.toString().padStart(2, '۰')}:` +
+                    `${minutes.toString().padStart(2, '۰')}:` +
+                    `${seconds.toString().padStart(2, '۰')}`;
+                
+                time--;
             }, 1000);
         }
-        
-        // ارسال سریع
-        function sendQuickReply(text) {
-            document.getElementById('messageInput').value = text;
-            sendMessage();
+
+        // Swiper
+        function initSwiper() {
+            const swiper = new Swiper('.mySwiper', {
+                slidesPerView: 1,
+                spaceBetween: 20,
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+                breakpoints: {
+                    640: { slidesPerView: 2 },
+                    768: { slidesPerView: 3 },
+                    1024: { slidesPerView: 4 }
+                }
+            });
         }
-        
-        // تماس تلفنی
-        function callSupport() {
-            if (confirm('آیا می‌خواهید با پشتیبانی تماس بگیرید؟\nشماره: ۰۹۱۲۱۲۳۴۵۶۷')) {
-                window.location.href = 'tel:09121234567';
+
+        // سبد خرید
+        let cartItems = 0;
+
+        function addToCart(productName) {
+            cartItems++;
+            updateCartCount();
+            alert(`"${productName}" به سبد خرید اضافه شد!`);
+        }
+
+        function updateCartCount() {
+            const cartCount = document.querySelector('.cart-count');
+            cartCount.textContent = cartItems;
+        }
+
+        // علاقه‌مندی‌ها
+        function toggleWishlist(button) {
+            const icon = button.querySelector('i');
+            if (icon.classList.contains('far')) {
+                icon.classList.remove('far');
+                icon.classList.add('fas');
+                button.style.color = '#ff3b8d';
+                alert('به علاقه‌مندی‌ها اضافه شد!');
+            } else {
+                icon.classList.remove('fas');
+                icon.classList.add('far');
+                button.style.color = '#ff6bac';
+                alert('از علاقه‌مندی‌ها حذف شد!');
             }
         }
-        
-        // ارسال ایمیل
-        function sendEmail() {
-            window.location.href = 'mailto:support@tookgallery.com?subject=پشتیبانی Took Gallery';
+
+        // نمایش دسته‌بندی
+        function showCategory(categoryName) {
+            alert(`دسته‌بندی "${categoryName}" انتخاب شد!`);
         }
-        
-        // پیوست فایل
-        function attachFile() {
-            alert('امکان آپلود فایل در نسخه نمونه فعال نیست.');
-        }
-        
-        // ایموجی
-        function toggleEmoji() {
-            alert('کیبورد ایموجی در نسخه نمونه فعال نیست.');
-        }
-        
-        // پشتیبانی از Enter
-        document.getElementById('messageInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                sendMessage();
-            }
-        });
-        
-        // بارگذاری اولیه
-        document.addEventListener('DOMContentLoaded', () => {
-            loadChat();
+
+        // جستجو
+        function searchProducts() {
+            const searchInput = document.getElementById('searchInput');
+            const query = searchInput.value.trim();
             
-            // تنظیم ارتفاع اولیه برای موبایل
-            if (window.innerWidth <= 768) {
-                const chatBody = document.getElementById('chatBody');
-                const container = document.querySelector('.chat-container');
-                
-                // محاسبه ارتفاع باقیمانده
-                const headerHeight = document.querySelector('.chat-header').offsetHeight;
-                const quickRepliesHeight = document.querySelector('.quick-replies').offsetHeight;
-                const footerHeight = document.querySelector('.chat-footer').offsetHeight;
-                const supportButtonsHeight = document.querySelector('.support-buttons').offsetHeight;
-                
-                const totalFixedHeight = headerHeight + quickRepliesHeight + footerHeight + supportButtonsHeight;
-                const availableHeight = window.innerHeight - totalFixedHeight;
-                
-                chatBody.style.height = availableHeight + 'px';
-                chatBody.style.minHeight = '200px';
+            if (query) {
+                alert(`جستجو برای: "${query}"`);
+                searchInput.value = '';
+            } else {
+                alert('لطفاً چیزی برای جستجو وارد کنید!');
             }
-        });
-        
-        // تنظیم مجدد ارتفاع در صورت تغییر سایز
-        window.addEventListener('resize', function() {
-            if (window.innerWidth <= 768) {
-                const chatBody = document.getElementById('chatBody');
-                const container = document.querySelector('.chat-container');
-                
-                const headerHeight = document.querySelector('.chat-header').offsetHeight;
-                const quickRepliesHeight = document.querySelector('.quick-replies').offsetHeight;
-                const footerHeight = document.querySelector('.chat-footer').offsetHeight;
-                const supportButtonsHeight = document.querySelector('.support-buttons').offsetHeight;
-                
-                const totalFixedHeight = headerHeight + quickRepliesHeight + footerHeight + supportButtonsHeight;
-                const availableHeight = window.innerHeight - totalFixedHeight;
-                
-                chatBody.style.height = availableHeight + 'px';
-                chatBody.style.minHeight = '200px';
+        }
+
+        // پشتیبانی آنلاین
+        function openSupport() {
+            alert('پشتیبانی آنلاین - با شماره ۰۹۱۲۱۲۳۴۵۶۷ تماس بگیرید');
+        }
+
+        // پیگیری سفارش
+        function trackOrder() {
+            const orderNumber = prompt('لطفاً شماره سفارش خود را وارد کنید:');
+            if (orderNumber) {
+                alert(`سفارش شماره ${orderNumber} در حال پردازش است.`);
             }
+        }
+
+        // منوی موبایل
+        function toggleMobileMenu() {
+            const nav = document.getElementById('mainNav');
+            const overlay = document.getElementById('menuOverlay');
+            nav.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+
+        function closeMobileMenu() {
+            const nav = document.getElementById('mainNav');
+            const overlay = document.getElementById('menuOverlay');
+            nav.classList.remove('active');
+            overlay.classList.remove('active');
+        }
+
+        // وقتی صفحه لود شد
+        document.addEventListener('DOMContentLoaded', function() {
+            startCountdown();
+            initSwiper();
+            updateCartCount();
+            
+            const navLinks = document.querySelectorAll('.nav-list a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    closeMobileMenu();
+                });
+            });
+            
+            const searchInput = document.getElementById('searchInput');
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    searchProducts();
+                }
+            });
         });
     </script>
 </body>
-</html>
+    </html>
