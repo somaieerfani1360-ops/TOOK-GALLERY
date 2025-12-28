@@ -532,5 +532,237 @@
         // بقیه کد JavaScript بدون تغییر...
         // کدهای قبلی را اینجا قرار بده
     </script>
+<script>
+    // ==================== تنظیمات سیستم ====================
+    const ADMIN_SECRET = 'TOOK123';
+    
+    // تولید ID کاربر
+    let userId = localStorage.getItem('chat_user_id');
+    if (!userId) {
+        userId = 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        localStorage.setItem('chat_user_id', userId);
+    }
+    
+    // ==================== مدیریت منو ====================
+    const hamburgerMenu = document.getElementById('hamburgerMenu');
+    const adminDropdown = document.getElementById('adminDropdown');
+    
+    if (hamburgerMenu) {
+        hamburgerMenu.addEventListener('click', (e) => {
+            e.stopPropagation();
+            adminDropdown.classList.toggle('show');
+        });
+    }
+    
+    // ==================== پنل ادمین ====================
+    const adminOverlay = document.getElementById('adminOverlay');
+    let isAdminLoggedIn = localStorage.getItem('admin_logged_in') === 'true';
+    
+    function openAdminPanel() {
+        adminDropdown.classList.remove('show');
+        
+        if (!isAdminLoggedIn) {
+            const secret = prompt('کد دسترسی پشتیبان را وارد کنید:');
+            if (secret !== ADMIN_SECRET) {
+                if (secret !== null) alert('کد اشتباه است!');
+                return;
+            }
+            isAdminLoggedIn = true;
+            localStorage.setItem('admin_logged_in', 'true');
+        }
+        
+        loadAdminPanel();
+        adminOverlay.classList.add('show');
+    }
+    
+    function closeAdminPanel() {
+        adminOverlay.classList.remove('show');
+    }
+    
+    // ==================== سیستم چت ====================
+    function sendMessage() {
+        const input = document.getElementById('messageInput');
+        const text = input.value.trim();
+        if (!text) return;
+        
+        // ذخیره پیام
+        const message = {
+            id: Date.now(),
+            user_id: userId,
+            sender: 'user',
+            text: text,
+            time: new Date().toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit' }),
+            date: new Date().toLocaleDateString('fa-IR'),
+            status: 'pending'
+        };
+        
+        // ذخیره در localStorage
+        const allMessages = JSON.parse(localStorage.getItem('all_chat_messages')) || [];
+        allMessages.push(message);
+        localStorage.setItem('all_chat_messages', JSON.stringify(allMessages));
+        
+        // ذخیره برای کاربر
+        const userMessages = JSON.parse(localStorage.getItem('user_' + userId)) || [];
+        userMessages.push(message);
+        localStorage.setItem('user_' + userId, JSON.stringify(userMessages));
+        
+        // به صف ادمین اضافه کن
+        const adminQueue = JSON.parse(localStorage.getItem('admin_queue')) || [];
+        adminQueue.push(message);
+        localStorage.setItem('admin_queue', JSON.stringify(adminQueue));
+        
+        input.value = '';
+        loadChat();
+        
+        // پاسخ خودکار
+        setTimeout(() => {
+            const replies = [
+                "✅ پیام شما دریافت شد. منتظر پاسخ پشتیبان باشید...",
+                "🕒 در حال بررسی سوال شما هستم...",
+                "📋 لطفاً شماره سفارش خود را ارسال کنید."
+            ];
+            const reply = replies[Math.floor(Math.random() * replies.length)];
+            
+            const adminReply = {
+                id: Date.now(),
+                user_id: userId,
+                sender: 'admin',
+                text: reply,
+                time: new Date().toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit' }),
+                date: new Date().toLocaleDateString('fa-IR'),
+                status: 'replied'
+            };
+            
+            allMessages.push(adminReply);
+            localStorage.setItem('all_chat_messages', JSON.stringify(allMessages));
+            
+            userMessages.push(adminReply);
+            localStorage.setItem('user_' + userId, JSON.stringify(userMessages));
+            
+            loadChat();
+        }, 1000);
+    }
+    
+    function loadChat() {
+        const chatBody = document.getElementById('chatBody');
+        const userMessages = JSON.parse(localStorage.getItem('user_' + userId)) || [];
+        
+        if (userMessages.length === 0) {
+            const welcomeMessage = {
+                id: 1,
+                user_id: userId,
+                sender: 'admin',
+                text: 'سلام! 👋 به پشتیبانی Took Gallery خوش آمدید. چطور می‌تونم کمکتون کنم؟',
+                time: new Date().toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit' }),
+                date: new Date().toLocaleDateString('fa-IR'),
+                status: 'replied'
+            };
+            userMessages.push(welcomeMessage);
+            localStorage.setItem('user_' + userId, JSON.stringify(userMessages));
+        }
+        
+        // نمایش پیام‌ها
+        let html = `
+            <div class="system-message">
+                <i class="fas fa-info-circle"></i>
+                پشتیبانی Took Gallery خوش آمدید. سوالات خود را بپرسید.
+            </div>
+            <div class="date-separator"><span>${new Date().toLocaleDateString('fa-IR')}</span></div>
+        `;
+        
+        userMessages.forEach(msg => {
+            const msgClass = msg.sender === 'user' ? 'message-user' : 'message-admin';
+            html += `
+                <div class="message ${msgClass}">
+                    <div class="message-text">${msg.text}</div>
+                    <div class="message-time">
+                        ${msg.time} ${msg.sender === 'admin' ? '(پشتیبان)' : ''}
+                    </div>
+                </div>
+            `;
+        });
+        
+        chatBody.innerHTML = html;
+        chatBody.scrollTop = chatBody.scrollHeight;
+    }
+    
+    // ==================== توابع کمکی ====================
+    function sendQuickReply(text) {
+        document.getElementById('messageInput').value = text;
+        sendMessage();
+    }
+    
+    function callSupport() {
+        if (confirm('تماس با پشتیبانی؟\nشماره: ۰۹۱۲۱۲۳۴۵۶۷')) {
+            window.location.href = 'tel:09121234567';
+        }
+    }
+    
+    function sendEmail() {
+        window.location.href = 'mailto:support@tookgallery.com?subject=پشتیبانی Took Gallery';
+    }
+    
+    function attachFile() {
+        alert('آپلود فایل در نسخه نمونه فعال نیست.');
+    }
+    
+    function toggleEmoji() {
+        alert('کیبورد ایموجی در نسخه نمونه فعال نیست.');
+    }
+    
+    // ==================== اجرای اولیه ====================
+    document.addEventListener('DOMContentLoaded', () => {
+        loadChat();
+        
+        // دکمه Enter
+        const input = document.getElementById('messageInput');
+        if (input) {
+            input.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') sendMessage();
+            });
+        }
+        
+        // تنظیم ارتفاع موبایل
+        function adjustForMobile() {
+            if (window.innerWidth <= 768) {
+                const chatBody = document.getElementById('chatBody');
+                if (chatBody) {
+                    const header = document.querySelector('.chat-header');
+                    const quickReplies = document.querySelector('.quick-replies');
+                    const footer = document.querySelector('.chat-footer');
+                    const supportButtons = document.querySelector('.support-buttons');
+                    
+                    if (header && quickReplies && footer && supportButtons) {
+                        const totalHeight = header.offsetHeight + quickReplies.offsetHeight + 
+                                          footer.offsetHeight + supportButtons.offsetHeight;
+                        chatBody.style.height = `calc(100vh - ${totalHeight}px)`;
+                    }
+                }
+            }
+        }
+        
+        window.addEventListener('load', adjustForMobile);
+        window.addEventListener('resize', adjustForMobile);
+        
+        // چک پاسخ‌های جدید
+        setInterval(() => {
+            const allMessages = JSON.parse(localStorage.getItem('all_chat_messages')) || [];
+            const userMessages = JSON.parse(localStorage.getItem('user_' + userId)) || [];
+            
+            const newReplies = allMessages.filter(msg => 
+                msg.sender === 'admin' && 
+                msg.user_id === userId &&
+                !userMessages.some(m => m.id === msg.id)
+            );
+            
+            if (newReplies.length > 0) {
+                newReplies.forEach(reply => userMessages.push(reply));
+                localStorage.setItem('user_' + userId, JSON.stringify(userMessages));
+                loadChat();
+                alert(`پاسخ جدید از پشتیبان!`);
+            }
+        }, 5000);
+    });
+</script>
 </body>
 </html>
