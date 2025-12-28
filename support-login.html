@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ورود پشتیبان - Took Gallery</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            font-family: 'Segoe UI', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .login-container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+        
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #ff3b8d, #ff6bac);
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 32px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus {
+            border-color: #ff3b8d;
+            outline: none;
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(90deg, #ff3b8d, #ff6bac);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .login-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .error-message {
+            color: #f44336;
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+            height: 20px;
+        }
+        
+        .admin-list {
+            margin-top: 20px;
+            background: #f9f9f9;
+            border-radius: 10px;
+            padding: 15px;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .admin-list h4 {
+            margin-top: 0;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <div class="logo">
+                <i class="fas fa-lock"></i>
+            </div>
+            <h2 style="color: #333; margin-bottom: 10px;">ورود پشتیبان</h2>
+            <p style="color: #666;">پنل مدیریت پشتیبانی</p>
+        </div>
+        
+        <form id="loginForm" onsubmit="return false;">
+            <div class="form-group">
+                <label for="username">نام کاربری</label>
+                <input type="text" id="username" placeholder="admin" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">رمز عبور</label>
+                <input type="password" id="password" placeholder="••••••••" required>
+            </div>
+            
+            <button type="submit" class="login-btn" onclick="login()">
+                ورود به پنل
+            </button>
+            
+            <div id="errorMessage" class="error-message"></div>
+        </form>
+        
+        <div class="admin-list">
+            <h4>📋 حساب‌های نمونه:</h4>
+            <p>• کاربری: admin | رمز: 123456</p>
+            <p>• کاربری: support | رمز: support123</p>
+            <p>• کاربری: manager | رمز: manager456</p>
+        </div>
+    </div>
+
+    <script>
+        // کاربران مجاز
+        const ADMIN_USERS = {
+            'admin': '123456',
+            'support': 'support123',
+            'manager': 'manager456'
+        };
+        
+        function login() {
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            const errorElement = document.getElementById('errorMessage');
+            
+            // پاک کردن خطای قبلی
+            errorElement.textContent = '';
+            
+            // اعتبارسنجی
+            if (!username || !password) {
+                errorElement.textContent = 'لطفاً همه فیلدها را پر کنید';
+                return;
+            }
+            
+            if (ADMIN_USERS[username] && ADMIN_USERS[username] === password) {
+                // ذخیره وضعیت ورود
+                localStorage.setItem('adminLoggedIn', 'true');
+                localStorage.setItem('adminUsername', username);
+                
+                // انتقال به پنل
+                window.location.href = 'admin-panel.html';
+            } else {
+                errorElement.textContent = 'نام کاربری یا رمز عبور اشتباه است';
+                document.getElementById('password').value = '';
+            }
+        }
+        
+        // ورود با Enter
+        document.getElementById('password').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                login();
+            }
+        });
+        
+        // اگر قبلاً وارد شده، مستقیم برو به پنل
+        document.addEventListener('DOMContentLoaded', function() {
+            if (localStorage.getItem('adminLoggedIn') === 'true') {
+                window.location.href = 'admin-panel.html';
+            }
+        });
+    </script>
+</body>
+</html>
