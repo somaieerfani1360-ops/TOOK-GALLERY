@@ -699,3 +699,382 @@
             </nav>
         </div>
     </header>
+    <!-- محتوای اصلی -->
+    <main class="container">
+        <!-- بخش دسته‌بندی‌ها -->
+        <section class="main-section">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fas fa-th-large"></i>
+                    دسته‌بندی محصولات
+                </h2>
+            </div>
+            
+            <div class="categories-grid">
+                <!-- دسته‌بندی ۱ -->
+                <div class="category-card" onclick="showCategory('الکترونیک')">
+                    <div class="category-icon">
+                        <i class="fas fa-laptop"></i>
+                    </div>
+                    <h3>الکترونیک</h3>
+                    <p>۲۰ محصول</p>
+                </div>
+                
+                <!-- دسته‌بندی ۲ -->
+                <div class="category-card" onclick="showCategory('پوشاک')">
+                    <div class="category-icon">
+                        <i class="fas fa-tshirt"></i>
+                    </div>
+                    <h3>پوشاک</h3>
+                    <p>۱۵ محصول</p>
+                </div>
+                
+                <!-- دسته‌بندی ۳ -->
+                <div class="category-card" onclick="showCategory('خانه و آشپزخانه')">
+                    <div class="category-icon">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <h3>خانه و آشپزخانه</h3>
+                    <p>۲۵ محصول</p>
+                </div>
+                
+                <!-- دسته‌بندی ۴ -->
+                <div class="category-card" onclick="showCategory('لوازم آرایشی')">
+                    <div class="category-icon">
+                        <i class="fas fa-spa"></i>
+                    </div>
+                    <h3>لوازم آرایشی</h3>
+                    <p>۱۸ محصول</p>
+                </div>
+                
+                <!-- دسته‌بندی ۵ -->
+                <div class="category-card" onclick="showCategory('کتاب و لوازم تحریر')">
+                    <div class="category-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <h3>کتاب و تحریر</h3>
+                    <p>۳۰ محصول</p>
+                </div>
+                
+                <!-- دسته‌بندی ۶ -->
+                <div class="category-card" onclick="showCategory('اسباب بازی')">
+                    <div class="category-icon">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <h3>اسباب بازی</h3>
+                    <p>۱۲ محصول</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- فروش شگفت‌انگیز -->
+        <section class="main-section">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fas fa-bolt"></i>
+                    فروش شگفت‌انگیز
+                </h2>
+                <div class="timer">
+                    <i class="fas fa-clock"></i>
+                    <span id="countdown">۲۳:۵۹:۵۹</span>
+                </div>
+            </div>
+            
+            <!-- Swiper -->
+            <div class="swiper mySwiper">
+                <div class="swiper-wrapper">
+                    <!-- محصول ۱ -->
+                    <div class="swiper-slide">
+                        <div class="swiper-product-card">
+                            <div class="product-badge">۴۰٪ تخفیف</div>
+                            <div class="product-image">
+                                <i class="fas fa-headphones"></i>
+                            </div>
+                            <div class="product-info">
+                                <h3>نمونه محصول ۱</h3>
+                                <div class="price">۱۲۹,۰۰۰ تومان</div>
+                                <button class="add-to-cart" onclick="addToCart('نمونه محصول ۱')">افزودن به سبد</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- محصول ۲ -->
+                    <div class="swiper-slide">
+                        <div class="swiper-product-card">
+                            <div class="product-badge">۳۰٪ تخفیف</div>
+                            <div class="product-image">
+                                <i class="fas fa-mobile-alt"></i>
+                            </div>
+                            <div class="product-info">
+                                <h3>نمونه محصول ۲</h3>
+                                <div class="price">۲۵۰,۰۰۰ تومان</div>
+                                <button class="add-to-cart" onclick="addToCart('نمونه محصول ۲')">افزودن به سبد</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- محصول ۳ -->
+                    <div class="swiper-slide">
+                        <div class="swiper-product-card">
+                            <div class="product-badge">۲۰٪ تخفیف</div>
+                            <div class="product-image">
+                                <i class="fas fa-tv"></i>
+                            </div>
+                            <div class="product-info">
+                                <h3>نمونه محصول ۳</h3>
+                                <div class="price">۳۸۰,۰۰۰ تومان</div>
+                                <button class="add-to-cart" onclick="addToCart('نمونه محصول ۳')">افزودن به سبد</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- محصول ۴ -->
+                    <div class="swiper-slide">
+                        <div class="swiper-product-card">
+                            <div class="product-badge">۵۰٪ تخفیف</div>
+                            <div class="product-image">
+                                <i class="fas fa-camera"></i>
+                            </div>
+                            <div class="product-info">
+                                <h3>نمونه محصول ۴</h3>
+                                <div class="price">۱۵۰,۰۰۰ تومان</div>
+                                <button class="add-to-cart" onclick="addToCart('نمونه محصول ۴')">افزودن به سبد</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- دکمه‌های ناوبری -->
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            </div>
+        </section>
+        
+        <!-- محصولات جدید -->
+        <section class="main-section">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fas fa-certificate"></i>
+                    محصولات جدید
+                </h2>
+            </div>
+            
+            <div class="products-grid">
+                <!-- محصول ۱ -->
+                <div class="product-card">
+                    <button class="wishlist-btn" onclick="toggleWishlist(this)">
+                        <i class="far fa-heart"></i>
+                    </button>
+                    <div class="product-image">
+                        <i class="fas fa-watch"></i>
+                    </div>
+                    <div class="product-info">
+                        <h3>محصول جدید ۱</h3>
+                        <div class="price">۹۵,۰۰۰ تومان</div>
+                        <button class="add-to-cart" onclick="addToCart('محصول جدید ۱')">افزودن به سبد</button>
+                    </div>
+                </div>
+                
+                <!-- محصول ۲ -->
+                <div class="product-card">
+                    <button class="wishlist-btn" onclick="toggleWishlist(this)">
+                        <i class="far fa-heart"></i>
+                    </button>
+                    <div class="product-image">
+                        <i class="fas fa-shoe-prints"></i>
+                    </div>
+                    <div class="product-info">
+                        <h3>محصول جدید ۲</h3>
+                        <div class="price">۱۷۵,۰۰۰ تومان</div>
+                        <button class="add-to-cart" onclick="addToCart('محصول جدید ۲')">افزودن به سبد</button>
+                    </div>
+                </div>
+                
+                <!-- محصول ۳ -->
+                <div class="product-card">
+                    <button class="wishlist-btn" onclick="toggleWishlist(this)">
+                        <i class="far fa-heart"></i>
+                    </button>
+                    <div class="product-image">
+                        <i class="fas fa-basketball-ball"></i>
+                    </div>
+                    <div class="product-info">
+                        <h3>محصول جدید ۳</h3>
+                        <div class="price">۲۲۰,۰۰۰ تومان</div>
+                        <button class="add-to-cart" onclick="addToCart('محصول جدید ۳')">افزودن به سبد</button>
+                    </div>
+                </div>
+                
+                <!-- محصول ۴ -->
+                <div class="product-card">
+                    <button class="wishlist-btn" onclick="toggleWishlist(this)">
+                        <i class="far fa-heart"></i>
+                    </button>
+                    <div class="product-image">
+                        <i class="fas fa-guitar"></i>
+                    </div>
+                    <div class="product-info">
+                        <h3>محصول جدید ۴</h3>
+                        <div class="price">۱۳۰,۰۰۰ تومان</div>
+                        <button class="add-to-cart" onclick="addToCart('محصول جدید ۴')">افزودن به سبد</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- دکمه واتساپ -->
+    <a href="https://wa.me/989121234567" class="whatsapp-float" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+    
+    <!-- پشتیبانی آنلاین -->
+    <div class="support-float" onclick="openSupport()">
+        <i class="fas fa-headset"></i>
+    </div>
+
+    <!-- اسکریپت‌ها -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+    <script>
+        // تایمر معکوس
+        function startCountdown() {
+            let time = 23 * 60 * 60 + 59 * 60 + 59;
+            
+            const countdownElement = document.getElementById('countdown');
+            
+            const timer = setInterval(() => {
+                if (time <= 0) {
+                    clearInterval(timer);
+                    countdownElement.textContent = "۰۰:۰۰:۰۰";
+                    return;
+                }
+                
+                const hours = Math.floor(time / 3600);
+                const minutes = Math.floor((time % 3600) / 60);
+                const seconds = time % 60;
+                
+                countdownElement.textContent = 
+                    `${hours.toString().padStart(2, '۰')}:` +
+                    `${minutes.toString().padStart(2, '۰')}:` +
+                    `${seconds.toString().padStart(2, '۰')}`;
+                
+                time--;
+            }, 1000);
+        }
+
+        // Swiper
+        function initSwiper() {
+            const swiper = new Swiper('.mySwiper', {
+                slidesPerView: 1,
+                spaceBetween: 20,
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+                breakpoints: {
+                    640: { slidesPerView: 2 },
+                    768: { slidesPerView: 3 },
+                    1024: { slidesPerView: 4 }
+                }
+            });
+        }
+
+        // سبد خرید
+        let cartItems = 0;
+
+        function addToCart(productName) {
+            cartItems++;
+            updateCartCount();
+            alert(`"${productName}" به سبد خرید اضافه شد!`);
+        }
+
+        function updateCartCount() {
+            const cartCount = document.querySelector('.cart-count');
+            cartCount.textContent = cartItems;
+        }
+
+        // علاقه‌مندی‌ها
+        function toggleWishlist(button) {
+            const icon = button.querySelector('i');
+            if (icon.classList.contains('far')) {
+                icon.classList.remove('far');
+                icon.classList.add('fas');
+                button.style.color = '#ff3b8d';
+                alert('به علاقه‌مندی‌ها اضافه شد!');
+            } else {
+                icon.classList.remove('fas');
+                icon.classList.add('far');
+                button.style.color = '#ff6bac';
+                alert('از علاقه‌مندی‌ها حذف شد!');
+            }
+        }
+
+        // نمایش دسته‌بندی
+        function showCategory(categoryName) {
+            alert(`دسته‌بندی "${categoryName}" انتخاب شد!`);
+        }
+
+        // جستجو
+        function searchProducts() {
+            const searchInput = document.getElementById('searchInput');
+            const query = searchInput.value.trim();
+            
+            if (query) {
+                alert(`جستجو برای: "${query}"`);
+                searchInput.value = '';
+            } else {
+                alert('لطفاً چیزی برای جستجو وارد کنید!');
+            }
+        }
+
+        // پشتیبانی آنلاین
+        function openSupport() {
+            alert('پشتیبانی آنلاین - با شماره ۰۹۱۲۱۲۳۴۵۶۷ تماس بگیرید');
+        }
+
+        // پیگیری سفارش
+        function trackOrder() {
+            const orderNumber = prompt('لطفاً شماره سفارش خود را وارد کنید:');
+            if (orderNumber) {
+                alert(`سفارش شماره ${orderNumber} در حال پردازش است.`);
+            }
+        }
+
+        // منوی موبایل
+        function toggleMobileMenu() {
+            const nav = document.getElementById('mainNav');
+            const overlay = document.getElementById('menuOverlay');
+            nav.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+
+        function closeMobileMenu() {
+            const nav = document.getElementById('mainNav');
+            const overlay = document.getElementById('menuOverlay');
+            nav.classList.remove('active');
+            overlay.classList.remove('active');
+        }
+
+        // وقتی صفحه لود شد
+        document.addEventListener('DOMContentLoaded', function() {
+            startCountdown();
+            initSwiper();
+            updateCartCount();
+            
+            const navLinks = document.querySelectorAll('.nav-list a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    closeMobileMenu();
+                });
+            });
+            
+            const searchInput = document.getElementById('searchInput');
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    searchProducts();
+                }
+            });
+        });
+    </script>
+</body>
+</html>                                    </html>
