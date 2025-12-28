@@ -37,10 +37,313 @@
             border: 3px solid var(--primary);
         }
         
-        /* استایل‌های باقی مانده همان کد قبلی... */
-        /* ... (همان استایل‌های قبلی را اینجا کپی کن) ... */
+        /* هدر */
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #eee;
+        }
         
-        /* استایل‌های کامل در انتهای پیام */
+        .admin-header h1 {
+            color: var(--admin-blue);
+            margin-bottom: 5px;
+        }
+        
+        .secret-code {
+            background: #ffebee;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-family: monospace;
+            color: #d32f2f;
+            font-weight: bold;
+            border: 2px dashed var(--primary);
+        }
+        
+        /* آمار */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stat-card i {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+        
+        .stat-number {
+            font-size: 28px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .new { color: var(--admin-red); }
+        .total { color: var(--admin-blue); }
+        .replied { color: var(--admin-green); }
+        
+        /* کنترل‌ها */
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .btn-refresh, .btn-clear, .btn-back {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-refresh {
+            background: var(--admin-blue);
+            color: white;
+        }
+        
+        .btn-clear {
+            background: #ff9800;
+            color: white;
+        }
+        
+        .btn-back {
+            background: #9c27b0;
+            color: white;
+        }
+        
+        /* لیست پیام‌ها */
+        .messages-container {
+            margin-top: 30px;
+        }
+        
+        .messages-list {
+            max-height: 500px;
+            overflow-y: auto;
+            padding: 10px;
+        }
+        
+        .message-item {
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            background: #fff;
+            transition: all 0.3s;
+        }
+        
+        .message-item.new {
+            border-right: 5px solid var(--admin-red);
+            background: #fff5f5;
+        }
+        
+        .message-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .user-id {
+            font-weight: bold;
+            color: var(--admin-blue);
+        }
+        
+        .message-time {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .message-content {
+            margin: 15px 0;
+            line-height: 1.6;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 8px;
+        }
+        
+        .message-text {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        
+        .message-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .btn-reply {
+            background: var(--admin-blue);
+            color: white;
+        }
+        
+        .btn-resolve {
+            background: var(--admin-green);
+            color: white;
+        }
+        
+        .btn-view {
+            background: #9c27b0;
+            color: white;
+        }
+        
+        .btn-send {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-cancel {
+            background: #757575;
+            color: white;
+        }
+        
+        /* فرم پاسخ */
+        .reply-section {
+            margin-top: 15px;
+            padding: 15px;
+            background: #f0f7ff;
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .reply-section.active {
+            display: block;
+        }
+        
+        .reply-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            min-height: 100px;
+            font-family: inherit;
+            font-size: 14px;
+        }
+        
+        .reply-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        /* وضعیت‌ها */
+        .status-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            margin-right: 10px;
+        }
+        
+        .status-new { background: #ffebee; color: #c62828; }
+        .status-replied { background: #e3f2fd; color: #1565c0; }
+        
+        .date-badge {
+            display: inline-block;
+            padding: 3px 10px;
+            background: #f5f5f5;
+            border-radius: 10px;
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .replied-info {
+            background: #e8f5e9;
+            color: #2e7d32;
+            padding: 8px 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+        
+        /* حالت‌های خاص */
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+        
+        .empty-state i {
+            font-size: 50px;
+            margin-bottom: 15px;
+            color: #bdbdbd;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 30px;
+            color: #666;
+        }
+        
+        .system-info {
+            margin-top: 30px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        /* ریسپانسیو */
+        @media (max-width: 768px) {
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .admin-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .controls {
+                flex-direction: column;
+            }
+            
+            .message-actions {
+                flex-direction: column;
+            }
+            
+            .messages-list {
+                max-height: 400px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .admin-container {
+                padding: 15px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -460,4 +763,4 @@
         });
     </script>
 </body>
-  </html>
+</html> 
