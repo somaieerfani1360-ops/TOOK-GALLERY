@@ -84,46 +84,42 @@
             color: var(--primary);
         }
         
-        /* === جستجو - اصلاح شده === */
-        .search-box {
-            flex: 1;
-            max-width: 600px;
-            margin: 0 30px;
-            position: relative;
-        }
-        
-        .search-box input {
-            width: 100%;
-            padding: 12px 50px 12px 20px;
-            border: 2px solid var(--border);
-            border-radius: 30px;
-            font-size: 16px;
-            direction: rtl;
-            background: #fff;
-        }
-        
-        .search-btn {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            color: var(--primary);
-            font-size: 18px;
-            cursor: pointer;
-            z-index: 2;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-        }
-        
-        .search-btn i {
-            font-size: 20px;
-            color: var(--primary);
-        }
+        /* === جستجو - نسخه نهایی === */
+.search-box {
+    flex: 1;
+    max-width: 600px;
+    margin: 0 30px;
+    position: relative;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 12px 50px 12px 20px;
+    border: 2px solid #ffd6e8; /* مقدار مستقیم */
+    border-radius: 30px;
+    font-size: 16px;
+    direction: rtl;
+    background: #fff;
+}
+
+.search-btn {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #ff3b8d !important; /* مقدار مستقیم + !important */
+    font-size: 20px !important; /* بزرگ‌تر */
+    cursor: pointer;
+    z-index: 2;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    }
         
         /* آیکون‌های هدر */
         .header-icons {
