@@ -1146,7 +1146,63 @@ document.addEventListener('DOMContentLoaded', function() {
                 searchProducts();
             }
         });
+        <!-- ========== SWIPER SCRIPT ========== -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Countdown Timer
+        function startCountdown() {
+            let time = 23 * 60 * 60 + 59 * 60 + 59;
+            const countdownElement = document.getElementById('countdown');
+            
+            if (countdownElement) {
+                const timer = setInterval(() => {
+                    if (time <= 0) {
+                        clearInterval(timer);
+                        countdownElement.textContent = "۰۰:۰۰:۰۰";
+                        return;
+                    }
+                    
+                    const hours = Math.floor(time / 3600);
+                    const minutes = Math.floor((time % 3600) / 60);
+                    const seconds = time % 60;
+                    
+                    countdownElement.textContent = 
+                        hours.toString().padStart(2, '۰') + ':' +
+                        minutes.toString().padStart(2, '۰') + ':' +
+                        seconds.toString().padStart(2, '۰');
+                    
+                    time--;
+                }, 1000);
+            }
+        }
         
+        // Swiper Slider
+        if (document.querySelector('.mySwiper')) {
+            const swiper = new Swiper('.mySwiper', {
+                slidesPerView: 1,
+                spaceBetween: 20,
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+                breakpoints: {
+                    640: { slidesPerView: 2 },
+                    768: { slidesPerView: 3 },
+                    1024: { slidesPerView: 4 }
+                }
+            });
+        }
+        
+        // Initialize
+        startCountdown();
+        if (typeof updateCartCount === 'function') {
+            updateCartCount();
+        }
+    });
+    </script>
+</body>
+</html>
         // ==================== منوی موبایل - اصلاح شده ====================
         function toggleMobileMenu() {
             const nav = document.getElementById('mainNav');
