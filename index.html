@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Took Gallery - سایت خام</title>
+    <title>Took Gallery - صفحه اصلی</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- اضافه کردن Swiper -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css">
     <style>
         :root {
@@ -38,7 +37,7 @@
             padding: 0 15px;
         }
         
-        /* === نوار بالایی اصلاح شده === */
+        /* === نوار بالایی === */
         .top-bar {
             background: linear-gradient(90deg, var(--primary), var(--primary-light));
             color: white;
@@ -499,7 +498,7 @@
         .menu-overlay.active {
             display: block;
         }
-
+        
         /* دکمه بستن منو */
         .close-menu {
             position: absolute;
@@ -513,23 +512,12 @@
             z-index: 10000;
         }
         
-
-        
         /* ریسپانسیو */
         @media (max-width: 768px) {
             .mobile-menu-btn {
                 display: block;
             }
-            /* === اضافه کردن کد برای حل مشکل overlay === */
-/* این قسمت جدید است */
-.menu-overlay:not(.active) {
-    z-index: -1 !important;
-    pointer-events: none !important;
-}
-
-.main-nav {
-    z-index: 9999 !important;
-}
+            
             /* استایل منوی موبایل */
             .main-nav {
                 display: none;
@@ -620,13 +608,23 @@
                 display: none !important;
             }
         }
+        
+        /* === اضافه کردن کد برای حل مشکل overlay === */
+        .menu-overlay:not(.active) {
+            z-index: -1 !important;
+            pointer-events: none !important;
+        }
+        
+        .main-nav {
+            z-index: 9999 !important;
+        }
     </style>
 </head>
 <body>
     <!-- Overlay منو -->
     <div class="menu-overlay" id="menuOverlay" onclick="closeMobileMenu()"></div>
 
-    <!-- نوار بالایی اصلاح شده -->
+    <!-- نوار بالایی -->
     <div class="top-bar">
         <div class="container">
             <span><i class="fas fa-shipping-fast"></i> ارسال رایگان برای خریدهای بالای ۲۰۰ هزار تومان</span>
@@ -710,7 +708,8 @@
             </nav>
         </div>
     </header>
-        <!-- محتوای اصلی -->
+
+    <!-- محتوای اصلی -->
     <main class="container">
         <!-- بخش دسته‌بندی‌ها -->
         <section class="main-section">
@@ -953,16 +952,13 @@
             const query = searchInput.value.trim();
             
             if (query) {
-                // ذخیره در localStorage برای استفاده در صفحه نتایج
                 localStorage.setItem('searchQuery', query);
-                // هدایت به صفحه نتایج جستجو
                 window.location.href = 'search-results.html';
             } else {
-                alert('لطفاً چیزی برای جستجو وارد کنید!');
+                alert('لطفاً عبارت جستجو را وارد کنید!');
             }
         }
         
-        // پشتیبانی از Enter برای جستجو
         document.getElementById('searchInput').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 searchProducts();
@@ -984,11 +980,9 @@
             overlay.classList.remove('active');
         }
         
-        // ==================== بقیه توابع بدون تغییر ====================
-        // تایمر معکوس
+        // ==================== بقیه توابع ====================
         function startCountdown() {
             let time = 23 * 60 * 60 + 59 * 60 + 59;
-            
             const countdownElement = document.getElementById('countdown');
             
             const timer = setInterval(() => {
@@ -1011,7 +1005,6 @@
             }, 1000);
         }
 
-        // Swiper
         function initSwiper() {
             const swiper = new Swiper('.mySwiper', {
                 slidesPerView: 1,
@@ -1028,7 +1021,6 @@
             });
         }
 
-        // سبد خرید
         let cartItems = 0;
 
         function addToCart(productName) {
@@ -1042,7 +1034,6 @@
             cartCount.textContent = cartItems;
         }
 
-        // علاقه‌مندی‌ها
         function toggleWishlist(button) {
             const icon = button.querySelector('i');
             if (icon.classList.contains('far')) {
@@ -1058,17 +1049,14 @@
             }
         }
 
-        // نمایش دسته‌بندی
         function showCategory(categoryName) {
             alert(`دسته‌بندی "${categoryName}" انتخاب شد!`);
         }
 
-        // پشتیبانی آنلاین
         function openSupport() {
             window.location.href = 'support.html';
         }
 
-        // پیگیری سفارش
         function trackOrder() {
             const orderNumber = prompt('لطفاً شماره سفارش خود را وارد کنید:');
             if (orderNumber) {
