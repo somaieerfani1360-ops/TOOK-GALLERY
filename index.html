@@ -527,109 +527,111 @@
             z-index: 10000;
         }
         
-        /* ریسپانسیو */
-        @media (max-width: 768px) {
-            .mobile-menu-btn {
-                display: block;
-            }
-            
-            /* استایل منوی موبایل - اصلاح شده */
-            .main-nav {
-                display: none;
-                position: fixed;
-                top: 0;
-                right: -100%;
-                width: 80%;
-                max-width: 300px;
-                height: 100vh;
-                background: linear-gradient(135deg, #ff3b8d, #ff6bac);
-                z-index: 9999;
-                transition: right 0.3s ease;
-                padding-top: 80px;
-                box-shadow: -5px 0 15px rgba(0,0,0,0.2);
-                overflow-y: auto;
-                margin-top: 0;
-                border-radius: 0;
-            }
-            
-            .main-nav.active {
-                display: block;
-                right: 0;
-            }
-            
-            .nav-list {
-                flex-direction: column;
-                padding: 0;
-            }
-            
-            .nav-list li {
-                width: 100%;
-                border-bottom: 1px solid rgba(255,255,255,0.2);
-            }
-            
-            .nav-list a {
-                padding: 18px 25px;
-                text-align: right;
-                font-size: 16px;
-                display: flex;
-                align-items: center;
-                gap: 15px;
-            }
-            
-            .nav-list a i {
-                font-size: 20px;
-                width: 25px;
-            }
-            
-            .search-box {
-                display: none;
-            }
-            
-            .icon-text {
-                display: none;
-            }
-            
-            .close-menu {
-                display: block;
-            }
-            
-            .support-float {
-                bottom: 100px;
-                left: 20px;
-                width: 50px;
-                height: 50px;
-                font-size: 22px;
-            }
-            
-            .whatsapp-float {
-                bottom: 30px;
-                left: 20px;
-                width: 50px;
-                height: 50px;
-                font-size: 25px;
-            }
-            
-            .section-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            
-            .timer {
-                align-self: center;
-            }
-            
-            .categories-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-        
-        @media (min-width: 769px) {
-            .mobile-only {
-                display: none !important;
-            }
-            .close-menu {
-                display: none !important;
-            }
+/* ریسپانسیو */
+@media (max-width: 768px) {
+    .mobile-menu-btn {
+        display: block;
+    }
+    
+    /* ======== اینجا ادامه کدهای ریسپانسیو می‌آید ======== */
+    
+    .main-nav {
+        display: none;
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 80%;
+        max-width: 300px;
+        height: 100vh;
+        background: linear-gradient(135deg, #ff3b8d, #ff6bac);
+        z-index: 9999;
+        transition: right 0.3s ease;
+        padding-top: 80px;
+        box-shadow: -5px 0 15px rgba(0,0,0,0.2);
+        overflow-y: auto;
+        margin-top: 0;
+        border-radius: 0;
+    }
+    
+    .main-nav.active {
+        display: block;
+        right: 0;
+    }
+    
+    .nav-list {
+        flex-direction: column;
+        padding: 0;
+    }
+    
+    .nav-list li {
+        width: 100%;
+        border-bottom: 1px solid rgba(255,255,255,0.2);
+    }
+    
+    .nav-list a {
+        padding: 18px 25px;
+        text-align: right;
+        font-size: 16px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+    
+    .nav-list a i {
+        font-size: 20px;
+        width: 25px;
+    }
+    
+    .search-box {
+        display: none;
+    }
+    
+    .icon-text {
+        display: none;
+    }
+    
+    .close-menu {
+        display: block;
+    }
+    
+    .support-float {
+        bottom: 100px;
+        left: 20px;
+        width: 50px;
+        height: 50px;
+        font-size: 22px;
+    }
+    
+    .whatsapp-float {
+        bottom: 30px;
+        left: 20px;
+        width: 50px;
+        height: 50px;
+        font-size: 25px;
+    }
+    
+    .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .timer {
+        align-self: center;
+    }
+    
+    .categories-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+} /* ===== این براکت مهم است ===== */
+
+/* و بعد برای دسکتاپ */
+@media (min-width: 769px) {
+    .mobile-only {
+        display: none !important;
+    }
+    .close-menu {
+        display: none !important;
+    }
         }
     </style>
 
