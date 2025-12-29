@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نتایج جستجو - Took Gallery</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #ff3b8d;
+            --primary-light: #ff6bac;
+            --dark: #333;
+            --light: #fff;
+            --gray: #f8f8f8;
+            --border: #ffd6e8;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: white;
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* هدر ساده */
+        .search-header {
+            background: linear-gradient(90deg, var(--primary), var(--primary-light));
+            color: white;
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 3px 15px rgba(255, 59, 141, 0.2);
+        }
+        
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+        
+        .back-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 8px;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        /* جستجو در این صفحه */
+        .search-box {
+            flex: 1;
+            max-width: 600px;
+            position: relative;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 12px 20px 12px 45px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 30px;
+            font-size: 16px;
+            background: rgba(255,255,255,0.9);
+            color: var(--dark);
+        }
+        
+        .search-btn {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--primary);
+            font-size: 18px;
+            cursor: pointer;
+        }
+        
+        /* اطلاعات جستجو */
+        .search-info {
+            padding: 20px 0;
+            border-bottom: 2px solid var(--border);
+            margin-bottom: 30px;
+        }
+        
+        .search-query {
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        .results-count {
+            color: #666;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        
+        /* نتایج */
+        .results-container {
+            padding: 20px 0;
+        }
+        
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        @media (min-width: 768px) {
+            .results-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .results-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        .result-card {
+            background: white;
+            border: 2px solid var(--border);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 250px;
+        }
+        
+        .result-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 10px 25px rgba(255, 59, 141, 0.15);
+        }
+        
+        .result-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #f8f8f8, #e8e8e8);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            color: var(--primary);
+            font-size: 32px;
+        }
+        
+        .result-title {
+            color: var(--dark);
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .result-desc {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        
+        .result-price {
+            color: var(--primary);
+            font-size: 20px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .view-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 15px;
+            transition: all 0.3s;
+        }
+        
+        .view-btn:hover {
+            background: var(--primary-light);
+            transform: scale(1.05);
+        }
+        
+        /* حالت بدون نتیجه */
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+        
+        .no-results i {
+            font-size: 60px;
+            color: #ddd;
+            margin-bottom: 20px;
+        }
+        
+        .no-results h3 {
+            font-size: 22px;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+        
+        /* پیشنهادات */
+        .suggestions {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px dashed var(--border);
+        }
+        
+        .suggestions-title {
+            color: var(--primary);
+            font-size: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .suggestions-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+        
+        .suggestion-tag {
+            background: var(--gray);
+            border: 1px solid var(--border);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .suggestion-tag:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        /* فوتور */
+        .search-footer {
+            text-align: center;
+            padding: 40px 0;
+            margin-top: 50px;
+            color: #666;
+            border-top: 1px solid var(--border);
+        }
+        
+        /* ریسپانسیو */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-wrap: wrap;
+            }
+            
+            .search-box {
+                order: 3;
+                width: 100%;
+                max-width: 100%;
+                margin-top: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- هدر جستجو -->
+    <header class="search-header">
+        <div class="container">
+            <div class="header-content">
+                <!-- دکمه بازگشت -->
+                <button class="back-btn" onclick="goBack()">
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+                
+                <!-- لوگو -->
+                <div class="logo">
+                    <i class="fas fa-search"></i>
+                    <span>نتایج جستجو</span>
+                </div>
+                
+                <!-- جستجو در این صفحه -->
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="جستجوی مجدد...">
+                    <button class="search-btn" onclick="searchAgain()">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- محتوای اصلی -->
+    <main class="container">
+        <!-- اطلاعات جستجو -->
+        <div class="search-info">
+            <div class="search-query" id="queryDisplay">در حال جستجو...</div>
+            <div class="results-count" id="resultsCount">۰ نتیجه یافت شد</div>
+        </div>
+
+        <!-- نتایج -->
+        <div class="results-container">
+            <div id="resultsArea">
+                <!-- نتایج اینجا نمایش داده می‌شوند -->
+            </div>
+        </div>
+
+        <!-- پیشنهادات جستجو -->
+        <div class="suggestions">
+            <h3 class="suggestions-title">پیشنهادات جستجو</h3>
+            <div class="suggestions-list">
+                <div class="suggestion-tag" onclick="searchThis('گوشی موبایل')">گوشی موبایل</div>
+                <div class="suggestion-tag" onclick="searchThis('لپ‌تاپ')">لپ‌تاپ</div>
+                <div class="suggestion-tag" onclick="searchThis('هدفون')">هدفون</div>
+                <div class="suggestion-tag" onclick="searchThis('ساعت هوشمند')">ساعت هوشمند</div>
+                <div class="suggestion-tag" onclick="searchThis('دوربین')">دوربین</div>
+                <div class="suggestion-tag" onclick="searchThis('تبلت')">تبلت</div>
+            </div>
+        </div>
+    </main>
+
+    <!-- فوتور -->
+    <footer class="search-footer">
+        <div class="container">
+            <p>© ۲۰۲۴ Took Gallery - صفحه نتایج جستجو</p>
+            <p style="margin-top: 10px; font-size: 14px;">
+                <a href="index.html" style="color: var(--primary); text-decoration: none;">
+                    <i class="fas fa-home"></i> بازگشت به صفحه اصلی
+                </a>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // ==================== داده‌های نمونه ====================
+        const sampleProducts = [
+            {
+                id: 1,
+                title: "گوشی موبایل هوشمند",
+                description: "گوشی هوشمند با دوربین 48 مگاپیکسل و پردازنده قدرتمند",
+                icon: "fas fa-mobile-alt",
+                price: "۴,۵۰۰,۰۰۰ تومان",
+                category: "الکترونیک"
+            },
+            {
+                id: 2,
+                title: "لپ‌تاپ گیمینگ",
+                description: "لپ‌تاپ مناسب برای بازی و کارهای گرافیکی سنگین",
+                icon: "fas fa-laptop",
+                price: "۱۵,۰۰۰,۰۰۰ تومان",
+                category: "الکترونیک"
+            },
+            {
+                id: 3,
+                title: "هدفون بی‌سیم",
+                description: "هدفون با کیفیت صدای عالی و قابلیت حذف نویز",
+                icon: "fas fa-headphones",
+                price: "۸۰۰,۰۰۰ تومان",
+                category: "الکترونیک"
+            },
+            {
+                id: 4,
+                title: "ساعت هوشمند",
+                description: "همراه سلامت و تناسب اندام شما",
+                icon: "fas fa-watch",
+                price: "۱,۲۰۰,۰۰۰ تومان",
+                category: "الکترونیک"
+            },
+            {
+                id: 5,
+                title: "دوربین DSLR",
+                description: "دوربین حرفه‌ای برای عکاسی و فیلمبرداری",
+                icon: "fas fa-camera",
+                price: "۶,۵۰۰,۰۰۰ تومان",
+                category: "الکترونیک"
+            },
+            {
+                id: 6,
+                title: "کتاب برنامه‌نویسی",
+                description: "کامل‌ترین مرجع آموزش برنامه‌نویسی",
+                icon: "fas fa-book",
+                price: "۱۵۰,۰۰۰ تومان",
+                category: "کتاب"
+            }
+        ];
+
+        // ==================== نمایش نتایج ====================
+        function displayResults() {
+            const query = localStorage.getItem('searchQuery') || '';
+            const resultsArea = document.getElementById('resultsArea');
+            const queryDisplay = document.getElementById('queryDisplay');
+            const resultsCount = document.getElementById('resultsCount');
+            
+            // نمایش عبارت جستجو
+            queryDisplay.textContent = `نتایج جستجو برای: "${query}"`;
+            
+            if (!query.trim()) {
+                // اگر جستجو خالی باشد
+                resultsArea.innerHTML = `
+                    <div class="no-results">
+                        <i class="fas fa-search"></i>
+                        <h3>عبارت جستجو را وارد کنید</h3>
+                        <p>لطفاً از صفحه اصلی چیزی را جستجو کنید</p>
+                        <button class="view-btn" onclick="window.location.href='index.html'" style="margin-top: 20px;">
+                            بازگشت به صفحه اصلی
+                        </button>
+                    </div>
+                `;
+                resultsCount.textContent = "۰ نتیجه یافت شد";
+                return;
+            }
+            
+            // فیلتر کردن محصولات بر اساس جستجو
+            const filteredProducts = sampleProducts.filter(product => 
+                product.title.includes(query) || 
+                product.description.includes(query) ||
+                product.category.includes(query)
+            );
+            
+            // نمایش تعداد نتایج
+            resultsCount.textContent = `${filteredProducts.length} نتیجه یافت شد`;
+            
+            if (filteredProducts.length === 0) {
+                // اگر نتیجه‌ای یافت نشد
+                resultsArea.innerHTML = `
+                    <div class="no-results">
+                        <i class="far fa-frown"></i>
+                        <h3>نتیجه‌ای یافت نشد</h3>
+                        <p>هیچ محصولی با عبارت "${query}" پیدا نشد</p>
+                        <p style="margin-top: 15px;">می‌توانید:</p>
+                        <button class="view-btn" onclick="searchAgain()" style="margin-top: 10px; background: var(--primary-light);">
+                            جستجوی مجدد
+                        </button>
+                        <button class="view-btn" onclick="window.location.href='index.html'" style="margin-top: 10px; background: #666;">
+                            بازگشت به صفحه اصلی
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+            
+            // نمایش نتایج
+            let resultsHTML = '<div class="results-grid">';
+            
+            filteredProducts.forEach(product => {
+                resultsHTML += `
+                    <div class="result-card" onclick="viewProduct(${product.id})">
+                        <div class="result-icon">
+                            <i class="${product.icon}"></i>
+                        </div>
+                        <h3 class="result-title">${product.title}</h3>
+                        <p class="result-desc">${product.description}</p>
+                        <div class="result-price">${product.price}</div>
+                        <div style="font-size: 12px; color: #888; margin-bottom: 10px;">دسته: ${product.category}</div>
+                        <button class="view-btn">مشاهده محصول</button>
+                    </div>
+                `;
+            });
+            
+            resultsHTML += '</div>';
+            resultsArea.innerHTML = resultsHTML;
+        }
+
+        // ==================== توابع کاربردی ====================
+        function goBack() {
+            window.history.back();
+        }
+        
+        function searchAgain() {
+            const searchInput = document.getElementById('searchInput');
+            const query = searchInput.value.trim();
+            
+            if (query) {
+                localStorage.setItem('searchQuery', query);
+                displayResults();
+            } else {
+                alert('لطفاً عبارت جستجو را وارد کنید');
+            }
+        }
+        
+        function searchThis(term) {
+            localStorage.setItem('searchQuery', term);
+            document.getElementById('searchInput').value = term;
+            displayResults();
+        }
+        
+        function viewProduct(productId) {
+            alert(`محصول ${productId} انتخاب شد\n(در نسخه واقعی به صفحه محصول هدایت می‌شوید)`);
+            // در نسخه واقعی: window.location.href = `product.html?id=${productId}`;
+        }
+        
+        // ==================== رویدادها ====================
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchAgain();
+            }
+        });
+        
+        // بارگذاری اولیه
+        document.addEventListener('DOMContentLoaded', function() {
+            displayResults();
+            
+            // پرکردن فیلد جستجو با آخرین جستجو
+            const lastQuery = localStorage.getItem('searchQuery');
+            if (lastQuery) {
+                document.getElementById('searchInput').value = lastQuery;
+            }
+        });
+    </script>
+</body>
+</html>
