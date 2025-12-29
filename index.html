@@ -632,7 +632,173 @@
             }
         }
     </style>
+
+<script>
+// ==================== منوی موبایل ====================
+function toggleMobileMenu() {
+    const nav = document.getElementById('mainNav');
+    const overlay = document.getElementById('menuOverlay');
+    nav.classList.toggle('active');
+    overlay.classList.toggle('active');
+    
+    // جلوگیری از اسکرول صفحه وقتی منو باز است
+    if (nav.classList.contains('active')) {
+        document.body.style.overflow = 'hidden';
+    } else {
+        document.body.style.overflow = 'auto';
+    }
+}
+
+function closeMobileMenu() {
+    const nav = document.getElementById('mainNav');
+    const overlay = document.getElementById('menuOverlay');
+    nav.classList.remove('active');
+    overlay.classList.remove('active');
+    document.body.style.overflow = 'auto';
+}
+
+// بستن منو وقتی روی overlay کلیک می‌شود
+document.addEventListener('DOMContentLoaded', function() {
+    const overlay = document.getElementById('menuOverlay');
+    if (overlay) {
+        overlay.addEventListener('click', closeMobileMenu);
+    }
+    
+    // بستن منو وقتی روی لینک‌ها کلیک می‌شود
+    document.querySelectorAll('.nav-list a').forEach(link => {
+        link.addEventListener('click', closeMobileMenu);
+    });
+});
+
+// ==================== جستجو ====================
+function searchProducts() {
+    const searchInput = document.getElementById('searchInput');
+    const query = searchInput.value.trim();
+    
+    if (query) {
+        alert('جستجو برای: ' + query);
+        // اینجا می‌توانی به صفحه نتایج جستجو بروی
+        // window.location.href = 'search.html?q=' + query;
+    } else {
+        alert('لطفاً عبارت جستجو را وارد کنید!');
+        searchInput.focus();
+    }
+}
+
+// جستجو با Enter
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) {
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchProducts();
+            }
+        });
+    }
+});
+
+// ==================== سبد خرید ====================
+let cartItems = 0;
+
+function addToCart(productName) {
+    cartItems++;
+    updateCartCount();
+    alert('"' + productName + '" به سبد خرید اضافه شد!');
+}
+
+function updateCartCount() {
+    const cartCount = document.querySelector('.cart-count');
+    if (cartCount) {
+        cartCount.textContent = cartItems;
+    }
+}
+
+// ==================== علاقه‌مندی‌ها ====================
+function toggleWishlist(button) {
+    const icon = button.querySelector('i');
+    if (icon) {
+        if (icon.classList.contains('far')) {
+            icon.classList.remove('far');
+            icon.classList.add('fas');
+            button.style.color = '#ff3b8d';
+            alert('به علاقه‌مندی‌ها اضافه شد!');
+        } else {
+            icon.classList.remove('fas');
+            icon.classList.add('far');
+            button.style.color = '#ff6bac';
+            alert('از علاقه‌مندی‌ها حذف شد!');
+        }
+    }
+}
+
+// ==================== بقیه توابع ====================
+function showCategory(categoryName) {
+    alert('دسته‌بندی "' + categoryName + '" انتخاب شد!');
+}
+
+function trackOrder() {
+    const orderNumber = prompt('لطفاً شماره سفارش خود را وارد کنید:');
+    if (orderNumber) {
+        alert('سفارش شماره ' + orderNumber + ' در حال پردازش است.');
+    }
+}
+</script>
+
 </head>
+<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Countdown Timer
+    function startCountdown() {
+        let time = 23 * 60 * 60 + 59 * 60 + 59;
+        const countdownElement = document.getElementById('countdown');
+        
+        if (countdownElement) {
+            const timer = setInterval(() => {
+                if (time <= 0) {
+                    clearInterval(timer);
+                    countdownElement.textContent = "۰۰:۰۰:۰۰";
+                    return;
+                }
+                
+                const hours = Math.floor(time / 3600);
+                const minutes = Math.floor((time % 3600) / 60);
+                const seconds = time % 60;
+                
+                countdownElement.textContent = 
+                    hours.toString().padStart(2, '۰') + ':' +
+                    minutes.toString().padStart(2, '۰') + ':' +
+                    seconds.toString().padStart(2, '۰');
+                
+                time--;
+            }, 1000);
+        }
+    }
+    
+    // Swiper Slider
+    if (document.querySelector('.mySwiper')) {
+        const swiper = new Swiper('.mySwiper', {
+            slidesPerView: 1,
+            spaceBetween: 20,
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            breakpoints: {
+                640: { slidesPerView: 2 },
+                768: { slidesPerView: 3 },
+                1024: { slidesPerView: 4 }
+            }
+        });
+    }
+    
+    // Initialize
+    startCountdown();
+    updateCartCount();
+});
+</script>
+</body>
+</html>
 <body>
     <!-- Overlay منو - فقط برای موبایل -->
     <div class="menu-overlay" id="menuOverlay" onclick="closeMobileMenu()"></div>
