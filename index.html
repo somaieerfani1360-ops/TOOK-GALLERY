@@ -513,6 +513,17 @@
             z-index: 10000;
         }
         
+        /* === اضافه کردن کد برای حل مشکل overlay === */
+        /* این قسمت جدید است */
+        .menu-overlay:not(.active) {
+            z-index: -1 !important;
+            pointer-events: none !important;
+        }
+        
+        .main-nav {
+            z-index: 9999 !important;
+        }
+        
         /* ریسپانسیو */
         @media (max-width: 768px) {
             .mobile-menu-btn {
@@ -936,6 +947,44 @@
     <!-- اسکریپت‌ها -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
     <script>
+        // ==================== جستجو ====================
+        function searchProducts() {
+            const searchInput = document.getElementById('searchInput');
+            const query = searchInput.value.trim();
+            
+            if (query) {
+                // ذخیره در localStorage برای استفاده در صفحه نتایج
+                localStorage.setItem('searchQuery', query);
+                // هدایت به صفحه نتایج جستجو
+                window.location.href = 'search-results.html';
+            } else {
+                alert('لطفاً چیزی برای جستجو وارد کنید!');
+            }
+        }
+        
+        // پشتیبانی از Enter برای جستجو
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchProducts();
+            }
+        });
+        
+        // ==================== منوی موبایل ====================
+        function toggleMobileMenu() {
+            const nav = document.getElementById('mainNav');
+            const overlay = document.getElementById('menuOverlay');
+            nav.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+
+        function closeMobileMenu() {
+            const nav = document.getElementById('mainNav');
+            const overlay = document.getElementById('menuOverlay');
+            nav.classList.remove('active');
+            overlay.classList.remove('active');
+        }
+        
+        // ==================== بقیه توابع بدون تغییر ====================
         // تایمر معکوس
         function startCountdown() {
             let time = 23 * 60 * 60 + 59 * 60 + 59;
@@ -1014,19 +1063,6 @@
             alert(`دسته‌بندی "${categoryName}" انتخاب شد!`);
         }
 
-        // جستجو
-        function searchProducts() {
-            const searchInput = document.getElementById('searchInput');
-            const query = searchInput.value.trim();
-            
-            if (query) {
-                alert(`جستجو برای: "${query}"`);
-                searchInput.value = '';
-            } else {
-                alert('لطفاً چیزی برای جستجو وارد کنید!');
-            }
-        }
-
         // پشتیبانی آنلاین
         function openSupport() {
             window.location.href = 'support.html';
@@ -1038,21 +1074,6 @@
             if (orderNumber) {
                 alert(`سفارش شماره ${orderNumber} در حال پردازش است.`);
             }
-        }
-
-        // منوی موبایل
-        function toggleMobileMenu() {
-            const nav = document.getElementById('mainNav');
-            const overlay = document.getElementById('menuOverlay');
-            nav.classList.toggle('active');
-            overlay.classList.toggle('active');
-        }
-
-        function closeMobileMenu() {
-            const nav = document.getElementById('mainNav');
-            const overlay = document.getElementById('menuOverlay');
-            nav.classList.remove('active');
-            overlay.classList.remove('active');
         }
 
         // وقتی صفحه لود شد
@@ -1067,14 +1088,7 @@
                     closeMobileMenu();
                 });
             });
-            
-            const searchInput = document.getElementById('searchInput');
-            searchInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    searchProducts();
-                }
-            });
         });
     </script>
 </body>
-    </html>
+</html>
