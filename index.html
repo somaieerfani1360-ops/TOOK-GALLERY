@@ -84,7 +84,7 @@
             color: var(--primary);
         }
         
-        /* جستجو */
+        /* === جستجو - اصلاح شده === */
         .search-box {
             flex: 1;
             max-width: 600px;
@@ -94,10 +94,12 @@
         
         .search-box input {
             width: 100%;
-            padding: 12px 45px 12px 20px;
+            padding: 12px 50px 12px 20px; /* تغییر padding برای جا دادن آیکون */
             border: 2px solid var(--border);
             border-radius: 30px;
             font-size: 16px;
+            direction: rtl;
+            background: #fff;
         }
         
         .search-btn {
@@ -110,6 +112,18 @@
             color: var(--primary);
             font-size: 18px;
             cursor: pointer;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+        }
+        
+        /* === آیکون جستجو - اصلاح شده === */
+        .search-btn i {
+            font-size: 20px;
+            color: var(--primary);
         }
         
         /* آیکون‌های هدر */
@@ -473,7 +487,7 @@
             100% { transform: scale(1); }
         }
         
-        /* === استایل منوی موبایل === */
+        /* === استایل منوی موبایل - اصلاح شده === */
         .mobile-menu-btn {
             display: none;
             background: none;
@@ -483,7 +497,7 @@
             cursor: pointer;
         }
         
-        /* overlay */
+        /* === اصلاح overlay === */
         .menu-overlay {
             display: none;
             position: fixed;
@@ -501,9 +515,10 @@
         
         /* دکمه بستن منو */
         .close-menu {
+            display: none;
             position: absolute;
             top: 20px;
-            left: 20px;
+            right: 20px;
             background: none;
             border: none;
             color: white;
@@ -518,13 +533,14 @@
                 display: block;
             }
             
-            /* استایل منوی موبایل */
+            /* استایل منوی موبایل - اصلاح شده */
             .main-nav {
                 display: none;
                 position: fixed;
                 top: 0;
                 right: -100%;
                 width: 80%;
+                max-width: 300px;
                 height: 100vh;
                 background: linear-gradient(135deg, #ff3b8d, #ff6bac);
                 z-index: 9999;
@@ -573,6 +589,10 @@
                 display: none;
             }
             
+            .close-menu {
+                display: block;
+            }
+            
             .support-float {
                 bottom: 100px;
                 left: 20px;
@@ -607,21 +627,14 @@
             .mobile-only {
                 display: none !important;
             }
-        }
-        
-        /* === اضافه کردن کد برای حل مشکل overlay === */
-        .menu-overlay:not(.active) {
-            z-index: -1 !important;
-            pointer-events: none !important;
-        }
-        
-        .main-nav {
-            z-index: 9999 !important;
+            .close-menu {
+                display: none !important;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Overlay منو -->
+    <!-- Overlay منو - فقط برای موبایل -->
     <div class="menu-overlay" id="menuOverlay" onclick="closeMobileMenu()"></div>
 
     <!-- نوار بالایی -->
@@ -647,10 +660,11 @@
                     <span>Took Gallery</span>
                 </div>
 
-                <!-- جستجو -->
+                <!-- جستجو - اصلاح شده -->
                 <div class="search-box">
                     <input type="text" placeholder="جستجوی محصولات..." id="searchInput">
                     <button class="search-btn" onclick="searchProducts()">
+                        <!-- آیکون جستجو - اصلاح شده -->
                         <i class="fas fa-search"></i>
                     </button>
                 </div>
@@ -677,7 +691,7 @@
 
             <!-- منوی اصلی -->
             <nav class="main-nav" id="mainNav">
-                <!-- دکمه بستن منو -->
+                <!-- دکمه بستن منو - فقط در موبایل -->
                 <button class="close-menu" onclick="closeMobileMenu()">
                     <i class="fas fa-times"></i>
                 </button>
@@ -965,12 +979,19 @@
             }
         });
         
-        // ==================== منوی موبایل ====================
+        // ==================== منوی موبایل - اصلاح شده ====================
         function toggleMobileMenu() {
             const nav = document.getElementById('mainNav');
             const overlay = document.getElementById('menuOverlay');
             nav.classList.toggle('active');
             overlay.classList.toggle('active');
+            
+            // جلوگیری از اسکرول صفحه وقتی منو باز است
+            if (nav.classList.contains('active')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = 'auto';
+            }
         }
 
         function closeMobileMenu() {
@@ -978,7 +999,16 @@
             const overlay = document.getElementById('menuOverlay');
             nav.classList.remove('active');
             overlay.classList.remove('active');
+            document.body.style.overflow = 'auto';
         }
+        
+        // بستن منو وقتی روی overlay کلیک می‌شود
+        document.getElementById('menuOverlay').addEventListener('click', closeMobileMenu);
+        
+        // بستن منو وقتی روی لینک‌ها کلیک می‌شود
+        document.querySelectorAll('.nav-list a').forEach(link => {
+            link.addEventListener('click', closeMobileMenu);
+        });
         
         // ==================== بقیه توابع ====================
         function startCountdown() {
@@ -1070,12 +1100,11 @@
             initSwiper();
             updateCartCount();
             
-            const navLinks = document.querySelectorAll('.nav-list a');
-            navLinks.forEach(link => {
-                link.addEventListener('click', function() {
-                    closeMobileMenu();
-                });
-            });
+            // نمایش آیکون جستجو
+            const searchBtnIcon = document.querySelector('.search-btn i');
+            if (searchBtnIcon) {
+                searchBtnIcon.style.display = 'block';
+            }
         });
     </script>
 </body>
