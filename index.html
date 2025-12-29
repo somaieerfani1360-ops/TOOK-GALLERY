@@ -499,15 +499,7 @@
         .menu-overlay.active {
             display: block;
         }
-        /* === اضافه کردن کد برای حل مشکل overlay === */
-.menu-overlay:not(.active) {
-    z-index: -1 !important;
-    pointer-events: none !important;
-}
 
-.main-nav {
-    z-index: 9999 !important;
-}
         /* دکمه بستن منو */
         .close-menu {
             position: absolute;
@@ -521,23 +513,23 @@
             z-index: 10000;
         }
         
-        /* === اضافه کردن کد برای حل مشکل overlay === */
-        /* این قسمت جدید است */
-        .menu-overlay:not(.active) {
-            z-index: -1 !important;
-            pointer-events: none !important;
-        }
-        
-        .main-nav {
-            z-index: 9999 !important;
-        }
+
         
         /* ریسپانسیو */
         @media (max-width: 768px) {
             .mobile-menu-btn {
                 display: block;
             }
-            
+            /* === اضافه کردن کد برای حل مشکل overlay === */
+/* این قسمت جدید است */
+.menu-overlay:not(.active) {
+    z-index: -1 !important;
+    pointer-events: none !important;
+}
+
+.main-nav {
+    z-index: 9999 !important;
+}
             /* استایل منوی موبایل */
             .main-nav {
                 display: none;
