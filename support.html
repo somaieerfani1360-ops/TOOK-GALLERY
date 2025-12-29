@@ -1,1 +1,1366 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>چت پشتیبانی - Took Gallery</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #ff3b8d;
+            --primary-light: #ff6bac;
+            --user-blue: #0084ff;
+            --gray-bg: #f0f2f5;
+            --border-color: #e0e0e0;
+            --admin-blue: #1976d2;
+            --admin-green: #4CAF50;
+            --admin-red: #f44336;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            position: fixed;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            width: 100vw;
+            height: 100vh;
+            padding: 0;
+            margin: 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+        
+        .chat-container {
+            width: 100vw;
+            height: 100vh;
+            max-width: 100%;
+            background: white;
+            border-radius: 0;
+            box-shadow: none;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            margin: 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+        
+        .chat-header {
+            background: linear-gradient(90deg, var(--primary), var(--primary-light));
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            flex-shrink: 0;
+            height: 70px;
+            min-height: 70px;
+        }
+        
+        .back-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .hamburger-menu {
+            background: transparent;
+            border: none;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            padding: 8px;
+            margin-right: 5px;
+            z-index: 100;
+        }
+        
+        .hamburger-menu span {
+            width: 22px;
+            height: 2.5px;
+            background: white;
+            border-radius: 2px;
+            transition: 0.3s;
+        }
+        
+        .header-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .avatar {
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+        
+        .user-details h2 {
+            font-size: 16px;
+            margin-bottom: 3px;
+        }
+        
+        .user-details p {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+        
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+        
+        .online-dot {
+            width: 10px;
+            height: 10px;
+            background: #4CAF50;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        .admin-dropdown {
+            position: absolute;
+            top: 70px;
+            right: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            width: 250px;
+            z-index: 1000;
+            display: none;
+            overflow: hidden;
+        }
+        
+        .admin-dropdown.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+        
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .admin-dropdown-header {
+            background: var(--admin-blue);
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .admin-dropdown-item {
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            border-bottom: 1px solid var(--border-color);
+            transition: background 0.3s;
+        }
+        
+        .admin-dropdown-item:hover {
+            background: #f5f5f5;
+        }
+        
+        .quick-replies {
+            display: flex;
+            gap: 8px;
+            padding: 10px 15px;
+            background: white;
+            border-bottom: 1px solid var(--border-color);
+            overflow-x: auto;
+            flex-shrink: 0;
+            height: 60px;
+            min-height: 60px;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .quick-reply {
+            background: var(--gray-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 6px 12px;
+            font-size: 12px;
+            cursor: pointer;
+            white-space: nowrap;
+            flex-shrink: 0;
+            transition: all 0.3s;
+        }
+        
+        .quick-reply:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .chat-body {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 15px 10px;
+            background: var(--gray-bg);
+            -webkit-overflow-scrolling: touch;
+            height: calc(100vh - 70px - 60px - 70px - 60px);
+        }
+        
+        .system-message {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 12px;
+            margin: 15px auto;
+            max-width: 80%;
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .date-separator {
+            text-align: center;
+            margin: 15px 0;
+            position: relative;
+        }
+        
+        .date-separator span {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-size: 12px;
+            color: #666;
+            border: 1px solid var(--border-color);
+        }
+        
+        .message {
+            max-width: 85%;
+            margin-bottom: 10px;
+            padding: 10px 14px;
+            border-radius: 18px;
+            font-size: 14px;
+            line-height: 1.4;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .message-user {
+            background: var(--user-blue);
+            color: white;
+            margin-left: auto;
+            border-bottom-right-radius: 5px;
+        }
+        
+        .message-admin {
+            background: white;
+            color: #333;
+            margin-right: auto;
+            border-bottom-left-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .message-time {
+            font-size: 11px;
+            opacity: 0.8;
+            margin-top: 5px;
+            text-align: left;
+        }
+        
+        .message-user .message-time {
+            text-align: right;
+            color: rgba(255,255,255,0.8);
+        }
+        
+        .chat-footer {
+            background: white;
+            padding: 10px 15px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-shrink: 0;
+            height: 60px;
+            min-height: 60px;
+        }
+        
+        .action-btn {
+            background: none;
+            border: none;
+            color: var(--primary);
+            font-size: 20px;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s;
+        }
+        
+        .action-btn:hover {
+            background: rgba(255, 59, 141, 0.1);
+        }
+        
+        .message-input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 2px solid var(--border-color);
+            border-radius: 25px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+            min-height: 40px;
+        }
+        
+        .message-input:focus {
+            border-color: var(--primary);
+        }
+        
+        .send-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        
+        .send-btn:hover {
+            background: var(--primary-light);
+            transform: scale(1.05);
+        }
+        
+        .support-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            padding: 12px 15px;
+            background: white;
+            border-top: 1px solid var(--border-color);
+            flex-shrink: 0;
+            height: 70px;
+            min-height: 70px;
+        }
+        
+        .support-btn {
+            background: white;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+        
+        .support-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        /* پنل ادمین با تب‌ها */
+        .admin-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.9);
+            z-index: 9999;
+            display: none;
+        }
+        
+        .admin-overlay.show {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .admin-panel {
+            background: white;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .admin-panel-header {
+            background: linear-gradient(90deg, var(--admin-blue), #2196f3);
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+            height: 60px;
+        }
+        
+        .admin-panel-header h2 {
+            font-size: 18px;
+        }
+        
+        .close-admin-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .admin-tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 1px solid var(--border-color);
+            flex-shrink: 0;
+        }
+        
+        .admin-tab {
+            flex: 1;
+            padding: 15px;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            font-size: 14px;
+            font-weight: 600;
+            color: #666;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .admin-tab.active {
+            color: var(--admin-blue);
+            border-bottom-color: var(--admin-blue);
+            background: white;
+        }
+        
+        .admin-tab:hover:not(.active) {
+            background: rgba(0,0,0,0.05);
+        }
+        
+        .badge {
+            background: var(--admin-red);
+            color: white;
+            font-size: 11px;
+            padding: 2px 6px;
+            border-radius: 10px;
+            min-width: 18px;
+            position: absolute;
+            top: 8px;
+            right: 8px;
+        }
+        
+        .admin-panel-content {
+            flex: 1;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .admin-tab-content {
+            display: none;
+            flex: 1;
+            overflow: hidden;
+        }
+        
+        .admin-tab-content.active {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .admin-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            padding: 20px;
+            background: #f8f9fa;
+        }
+        
+        .admin-stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .admin-stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .admin-stat-card i {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        
+        .admin-stat-number {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 5px 0;
+        }
+        
+        .admin-stat-label {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .messages-full-view {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+        }
+        
+        .admin-message-item {
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            transition: all 0.3s;
+        }
+        
+        .admin-message-item.new {
+            border-right: 4px solid var(--admin-red);
+            background: #fff5f5;
+        }
+        
+        .admin-message-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            align-items: center;
+        }
+        
+        .admin-user-id {
+            font-weight: bold;
+            color: var(--admin-blue);
+            font-size: 14px;
+        }
+        
+        .message-content {
+            margin: 15px 0;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+        
+        .message-text {
+            margin-bottom: 10px;
+        }
+        
+        .admin-message-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .admin-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .admin-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+        }
+        
+        .admin-btn-reply {
+            background: var(--admin-blue);
+            color: white;
+        }
+        
+        .admin-btn-resolve {
+            background: var(--admin-green);
+            color: white;
+        }
+        
+        .stats-guide {
+            text-align: center;
+            padding: 30px 20px;
+            color: #666;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .stats-guide i {
+            font-size: 40px;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        
+        @supports (-webkit-touch-callout: none) {
+            .chat-body {
+                height: calc(100vh - 70px - 60px - 70px - 60px - env(safe-area-inset-bottom));
+                padding-bottom: env(safe-area-inset-bottom);
+            }
+            
+            body {
+                padding-top: env(safe-area-inset-top);
+                padding-bottom: env(safe-area-inset-bottom);
+            }
+        }
+        
+        @media (min-width: 769px) {
+            body {
+                padding: 20px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                position: relative;
+            }
+            
+            .chat-container {
+                width: 90%;
+                max-width: 900px;
+                height: 90vh;
+                border-radius: 20px;
+                box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+                margin: 0;
+                position: relative;
+            }
+            
+            .chat-body {
+                height: auto;
+            }
+            
+            .admin-dropdown {
+                top: 80px;
+                right: 30px;
+            }
+            
+            .admin-stats {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .admin-message-actions {
+                flex-direction: column;
+            }
+            
+            .admin-btn {
+                justify-content: center;
+            }
+            
+            .chat-header {
+                padding: 12px 15px;
+                height: 65px;
+                min-height: 65px;
+            }
+            
+            .avatar {
+                width: 35px;
+                height: 35px;
+                font-size: 16px;
+            }
+            
+            .user-details h2 {
+                font-size: 14px;
+            }
+            
+            .support-btn {
+                padding: 6px 10px;
+                font-size: 12px;
+                gap: 5px;
+            }
+            
+            .message {
+                max-width: 90%;
+                padding: 8px 12px;
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            <button class="back-btn" onclick="window.location.href='index.html'">
+                <i class="fas fa-arrow-right"></i>
+            </button>
+            
+            <button class="hamburger-menu" id="hamburgerMenu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            
+            <div class="header-info">
+                <div class="avatar">
+                    <i class="fas fa-headset"></i>
+                </div>
+                <div class="user-details">
+                    <h2>پشتیبانی Took Gallery</h2>
+                    <p>پاسخگویی ۲۴ ساعته</p>
+                </div>
+            </div>
+            
+            <div class="status-indicator">
+                <div class="online-dot"></div>
+                <span>آنلاین</span>
+            </div>
+        </div>
+        
+        <div class="admin-dropdown" id="adminDropdown">
+            <div class="admin-dropdown-header">
+                <i class="fas fa-user-secret"></i>
+                <h4>منوی پشتیبان</h4>
+            </div>
+            <div class="admin-dropdown-item" onclick="openAdminPanel()">
+                <i class="fas fa-sign-in-alt"></i>
+                <span>ورود پشتیبان</span>
+            </div>
+            <div class="admin-dropdown-item" onclick="refreshChat()">
+                <i class="fas fa-sync-alt"></i>
+                <span>بروزرسانی چت</span>
+            </div>
+        </div>
+        
+        <div class="quick-replies" id="quickReplies">
+            <div class="quick-reply" onclick="sendQuickReply('وضعیت سفارش من چطوره؟')">وضعیت سفارش</div>
+            <div class="quick-reply" onclick="sendQuickReply('چطور می‌تونم سفارشم رو پیگیری کنم؟')">پیگیری سفارش</div>
+            <div class="quick-reply" onclick="sendQuickReply('قیمت محصولات شامل تخفیف میشه؟')">تخفیف‌ها</div>
+            <div class="quick-reply" onclick="sendQuickReply('زمان ارسال سفارش چقدره؟')">زمان ارسال</div>
+            <div class="quick-reply" onclick="sendQuickReply('با پشتیبان صحبت کن')">صحبت با پشتیبان</div>
+        </div>
+        
+        <div class="chat-body" id="chatBody">
+            <div class="system-message">
+                <i class="fas fa-info-circle"></i>
+                پشتیبانی Took Gallery خوش آمدید. سوالات خود را بپرسید.
+            </div>
+            
+            <div class="date-separator">
+                <span>امروز</span>
+            </div>
+        </div>
+        
+        <div class="chat-footer">
+            <button class="action-btn" onclick="toggleEmoji()">
+                <i class="far fa-smile"></i>
+            </button>
+            
+            <button class="action-btn" onclick="attachFile()">
+                <i class="fas fa-paperclip"></i>
+            </button>
+            
+            <input type="text" 
+                   class="message-input" 
+                   id="messageInput" 
+                   placeholder="پیام خود را بنویسید..."
+                   onkeypress="if(event.key === 'Enter') sendMessage()">
+            
+            <button class="send-btn" onclick="sendMessage()">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+        
+        <div class="support-buttons">
+            <button class="support-btn" onclick="callSupport()">
+                <i class="fas fa-phone"></i>
+                تماس تلفنی
+            </button>
+            <button class="support-btn" onclick="sendEmail()">
+                <i class="fas fa-envelope"></i>
+                ارسال ایمیل
+            </button>
+        </div>
+    </div>
 
+    <!-- پنل ادمین با تب‌ها -->
+    <div class="admin-overlay" id="adminOverlay">
+        <div class="admin-panel">
+            <div class="admin-panel-header">
+                <h2><i class="fas fa-user-secret"></i> پنل پشتیبان</h2>
+                <button class="close-admin-btn" onclick="closeAdminPanel()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="admin-tabs">
+                <button class="admin-tab active" onclick="switchAdminTab('stats')" id="statsTab">
+                    <i class="fas fa-chart-bar"></i> آمار
+                </button>
+                <button class="admin-tab" onclick="switchAdminTab('messages')" id="messagesTab">
+                    <i class="fas fa-envelope"></i> پیام‌ها
+                    <span class="badge" id="messageBadge">0</span>
+                </button>
+            </div>
+            
+            <div class="admin-panel-content">
+                <!-- تب آمار -->
+                <div class="admin-tab-content active" id="statsContent">
+                    <div class="admin-stats">
+                        <div class="admin-stat-card" onclick="switchAdminTab('messages')">
+                            <i class="fas fa-envelope" style="color: var(--admin-red);"></i>
+                            <div class="admin-stat-number" id="adminNewCount">0</div>
+                            <div class="admin-stat-label">پیام‌های جدید</div>
+                        </div>
+                        <div class="admin-stat-card">
+                            <i class="fas fa-users" style="color: var(--admin-blue);"></i>
+                            <div class="admin-stat-number" id="adminUserCount">0</div>
+                            <div class="admin-stat-label">کاربران فعال</div>
+                        </div>
+                        <div class="admin-stat-card">
+                            <i class="fas fa-check" style="color: var(--admin-green);"></i>
+                            <div class="admin-stat-number" id="adminRepliedCount">0</div>
+                            <div class="admin-stat-label">پاسخ داده شده</div>
+                        </div>
+                        <div class="admin-stat-card">
+                            <i class="fas fa-clock" style="color: #ff9800;"></i>
+                            <div class="admin-stat-number" id="adminTodayCount">0</div>
+                            <div class="admin-stat-label">امروز</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stats-guide">
+                        <i class="fas fa-mouse-pointer"></i>
+                        <h4>برای مشاهده پیام‌ها</h4>
+                        <p>روی کارت "پیام‌های جدید" یا تب "پیام‌ها" کلیک کنید</p>
+                    </div>
+                </div>
+                
+                <!-- تب پیام‌ها -->
+                <div class="admin-tab-content" id="messagesContent">
+                    <div class="messages-full-view" id="adminMessagesContainer">
+                        <div style="text-align: center; padding: 40px; color: #666;">
+                            <i class="far fa-smile" style="font-size: 50px; color: #bdbdbd; margin-bottom: 15px;"></i>
+                            <h4>هیچ پیام جدیدی وجود ندارد</h4>
+                            <p>کاربران هنوز پیامی ارسال نکرده‌اند.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ==================== تنظیمات سیستم ====================
+        const ADMIN_SECRET = 'TOOK123';
+        
+        let userId = localStorage.getItem('chat_user_id');
+        if (!userId) {
+            userId = 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+            localStorage.setItem('chat_user_id', userId);
+        }
+        
+        // ==================== مدیریت منو ====================
+        const hamburgerMenu = document.getElementById('hamburgerMenu');
+        const adminDropdown = document.getElementById('adminDropdown');
+        
+        if (hamburgerMenu) {
+            hamburgerMenu.addEventListener('click', (e) => {
+                e.stopPropagation();
+                adminDropdown.classList.toggle('show');
+            });
+            
+            document.addEventListener('click', (e) => {
+                if (!hamburgerMenu.contains(e.target) && !adminDropdown.contains(e.target)) {
+                    adminDropdown.classList.remove('show');
+                }
+            });
+        }
+        
+        // ==================== مدیریت تب‌های پنل ====================
+        function switchAdminTab(tabName) {
+            // غیرفعال کردن همه تب‌ها
+            document.querySelectorAll('.admin-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.admin-tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // فعال کردن تب انتخاب شده
+            document.getElementById(tabName + 'Tab').classList.add('active');
+            document.getElementById(tabName + 'Content').classList.add('active');
+            
+            // اگر تب پیام‌ها است، پیام‌ها رو بارگذاری کن
+            if (tabName === 'messages') {
+                loadAdminMessages();
+            }
+        }
+        
+        // ==================== پنل ادمین ====================
+        const adminOverlay = document.getElementById('adminOverlay');
+        let isAdminLoggedIn = localStorage.getItem('admin_logged_in') === 'true';
+        
+        function openAdminPanel() {
+            adminDropdown.classList.remove('show');
+            
+            if (!isAdminLoggedIn) {
+                const secret = prompt('کد دسترسی پشتیبان را وارد کنید:');
+                if (secret !== ADMIN_SECRET) {
+                    if (secret !== null) alert('کد اشتباه است!');
+                    return;
+                }
+                isAdminLoggedIn = true;
+                localStorage.setItem('admin_logged_in', 'true');
+            }
+            
+            loadAdminPanel();
+            adminOverlay.classList.add('show');
+        }
+        
+        function closeAdminPanel() {
+            adminOverlay.classList.remove('show');
+        }
+        
+        function loadAdminPanel() {
+            const allMessages = JSON.parse(localStorage.getItem('all_chat_messages')) || [];
+            const adminQueue = JSON.parse(localStorage.getItem('admin_queue')) || [];
+            
+            // آپدیت آمار
+            updateAdminStats(allMessages);
+            
+            // آپدیت badge
+            const badge = document.getElementById('messageBadge');
+            badge.textContent = adminQueue.length;
+            
+            // اگر الان در تب پیام‌ها هستیم، پیام‌ها رو نشون بده
+            if (document.getElementById('messagesContent').classList.contains('active')) {
+                loadAdminMessages();
+            }
+        }
+        
+        function updateAdminStats(messages) {
+            const newMsgs = messages.filter(m => m.status === 'pending' && m.sender === 'user').length;
+            const repliedMsgs = messages.filter(m => m.status === 'replied').length;
+            const uniqueUsers = [...new Set(messages.filter(m => m.sender === 'user').map(m => m.user_id))];
+            const today = new Date().toLocaleDateString('fa-IR');
+            const todayMsgs = messages.filter(m => m.date === today).length;
+            
+            document.getElementById('adminNewCount').textContent = newMsgs;
+            document.getElementById('adminUserCount').textContent = uniqueUsers.length;
+            document.getElementById('adminRepliedCount').textContent = repliedMsgs;
+            document.getElementById('adminTodayCount').textContent = todayMsgs;
+        }
+        
+        // ==================== بارگذاری پیام‌ها ====================
+        function loadAdminMessages() {
+            const adminQueue = JSON.parse(localStorage.getItem('admin_queue')) || [];
+            const container = document.getElementById('adminMessagesContainer');
+            
+            if (!adminQueue || adminQueue.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: #666;">
+                        <i class="far fa-smile" style="font-size: 50px; color: #bdbdbd; margin-bottom: 15px;"></i>
+                        <h4>هیچ پیام جدیدی وجود ندارد</h4>
+                        <p>کاربران هنوز پیامی ارسال نکرده‌اند.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // مرتب‌سازی بر اساس تاریخ (جدیدترین اول)
+            adminQueue.sort((a, b) => (b.id || 0) - (a.id || 0));
+            
+            let html = '';
+            adminQueue.forEach(msg => {
+                const userIdShort = msg.user_id ? msg.user_id.substring(0, 8) + '...' : 'ناشناس';
+                const time = msg.time || new Date().toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit' });
+                const date = msg.date || new Date().toLocaleDateString('fa-IR');
+                
+                html += `
+                    <div class="admin-message-item new">
+                        <div class="admin-message-header">
+                            <div>
+                                <span class="admin-user-id"><i class="fas fa-user"></i> ${userIdShort}</span>
+                                <span style="font-size: 12px; color: #666; margin-right: 10px;">${date}</span>
+                                <span style="font-size: 12px; color: #666;"><i class="far fa-clock"></i> ${time}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="message-content">
+                            <div class="message-text">${msg.text || 'بدون متن'}</div>
+                        </div>
+                        
+                        <div class="admin-message-actions">
+                            <button class="admin-btn admin-btn-reply" onclick="replyToMessage('${msg.user_id}', ${msg.id}, this)">
+                                <i class="fas fa-reply"></i> پاسخ
+                            </button>
+                            <button class="admin-btn admin-btn-resolve" onclick="resolveMessage(${msg.id}, this)">
+                                <i class="fas fa-check"></i> حل شد
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+        
+        // ==================== پاسخ به پیام ====================
+        function replyToMessage(userId, messageId, buttonElement) {
+            const replyText = prompt('پاسخ خود را وارد کنید:');
+            if (!replyText) return;
+            
+            const adminReply = {
+                id: Date.now(),
+                user_id: userId,
+                sender: 'admin',
+                text: replyText,
+                time: new Date().toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit' }),
+                date: new Date().toLocaleDateString('fa-IR'),
+                status: 'replied'
+            };
+            
+            // ذخیره در پیام‌های کلی
+            const allMessages = JSON.parse(localStorage.getItem('all_chat_messages')) || [];
+            allMessages.push(adminReply);
+            localStorage.setItem('all_chat_messages', JSON.stringify(allMessages));
+            
+            // حذف از صف ادمین
+            const adminQueue = JSON.parse(localStorage.getItem('admin_queue')) || [];
+            const newQueue = adminQueue.filter(m => m.id !== messageId);
+            localStorage.setItem('admin_queue', JSON.stringify(newQueue));
+            
+            // ذخیره در چت کاربر
+            const userChatKey = 'user_' + userId;
+            const userMessages = JSON.parse(localStorage.getItem(userChatKey)) || [];
+            userMessages.push(adminReply);
+            localStorage.setItem(userChatKey, JSON.stringify(userMessages));
+            
+            // به‌روزرسانی نمایش
+            if (buttonElement) {
+                const messageItem = buttonElement.closest('.admin-message-item');
+                messageItem.classList.remove('new');
+                messageItem.style.opacity = '0.5';
+                setTimeout(() => {
+                    messageItem.remove();
+                    loadAdminMessages();
+                }, 300);
+            }
+            
+            showNotification('✅ پاسخ با موفقیت ارسال شد!');
+            
+            // رفرش پنل
+            setTimeout(() => {
+                loadAdminPanel();
+            }, 500);
+        }
+        
+        // ==================== علامت‌گذاری پیام به عنوان حل شده ====================
+        function resolveMessage(messageId, buttonElement) {
+            if (confirm('آیا این پیام حل شده است؟')) {
+                const adminQueue = JSON.parse(localStorage.getItem('admin_queue')) || [];
+                const newQueue = adminQueue.filter(m => m.id !== messageId);
+                localStorage.setItem('admin_queue', JSON.stringify(newQueue));
+                
+                if (buttonElement) {
+                    const messageItem = buttonElement.closest('.admin-message-item');
+                    messageItem.style.opacity = '0.5';
+                    messageItem.style.transform = 'translateX(-20px)';
+                    setTimeout(() => {
+                        messageItem.remove();
+                        loadAdminMessages();
+                    }, 300);
+                }
+                
+                showNotification('پیام به عنوان حل شده حذف شد.');
+                
+                // رفرش پنل
+                setTimeout(() => {
+                    loadAdminPanel();
+                }, 500);
+            }
+        }
+        
+        // ==================== سیستم چت ====================
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const text = input.value.trim();
+            if (!text) return;
+            
+            const message = {
+                id: Date.now(),
+                user_id: userId,
+                sender: 'user',
+                text: text,
+                time: new Date().toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit' }),
+                date: new Date().toLocaleDateString('fa-IR'),
+                status: 'pending'
+            };
+            
+            const allMessages = JSON.parse(localStorage.getItem('all_chat_messages')) || [];
+            allMessages.push(message);
+            localStorage.setItem('all_chat_messages', JSON.stringify(allMessages));
+            
+            const userMessages = JSON.parse(localStorage.getItem('user_' + userId)) || [];
+            userMessages.push(message);
+            localStorage.setItem('user_' + userId, JSON.stringify(userMessages));
+            
+            const adminQueue = JSON.parse(localStorage.getItem('admin_queue')) || [];
+            adminQueue.push(message);
+            localStorage.setItem('admin_queue', JSON.stringify(adminQueue));
+            
+            input.value = '';
+            loadChat();
+            
+            setTimeout(() => {
+                const replies = [
+                    "✅ پیام شما دریافت شد. منتظر پاسخ پشتیبان باشید...",
+                    "🕒 در حال بررسی سوال شما هستم...",
+                    "📋 لطفاً شماره سفارش خود را ارسال کنید.",
+                    "📞 برای پاسخ سریع‌تر با شماره ۰۹۱۲۱۲۳۴۵۶۷ تماس بگیرید."
+                ];
+                const reply = replies[Math.floor(Math.random() * replies.length)];
+                
+                const adminReply = {
+                    id: Date.now(),
+                    user_id: userId,
+                    sender: 'admin',
+                    text: reply,
+                    time: new Date().toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit' }),
+                    date: new Date().toLocaleDateString('fa-IR'),
+                    status: 'replied'
+                };
+                
+                allMessages.push(adminReply);
+                localStorage.setItem('all_chat_messages', JSON.stringify(allMessages));
+                
+                userMessages.push(adminReply);
+                localStorage.setItem('user_' + userId, JSON.stringify(userMessages));
+                
+                loadChat();
+            }, 1000);
+        }
+        
+        function loadChat() {
+            const chatBody = document.getElementById('chatBody');
+            const userMessages = JSON.parse(localStorage.getItem('user_' + userId)) || [];
+            
+            if (userMessages.length === 0) {
+                const welcomeMessage = {
+                    id: 1,
+                    user_id: userId,
+                    sender: 'admin',
+                    text: 'سلام! 👋 به پشتیبانی Took Gallery خوش آمدید. چطور می‌تونم کمکتون کنم؟',
+                    time: new Date().toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit' }),
+                    date: new Date().toLocaleDateString('fa-IR'),
+                    status: 'replied'
+                };
+                userMessages.push(welcomeMessage);
+                localStorage.setItem('user_' + userId, JSON.stringify(userMessages));
+            }
+            
+            let html = `
+                <div class="system-message">
+                    <i class="fas fa-info-circle"></i>
+                    پشتیبانی Took Gallery خوش آمدید. سوالات خود را بپرسید.
+                </div>
+                <div class="date-separator"><span>${new Date().toLocaleDateString('fa-IR')}</span></div>
+            `;
+            
+            userMessages.forEach(msg => {
+                const msgClass = msg.sender === 'user' ? 'message-user' : 'message-admin';
+                html += `
+                    <div class="message ${msgClass}">
+                        <div class="message-text">${msg.text}</div>
+                        <div class="message-time">
+                            ${msg.time} ${msg.sender === 'admin' ? '(پشتیبان)' : ''}
+                        </div>
+                    </div>
+                `;
+            });
+            
+            chatBody.innerHTML = html;
+            chatBody.scrollTop = chatBody.scrollHeight;
+        }
+        
+        // ==================== توابع کمکی ====================
+        function sendQuickReply(text) {
+            document.getElementById('messageInput').value = text;
+            sendMessage();
+        }
+        
+        function callSupport() {
+            if (confirm('آیا می‌خواهید با پشتیبانی تماس بگیرید؟\nشماره: ۰۹۱۲۱۲۳۴۵۶۷')) {
+                window.location.href = 'tel:09121234567';
+            }
+        }
+        
+        function sendEmail() {
+            window.location.href = 'mailto:support@tookgallery.com?subject=پشتیبانی Took Gallery';
+        }
+        
+        function attachFile() {
+            alert('امکان آپلود فایل در نسخه نمونه فعال نیست.');
+        }
+        
+        function toggleEmoji() {
+            alert('کیبورد ایموجی در نسخه نمونه فعال نیست.');
+        }
+        
+        function refreshChat() {
+            adminDropdown.classList.remove('show');
+            loadChat();
+            showNotification('چت بروزرسانی شد.');
+        }
+        
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: #4CAF50;
+                color: white;
+                padding: 12px 20px;
+                border-radius: 8px;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+                z-index: 10000;
+                animation: slideIn 0.3s ease;
+                font-size: 14px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            `;
+            notification.innerHTML = `<i class="fas fa-check-circle"></i> ${message}`;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+        
+        // ==================== اجرای اولیه ====================
+        document.addEventListener('DOMContentLoaded', () => {
+            loadChat();
+            
+            const input = document.getElementById('messageInput');
+            if (input) {
+                input.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') sendMessage();
+                });
+            }
+            
+            function adjustForMobile() {
+                if (window.innerWidth <= 768) {
+                    const chatBody = document.getElementById('chatBody');
+                    if (chatBody) {
+                        const header = document.querySelector('.chat-header');
+                        const quickReplies = document.querySelector('.quick-replies');
+                        const footer = document.querySelector('.chat-footer');
+                        const supportButtons = document.querySelector('.support-buttons');
+                        
+                        if (header && quickReplies && footer && supportButtons) {
+                            const totalHeight = header.offsetHeight + quickReplies.offsetHeight + 
+                                              footer.offsetHeight + supportButtons.offsetHeight;
+                            chatBody.style.height = `calc(100vh - ${totalHeight}px)`;
+                        }
+                    }
+                }
+            }
+            
+            window.addEventListener('load', adjustForMobile);
+            window.addEventListener('resize', adjustForMobile);
+            
+            // چک پاسخ‌های جدید هر 3 ثانیه
+            setInterval(() => {
+                const allMessages = JSON.parse(localStorage.getItem('all_chat_messages')) || [];
+                const userMessages = JSON.parse(localStorage.getItem('user_' + userId)) || [];
+                
+                const newReplies = allMessages.filter(msg => 
+                    msg.sender === 'admin' && 
+                    msg.user_id === userId &&
+                    !userMessages.some(m => m.id === msg.id)
+                );
+                
+                if (newReplies.length > 0) {
+                    newReplies.forEach(reply => userMessages.push(reply));
+                    localStorage.setItem('user_' + userId, JSON.stringify(userMessages));
+                    loadChat();
+                }
+            }, 3000);
+            
+            // رفرش خودکار پنل ادمین هر 5 ثانیه اگر باز باشد
+            setInterval(() => {
+                if (adminOverlay.classList.contains('show')) {
+                    loadAdminPanel();
+                }
+            }, 5000);
+        });
+    </script>
+</body>
+</html>
