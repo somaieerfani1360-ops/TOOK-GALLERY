@@ -94,7 +94,7 @@
         
         .search-box input {
             width: 100%;
-            padding: 12px 50px 12px 20px; /* تغییر padding برای جا دادن آیکون */
+            padding: 12px 50px 12px 20px;
             border: 2px solid var(--border);
             border-radius: 30px;
             font-size: 16px;
@@ -120,7 +120,6 @@
             height: 40px;
         }
         
-        /* === آیکون جستجو - اصلاح شده === */
         .search-btn i {
             font-size: 20px;
             color: var(--primary);
@@ -497,7 +496,7 @@
             cursor: pointer;
         }
         
-        /* === اصلاح overlay === */
+        /* === overlay === */
         .menu-overlay {
             display: none;
             position: fixed;
@@ -527,283 +526,224 @@
             z-index: 10000;
         }
         
-/* ریسپانسیو */
-@media (max-width: 768px) {
-    .mobile-menu-btn {
-        display: block;
-    }
-    
-    /* ======== اینجا ادامه کدهای ریسپانسیو می‌آید ======== */
-    
-    .main-nav {
-        display: none;
-        position: fixed;
-        top: 0;
-        right: -100%;
-        width: 80%;
-        max-width: 300px;
-        height: 100vh;
-        background: linear-gradient(135deg, #ff3b8d, #ff6bac);
-        z-index: 9999;
-        transition: right 0.3s ease;
-        padding-top: 80px;
-        box-shadow: -5px 0 15px rgba(0,0,0,0.2);
-        overflow-y: auto;
-        margin-top: 0;
-        border-radius: 0;
-    }
-    
-    .main-nav.active {
-        display: block;
-        right: 0;
-    }
-    
-    .nav-list {
-        flex-direction: column;
-        padding: 0;
-    }
-    
-    .nav-list li {
-        width: 100%;
-        border-bottom: 1px solid rgba(255,255,255,0.2);
-    }
-    
-    .nav-list a {
-        padding: 18px 25px;
-        text-align: right;
-        font-size: 16px;
-        display: flex;
-        align-items: center;
-        gap: 15px;
-    }
-    
-    .nav-list a i {
-        font-size: 20px;
-        width: 25px;
-    }
-    
-    .search-box {
-        display: none;
-    }
-    
-    .icon-text {
-        display: none;
-    }
-    
-    .close-menu {
-        display: block;
-    }
-    
-    .support-float {
-        bottom: 100px;
-        left: 20px;
-        width: 50px;
-        height: 50px;
-        font-size: 22px;
-    }
-    
-    .whatsapp-float {
-        bottom: 30px;
-        left: 20px;
-        width: 50px;
-        height: 50px;
-        font-size: 25px;
-    }
-    
-    .section-header {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-    
-    .timer {
-        align-self: center;
-    }
-    
-    .categories-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-} /* ===== این براکت مهم است ===== */
-
-/* و بعد برای دسکتاپ */
-@media (min-width: 769px) {
-    .mobile-only {
-        display: none !important;
-    }
-    .close-menu {
-        display: none !important;
-    }
-}
+        /* ریسپانسیو */
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .main-nav {
+                display: none;
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 80%;
+                max-width: 300px;
+                height: 100vh;
+                background: linear-gradient(135deg, #ff3b8d, #ff6bac);
+                z-index: 9999;
+                transition: right 0.3s ease;
+                padding-top: 80px;
+                box-shadow: -5px 0 15px rgba(0,0,0,0.2);
+                overflow-y: auto;
+                margin-top: 0;
+                border-radius: 0;
+            }
+            
+            .main-nav.active {
+                display: block;
+                right: 0;
+            }
+            
+            .nav-list {
+                flex-direction: column;
+                padding: 0;
+            }
+            
+            .nav-list li {
+                width: 100%;
+                border-bottom: 1px solid rgba(255,255,255,0.2);
+            }
+            
+            .nav-list a {
+                padding: 18px 25px;
+                text-align: right;
+                font-size: 16px;
+                display: flex;
+                align-items: center;
+                gap: 15px;
+            }
+            
+            .nav-list a i {
+                font-size: 20px;
+                width: 25px;
+            }
+            
+            .search-box {
+                display: none;
+            }
+            
+            .icon-text {
+                display: none;
+            }
+            
+            .close-menu {
+                display: block;
+            }
+            
+            .support-float {
+                bottom: 100px;
+                left: 20px;
+                width: 50px;
+                height: 50px;
+                font-size: 22px;
+            }
+            
+            .whatsapp-float {
+                bottom: 30px;
+                left: 20px;
+                width: 50px;
+                height: 50px;
+                font-size: 25px;
+            }
+            
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .timer {
+                align-self: center;
+            }
+            
+            .categories-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (min-width: 769px) {
+            .mobile-only {
+                display: none !important;
+            }
+            .close-menu {
+                display: none !important;
+            }
+        }
     </style>
 
-<script>
-// ==================== منوی موبایل ====================
-function toggleMobileMenu() {
-    const nav = document.getElementById('mainNav');
-    const overlay = document.getElementById('menuOverlay');
-    nav.classList.toggle('active');
-    overlay.classList.toggle('active');
-    
-    // جلوگیری از اسکرول صفحه وقتی منو باز است
-    if (nav.classList.contains('active')) {
-        document.body.style.overflow = 'hidden';
-    } else {
+    <script>
+    // ==================== منوی موبایل ====================
+    function toggleMobileMenu() {
+        const nav = document.getElementById('mainNav');
+        const overlay = document.getElementById('menuOverlay');
+        nav.classList.toggle('active');
+        overlay.classList.toggle('active');
+        
+        if (nav.classList.contains('active')) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'auto';
+        }
+    }
+
+    function closeMobileMenu() {
+        const nav = document.getElementById('mainNav');
+        const overlay = document.getElementById('menuOverlay');
+        nav.classList.remove('active');
+        overlay.classList.remove('active');
         document.body.style.overflow = 'auto';
     }
-}
 
-function closeMobileMenu() {
-    const nav = document.getElementById('mainNav');
-    const overlay = document.getElementById('menuOverlay');
-    nav.classList.remove('active');
-    overlay.classList.remove('active');
-    document.body.style.overflow = 'auto';
-}
-
-// بستن منو وقتی روی overlay کلیک می‌شود
-document.addEventListener('DOMContentLoaded', function() {
-    const overlay = document.getElementById('menuOverlay');
-    if (overlay) {
-        overlay.addEventListener('click', closeMobileMenu);
-    }
-    
-    // بستن منو وقتی روی لینک‌ها کلیک می‌شود
-    document.querySelectorAll('.nav-list a').forEach(link => {
-        link.addEventListener('click', closeMobileMenu);
-    });
-});
-
-// ==================== جستجو ====================
-function searchProducts() {
-    const searchInput = document.getElementById('searchInput');
-    const query = searchInput.value.trim();
-    
-    if (query) {
-        alert('جستجو برای: ' + query);
-        // اینجا می‌توانی به صفحه نتایج جستجو بروی
-        // window.location.href = 'search.html?q=' + query;
-    } else {
-        alert('لطفاً عبارت جستجو را وارد کنید!');
-        searchInput.focus();
-    }
-}
-
-// جستجو با Enter
-document.addEventListener('DOMContentLoaded', function() {
-    const searchInput = document.getElementById('searchInput');
-    if (searchInput) {
-        searchInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                searchProducts();
-            }
-        });
-    }
-});
-
-// ==================== سبد خرید ====================
-let cartItems = 0;
-
-function addToCart(productName) {
-    cartItems++;
-    updateCartCount();
-    alert('"' + productName + '" به سبد خرید اضافه شد!');
-}
-
-function updateCartCount() {
-    const cartCount = document.querySelector('.cart-count');
-    if (cartCount) {
-        cartCount.textContent = cartItems;
-    }
-}
-
-// ==================== علاقه‌مندی‌ها ====================
-function toggleWishlist(button) {
-    const icon = button.querySelector('i');
-    if (icon) {
-        if (icon.classList.contains('far')) {
-            icon.classList.remove('far');
-            icon.classList.add('fas');
-            button.style.color = '#ff3b8d';
-            alert('به علاقه‌مندی‌ها اضافه شد!');
-        } else {
-            icon.classList.remove('fas');
-            icon.classList.add('far');
-            button.style.color = '#ff6bac';
-            alert('از علاقه‌مندی‌ها حذف شد!');
-        }
-    }
-}
-
-// ==================== بقیه توابع ====================
-function showCategory(categoryName) {
-    alert('دسته‌بندی "' + categoryName + '" انتخاب شد!');
-}
-
-function trackOrder() {
-    const orderNumber = prompt('لطفاً شماره سفارش خود را وارد کنید:');
-    if (orderNumber) {
-        alert('سفارش شماره ' + orderNumber + ' در حال پردازش است.');
-    }
-}
-</script>
-
-</head>
-<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Countdown Timer
-    function startCountdown() {
-        let time = 23 * 60 * 60 + 59 * 60 + 59;
-        const countdownElement = document.getElementById('countdown');
+    // ==================== جستجو ====================
+    function searchProducts() {
+        const searchInput = document.getElementById('searchInput');
+        const query = searchInput.value.trim();
         
-        if (countdownElement) {
-            const timer = setInterval(() => {
-                if (time <= 0) {
-                    clearInterval(timer);
-                    countdownElement.textContent = "۰۰:۰۰:۰۰";
-                    return;
-                }
-                
-                const hours = Math.floor(time / 3600);
-                const minutes = Math.floor((time % 3600) / 60);
-                const seconds = time % 60;
-                
-                countdownElement.textContent = 
-                    hours.toString().padStart(2, '۰') + ':' +
-                    minutes.toString().padStart(2, '۰') + ':' +
-                    seconds.toString().padStart(2, '۰');
-                
-                time--;
-            }, 1000);
+        if (query) {
+            alert('جستجو برای: ' + query);
+        } else {
+            alert('لطفاً عبارت جستجو را وارد کنید!');
+            searchInput.focus();
         }
     }
-    
-    // Swiper Slider
-    if (document.querySelector('.mySwiper')) {
-        const swiper = new Swiper('.mySwiper', {
-            slidesPerView: 1,
-            spaceBetween: 20,
-            navigation: {
-                nextEl: '.swiper-button-next',
-                prevEl: '.swiper-button-prev',
-            },
-            breakpoints: {
-                640: { slidesPerView: 2 },
-                768: { slidesPerView: 3 },
-                1024: { slidesPerView: 4 }
-            }
-        });
+
+    // ==================== سبد خرید ====================
+    let cartItems = 0;
+
+    function addToCart(productName) {
+        cartItems++;
+        updateCartCount();
+        alert('"' + productName + '" به سبد خرید اضافه شد!');
     }
-    
-    // Initialize
-    startCountdown();
-    updateCartCount();
-});
-</script>
-</body>
-</html>
+
+    function updateCartCount() {
+        const cartCount = document.querySelector('.cart-count');
+        if (cartCount) {
+            cartCount.textContent = cartItems;
+        }
+    }
+
+    // ==================== علاقه‌مندی‌ها ====================
+    function toggleWishlist(button) {
+        const icon = button.querySelector('i');
+        if (icon) {
+            if (icon.classList.contains('far')) {
+                icon.classList.remove('far');
+                icon.classList.add('fas');
+                button.style.color = '#ff3b8d';
+                alert('به علاقه‌مندی‌ها اضافه شد!');
+            } else {
+                icon.classList.remove('fas');
+                icon.classList.add('far');
+                button.style.color = '#ff6bac';
+                alert('از علاقه‌مندی‌ها حذف شد!');
+            }
+        }
+    }
+
+    // ==================== بقیه توابع ====================
+    function showCategory(categoryName) {
+        alert('دسته‌بندی "' + categoryName + '" انتخاب شد!');
+    }
+
+    function trackOrder() {
+        const orderNumber = prompt('لطفاً شماره سفارش خود را وارد کنید:');
+        if (orderNumber) {
+            alert('سفارش شماره ' + orderNumber + ' در حال پردازش است.');
+        }
+    }
+
+    // ==================== رویدادهای اولیه ====================
+    document.addEventListener('DOMContentLoaded', function() {
+        // جستجو با Enter
+        const searchInput = document.getElementById('searchInput');
+        if (searchInput) {
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    searchProducts();
+                }
+            });
+        }
+        
+        // بستن منو با کلیک روی overlay
+        const overlay = document.getElementById('menuOverlay');
+        if (overlay) {
+            overlay.addEventListener('click', closeMobileMenu);
+        }
+        
+        // بستن منو با کلیک روی لینک‌ها
+        document.querySelectorAll('.nav-list a').forEach(link => {
+            link.addEventListener('click', closeMobileMenu);
+        });
+        
+        // راه‌اندازی اولیه
+        updateCartCount();
+    });
+    </script>
+</head>
 <body>
-    <!-- Overlay منو - فقط برای موبایل -->
-    <div class="menu-overlay" id="menuOverlay" onclick="closeMobileMenu()"></div>
+    <!-- Overlay منو -->
+    <div class="menu-overlay" id="menuOverlay"></div>
 
     <!-- نوار بالایی -->
     <div class="top-bar">
@@ -828,11 +768,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     <span>Took Gallery</span>
                 </div>
 
-                <!-- جستجو - اصلاح شده -->
+                <!-- جستجو -->
                 <div class="search-box">
                     <input type="text" placeholder="جستجوی محصولات..." id="searchInput">
                     <button class="search-btn" onclick="searchProducts()">
-                        <!-- آیکون جستجو - اصلاح شده -->
                         <i class="fas fa-search"></i>
                     </button>
                 </div>
@@ -859,7 +798,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
             <!-- منوی اصلی -->
             <nav class="main-nav" id="mainNav">
-                <!-- دکمه بستن منو - فقط در موبایل -->
                 <button class="close-menu" onclick="closeMobileMenu()">
                     <i class="fas fa-times"></i>
                 </button>
@@ -1125,119 +1063,16 @@ document.addEventListener('DOMContentLoaded', function() {
         <i class="fas fa-headset"></i>
     </div>
 
-    <!-- اسکریپت‌ها -->
-    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
-    <script>
-        // ==================== جستجو ====================
-        function searchProducts() {
-            const searchInput = document.getElementById('searchInput');
-            const query = searchInput.value.trim();
-            
-            if (query) {
-                localStorage.setItem('searchQuery', query);
-                window.location.href = 'search-results.html';
-            } else {
-                alert('لطفاً عبارت جستجو را وارد کنید!');
-            }
-        }
-        
-        document.getElementById('searchInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                searchProducts();
-            }
-        });
-        <!-- ========== SWIPER SCRIPT ========== -->
+    <!-- اسکریپت Swiper -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
     <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Countdown Timer
+        // تایمر شمارش معکوس
         function startCountdown() {
-            let time = 23 * 60 * 60 + 59 * 60 + 59;
             const countdownElement = document.getElementById('countdown');
+            if (!countdownElement) return;
             
-            if (countdownElement) {
-                const timer = setInterval(() => {
-                    if (time <= 0) {
-                        clearInterval(timer);
-                        countdownElement.textContent = "۰۰:۰۰:۰۰";
-                        return;
-                    }
-                    
-                    const hours = Math.floor(time / 3600);
-                    const minutes = Math.floor((time % 3600) / 60);
-                    const seconds = time % 60;
-                    
-                    countdownElement.textContent = 
-                        hours.toString().padStart(2, '۰') + ':' +
-                        minutes.toString().padStart(2, '۰') + ':' +
-                        seconds.toString().padStart(2, '۰');
-                    
-                    time--;
-                }, 1000);
-            }
-        }
-        
-        // Swiper Slider
-        if (document.querySelector('.mySwiper')) {
-            const swiper = new Swiper('.mySwiper', {
-                slidesPerView: 1,
-                spaceBetween: 20,
-                navigation: {
-                    nextEl: '.swiper-button-next',
-                    prevEl: '.swiper-button-prev',
-                },
-                breakpoints: {
-                    640: { slidesPerView: 2 },
-                    768: { slidesPerView: 3 },
-                    1024: { slidesPerView: 4 }
-                }
-            });
-        }
-        
-        // Initialize
-        startCountdown();
-        if (typeof updateCartCount === 'function') {
-            updateCartCount();
-        }
-    });
-    </script>
-</body>
-</html>
-        // ==================== منوی موبایل - اصلاح شده ====================
-        function toggleMobileMenu() {
-            const nav = document.getElementById('mainNav');
-            const overlay = document.getElementById('menuOverlay');
-            nav.classList.toggle('active');
-            overlay.classList.toggle('active');
-            
-            // جلوگیری از اسکرول صفحه وقتی منو باز است
-            if (nav.classList.contains('active')) {
-                document.body.style.overflow = 'hidden';
-            } else {
-                document.body.style.overflow = 'auto';
-            }
-        }
-
-        function closeMobileMenu() {
-            const nav = document.getElementById('mainNav');
-            const overlay = document.getElementById('menuOverlay');
-            nav.classList.remove('active');
-            overlay.classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
-        
-        // بستن منو وقتی روی overlay کلیک می‌شود
-        document.getElementById('menuOverlay').addEventListener('click', closeMobileMenu);
-        
-        // بستن منو وقتی روی لینک‌ها کلیک می‌شود
-        document.querySelectorAll('.nav-list a').forEach(link => {
-            link.addEventListener('click', closeMobileMenu);
-        });
-        
-        // ==================== بقیه توابع ====================
-        function startCountdown() {
             let time = 23 * 60 * 60 + 59 * 60 + 59;
-            const countdownElement = document.getElementById('countdown');
             
             const timer = setInterval(() => {
                 if (time <= 0) {
@@ -1251,15 +1086,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 const seconds = time % 60;
                 
                 countdownElement.textContent = 
-                    `${hours.toString().padStart(2, '۰')}:` +
-                    `${minutes.toString().padStart(2, '۰')}:` +
-                    `${seconds.toString().padStart(2, '۰')}`;
+                    hours.toString().padStart(2, '۰') + ':' +
+                    minutes.toString().padStart(2, '۰') + ':' +
+                    seconds.toString().padStart(2, '۰');
                 
                 time--;
             }, 1000);
         }
-
-        function initSwiper() {
+        
+        // اسلایدر محصولات
+        const swiperElement = document.querySelector('.mySwiper');
+        if (swiperElement) {
             const swiper = new Swiper('.mySwiper', {
                 slidesPerView: 1,
                 spaceBetween: 20,
@@ -1274,62 +1111,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
         }
-
-        let cartItems = 0;
-
-        function addToCart(productName) {
-            cartItems++;
-            updateCartCount();
-            alert(`"${productName}" به سبد خرید اضافه شد!`);
-        }
-
-        function updateCartCount() {
-            const cartCount = document.querySelector('.cart-count');
-            cartCount.textContent = cartItems;
-        }
-
-        function toggleWishlist(button) {
-            const icon = button.querySelector('i');
-            if (icon.classList.contains('far')) {
-                icon.classList.remove('far');
-                icon.classList.add('fas');
-                button.style.color = '#ff3b8d';
-                alert('به علاقه‌مندی‌ها اضافه شد!');
-            } else {
-                icon.classList.remove('fas');
-                icon.classList.add('far');
-                button.style.color = '#ff6bac';
-                alert('از علاقه‌مندی‌ها حذف شد!');
-            }
-        }
-
-        function showCategory(categoryName) {
-            alert(`دسته‌بندی "${categoryName}" انتخاب شد!`);
-        }
-
-        function openSupport() {
-            window.location.href = 'support.html';
-        }
-
-        function trackOrder() {
-            const orderNumber = prompt('لطفاً شماره سفارش خود را وارد کنید:');
-            if (orderNumber) {
-                alert(`سفارش شماره ${orderNumber} در حال پردازش است.`);
-            }
-        }
-
-        // وقتی صفحه لود شد
-        document.addEventListener('DOMContentLoaded', function() {
-            startCountdown();
-            initSwiper();
-            updateCartCount();
-            
-            // نمایش آیکون جستجو
-            const searchBtnIcon = document.querySelector('.search-btn i');
-            if (searchBtnIcon) {
-                searchBtnIcon.style.display = 'block';
-            }
-        });
+        
+        // راه‌اندازی
+        startCountdown();
+    });
     </script>
 </body>
 </html>
