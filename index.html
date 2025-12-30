@@ -957,27 +957,55 @@
     <!-- جاوااسکریپت اصلی -->
     <script>
         // ==================== منوی موبایل ====================
-        function toggleMobileMenu() {
-            const nav = document.getElementById('mainNav');
-            const overlay = document.getElementById('menuOverlay');
-            nav.classList.toggle('active');
-            overlay.classList.toggle('active');
-            
-            if (nav.classList.contains('active')) {
-                document.body.style.overflow = 'hidden';
-            } else {
-                document.body.style.overflow = 'auto';
-            }
-        }
+function toggleMobileMenu() {
+    const nav = document.getElementById('mainNav');
+    const overlay = document.getElementById('menuOverlay');
+    
+    // اضافه کردن چک برای خطا
+    if (!nav || !overlay) {
+        console.log('خطا: المنت‌های منو پیدا نشدند');
+        return;
+    }
+    
+    // تغییر مهم: کنترل display همزمان با کلاس
+    const isOpening = !nav.classList.contains('active');
+    
+    if (isOpening) {
+        // حالت باز شدن منو
+        document.body.style.overflow = 'hidden';
+        overlay.style.display = 'block';
+        setTimeout(() => {
+            nav.classList.add('active');
+            overlay.classList.add('active');
+        }, 10);
+    } else {
+        // حالت بستن منو
+        nav.classList.remove('active');
+        overlay.classList.remove('active');
+        document.body.style.overflow = 'auto';
+        
+        // بعد از انیمیشن، overlay رو مخفی کن
+        setTimeout(() => {
+            overlay.style.display = 'none';
+        }, 300); // 300ms برابر با duration انیمیشن CSS
+    }
+}
 
-        function closeMobileMenu() {
-            const nav = document.getElementById('mainNav');
-            const overlay = document.getElementById('menuOverlay');
-            nav.classList.remove('active');
-            overlay.classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
-
+function closeMobileMenu() {
+    const nav = document.getElementById('mainNav');
+    const overlay = document.getElementById('menuOverlay');
+    
+    if (nav) nav.classList.remove('active');
+    if (overlay) {
+        overlay.classList.remove('active');
+        document.body.style.overflow = 'auto';
+        
+        // بعد از انیمیشن، overlay رو مخفی کن
+        setTimeout(() => {
+            overlay.style.display = 'none';
+        }, 300);
+    }
+}        
         // ==================== جستجو ====================
         function searchProducts() {
             const searchInput = document.getElementById('searchInput');
