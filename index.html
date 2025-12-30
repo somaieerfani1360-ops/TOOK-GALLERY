@@ -498,21 +498,25 @@
         }
         
         /* === overlay === */
-        .menu-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.5);
-            z-index: 9998;
+.menu-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 9997; /* کمتر از منو */
+}
+
+.menu-overlay.active {
+    display: block;
+}
+
+.main-nav {
+    /* این خط رو اضافه کن */
+    z-index: 9999 !important;
         }
-        
-        .menu-overlay.active {
-            display: block;
-        }
-        
         /* دکمه بستن منو */
         .close-menu {
             display: none;
