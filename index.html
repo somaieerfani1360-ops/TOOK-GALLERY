@@ -653,7 +653,52 @@
             display: none !important;
         }
     }
-</style>        
+/* ======== کدهای جدید برای جستجوی موبایل ======== */
+.mobile-search-btn {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: var(--primary);
+    margin-left: 15px;
+    cursor: pointer;
+}
+
+.mobile-search-box {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    padding: 15px;
+    z-index: 10001;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.mobile-search-box.active {
+    display: block;
+}
+
+.mobile-search-box .search-input {
+    width: 100%;
+    padding: 12px 50px 12px 20px;
+    border: 2px solid var(--border);
+    border-radius: 30px;
+    font-size: 16px;
+    direction: rtl;
+}
+
+/* ======== اصلاح overlay ======== */
+.menu-overlay {
+    z-index: 9998 !important; /* تغییر از 9997 به 9998 */
+}
+
+.nav-list a {
+    position: relative;
+    z-index: 10000 !important;
+        }
+    </style>        
 </head>
 <body>
     <!-- Overlay منو -->
