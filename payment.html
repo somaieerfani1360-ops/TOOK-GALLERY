@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پرداخت آنلاین - Took Gallery</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #ff3b8d;
+            --primary-light: #ff6bac;
+            --dark: #333;
+            --light: #fff;
+            --border: #ffd6e8;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Vazirmatn', 'Segoe UI', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #fff5f9 0%, #ffe6f2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .payment-container {
+            background: white;
+            width: 100%;
+            max-width: 500px;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 50px rgba(255, 59, 141, 0.15);
+            text-align: center;
+        }
+        
+        .payment-header {
+            margin-bottom: 30px;
+        }
+        
+        .payment-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 40px;
+            margin: 0 auto 20px;
+        }
+        
+        .payment-header h1 {
+            color: var(--primary);
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .amount-box {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+            border: 2px dashed var(--border);
+        }
+        
+        .amount-label {
+            color: #666;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        
+        .amount {
+            color: var(--primary);
+            font-size: 36px;
+            font-weight: bold;
+        }
+        
+        .payment-form {
+            margin-top: 30px;
+        }
+        
+        .form-group {
+            text-align: right;
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .card-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #eee;
+            border-radius: 10px;
+            font-size: 18px;
+            letter-spacing: 3px;
+            direction: ltr;
+            text-align: center;
+        }
+        
+        .card-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(255, 59, 141, 0.1);
+        }
+        
+        .card-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .pay-btn {
+            width: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--primary-light));
+            color: white;
+            border: none;
+            padding: 18px;
+            border-radius: 15px;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+        
+        .pay-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 59, 141, 0.3);
+        }
+        
+        .back-btn {
+            display: block;
+            text-align: center;
+            margin-top: 25px;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        .secure-payment {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+            color: #4CAF50;
+            font-size: 14px;
+        }
+        
+        .error-message {
+            color: #f44336;
+            font-size: 14px;
+            margin-top: 5px;
+            text-align: right;
+            display: none;
+        }
+        
+        /* ریسپانسیو */
+        @media (max-width: 768px) {
+            .payment-container {
+                padding: 25px;
+            }
+            
+            .card-details {
+                grid-template-columns: 1fr;
+            }
+            
+            .amount {
+                font-size: 30px;
+            }
+        }
+        
+        /* انیمیشن‌ها */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes success {
+            0% { transform: scale(0.5); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        .processing {
+            animation: pulse 1s infinite;
+        }
+        
+        .success-message {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .success-content {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            animation: success 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="payment-container">
+        <div class="payment-header">
+            <div class="payment-icon">
+                <i class="fas fa-lock"></i>
+            </div>
+            <h1>پرداخت امن آنلاین</h1>
+            <p>لطفاً اطلاعات کارت بانکی خود را وارد کنید</p>
+        </div>
+        
+        <div class="amount-box">
+            <div class="amount-label">مبلغ قابل پرداخت:</div>
+            <div class="amount" id="paymentAmount">۰ تومان</div>
+        </div>
+        
+        <form class="payment-form" id="paymentForm">
+            <div class="form-group">
+                <label for="cardNumber">شماره کارت</label>
+                <input type="text" 
+                       id="cardNumber" 
+                       class="card-input" 
+                       placeholder="۶۲۱۹-۸۶۱۱-۲۳۴۵-۶۷۸۹"
+                       maxlength="19"
+                       required>
+                <div class="error-message" id="cardError">لطفاً شماره کارت معتبر وارد کنید</div>
+            </div>
+            
+            <div class="card-details">
+                <div class="form-group">
+                    <label for="expiryDate">تاریخ انقضا</label>
+                    <input type="text" 
+                           id="expiryDate" 
+                           class="card-input" 
+                           placeholder="۰۱/۱۴۰۳"
+                           maxlength="7"
+                           required>
+                    <div class="error-message" id="expiryError">فرمت صحیح: ماه/سال</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="cvv2">CVV2</label>
+                    <input type="password" 
+                           id="cvv2" 
+                           class="card-input" 
+                           placeholder="۱۲۳"
+                           maxlength="4"
+                           required>
+                    <div class="error-message" id="cvvError">کد امنیتی معتبر وارد کنید</div>
+                </div>
+            </div>
+            
+            <button type="submit" class="pay-btn" id="payBtn">
+                <i class="fas fa-credit-card"></i>
+                پرداخت مبلغ
+            </button>
+        </form>
+        
+        <div class="secure-payment">
+            <i class="fas fa-shield-alt"></i>
+            پرداخت شما با بالاترین سطح امنیت انجام می‌شود
+        </div>
+        
+        <a href="checkout.html" class="back-btn">
+            <i class="fas fa-arrow-right"></i>
+            بازگشت به صفحه قبل
+        </a>
+    </div>
+    
+    <!-- پیام موفقیت -->
+    <div class="success-message" id="successMessage">
+        <div class="success-content">
+            <div style="font-size: 60px; color: #4CAF50; margin-bottom: 20px;">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h2 style="color: #333; margin-bottom: 15px;">پرداخت موفقیت‌آمیز بود!</h2>
+            <p style="color: #666; margin-bottom: 20px;" id="successText">سفارش شما با موفقیت ثبت شد.</p>
+            <button onclick="redirectToConfirmation()" style="
+                background: var(--primary);
+                color: white;
+                border: none;
+                padding: 15px 30px;
+                border-radius: 10px;
+                cursor: pointer;
+                font-size: 16px;
+            ">
+                مشاهده جزئیات سفارش
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // متغیرهای سفارش
+        let currentOrder = null;
+        let cart = [];
+        let orderTotal = 0;
+        let trackingCode = '';
+        
+        // ==================== بارگذاری اطلاعات سفارش ====================
+        document.addEventListener('DOMContentLoaded', function() {
+            // دریافت اطلاعات سفارش از localStorage
+            currentOrder = JSON.parse(localStorage.getItem('currentOrder'));
+            cart = JSON.parse(localStorage.getItem('cart')) || [];
+            
+            // بررسی وجود سفارش
+            if (!currentOrder || cart.length === 0) {
+                alert('خطا در دریافت اطلاعات سفارش');
+                window.location.href = 'cart.html';
+                return;
+            }
+            
+            // محاسبه مبلغ
+            const subtotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+            const discount = subtotal > 300000 ? 50000 : 0;
+            orderTotal = subtotal + currentOrder.shippingCost - discount;
+            
+            // نمایش مبلغ
+            document.getElementById('paymentAmount').textContent = 
+                orderTotal.toLocaleString('fa-IR') + ' تومان';
+            
+            // تولید کد رهگیری
+            trackingCode = 'TOOK-' + Math.random().toString(36).substr(2, 8).toUpperCase();
+            
+            // رویداد فرمات شماره کارت
+            document.getElementById('cardNumber').addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                value = value.substring(0, 16);
+                
+                let formatted = '';
+                for (let i = 0; i < value.length; i++) {
+                    if (i > 0 && i % 4 === 0) formatted += '-';
+                    formatted += value[i];
+                }
+                
+                e.target.value = formatted;
+                validateCardNumber();
+            });
+            
+            // رویداد فرمات تاریخ انقضا
+            document.getElementById('expiryDate').addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                if (value.length >= 2) {
+                    value = value.substring(0, 2) + '/' + value.substring(2, 6);
+                }
+                e.target.value = value.substring(0, 7);
+                validateExpiryDate();
+            });
+            
+            // رویداد CVV2
+            document.getElementById('cvv2').addEventListener('input', validateCVV);
+            
+            // رویداد ارسال فرم
+            document.getElementById('paymentForm').addEventListener('submit', processPayment);
+        });
+        
+        // ==================== اعتبارسنجی شماره کارت ====================
+        function validateCardNumber() {
+            const cardInput = document.getElementById('cardNumber');
+            const cardError = document.getElementById('cardError');
+            const cardNumber = cardInput.value.replace(/\D/g, '');
+            
+            if (cardNumber.length === 16) {
+                cardInput.style.borderColor = '#4CAF50';
+                cardError.style.display = 'none';
+                return true;
+            } else {
+                cardInput.style.borderColor = '#f44336';
+                cardError.style.display = 'block';
+                return false;
+            }
+        }
+        
+        // ==================== اعتبارسنجی تاریخ انقضا ====================
+        function validateExpiryDate() {
+            const expiryInput = document.getElementById('expiryDate');
+            const expiryError = document.getElementById('expiryError');
+            const value = expiryInput.value;
+            
+            if (value.length === 7 && value.includes('/')) {
+                const [month, year] = value.split('/');
+                if (month >= 1 && month <= 12 && year >= 1400 && year <= 1500) {
+                    expiryInput.style.borderColor = '#4CAF50';
+                    expiryError.style.display = 'none';
+                    return true;
+                }
+            }
+            
+            expiryInput.style.borderColor = '#f44336';
+            expiryError.style.display = 'block';
+            return false;
+        }
+        
+        // ==================== اعتبارسنجی CVV2 ====================
+        function validateCVV() {
+            const cvvInput = document.getElementById('cvv2');
+            const cvvError = document.getElementById('cvvError');
+            const cvv = cvvInput.value;
+            
+            if (cvv.length >= 3 && cvv.length <= 4 && /^\d+$/.test(cvv)) {
+                cvvInput.style.borderColor = '#4CAF50';
+                cvvError.style.display = 'none';
+                return true;
+            }
+            
+            cvvInput.style.borderColor = '#f44336';
+            cvvError.style.display = 'block';
+            return false;
+        }
+        
+        // ==================== پردازش پرداخت ====================
+        function processPayment(e) {
+            e.preventDefault();
+            
+            // اعتبارسنجی فرم
+            const isCardValid = validateCardNumber();
+            const isExpiryValid = validateExpiryDate();
+            const isCVVValid = validateCVV();
+            
+            if (!isCardValid || !isExpiryValid || !isCVVValid) {
+                alert('لطفاً اطلاعات کارت را به درستی وارد کنید');
+                return;
+            }
+            
+            // ایجاد سفارش نهایی
+            const finalOrder = createFinalOrder();
+            
+            // ذخیره سفارش
+            saveOrderToStorage(finalOrder);
+            
+            // نمایش موفقیت
+            showSuccessMessage(finalOrder);
+        }
+        
+        // ==================== ایجاد سفارش نهایی ====================
+        function createFinalOrder() {
+            const subtotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+            const discount = subtotal > 300000 ? 50000 : 0;
+            
+            return {
+                id: Date.now(),
+                trackingCode: trackingCode,
+                customerInfo: {
+                    name: currentOrder.customerInfo.firstName + ' ' + currentOrder.customerInfo.lastName,
+                    phone: currentOrder.customerInfo.phone,
+                    email: currentOrder.customerInfo.email || '',
+                    address: currentOrder.customerInfo.address,
+                    city: currentOrder.customerInfo.city,
+                    province: currentOrder.customerInfo.province,
+                    postalCode: currentOrder.customerInfo.postalCode
+                },
+                items: cart.map(item => ({
+                    name: item.name,
+                    quantity: item.quantity,
+                    price: item.price,
+                    color: item.color || '',
+                    total: item.price * item.quantity
+                })),
+                subtotal: subtotal,
+                shippingCost: currentOrder.shippingCost,
+                discount: discount,
+                total: orderTotal,
+                shippingMethod: currentOrder.shippingMethod,
+                paymentMethod: 'پرداخت آنلاین',
+                status: 'پرداخت شده',
+                date: new Date().toLocaleDateString('fa-IR'),
+                time: new Date().toLocaleTimeString('fa-IR'),
+                notes: currentOrder.notes || '',
+                timestamp: new Date().getTime(),
+                paymentDetails: {
+                    cardLast4: document.getElementById('cardNumber').value.slice(-4),
+                    time: new Date().toLocaleTimeString('fa-IR')
+                }
+            };
+        }
+        
+        // ==================== ذخیره سفارش در localStorage ====================
+        function saveOrderToStorage(order) {
+            // دریافت سفارشات موجود
+            let orders = JSON.parse(localStorage.getItem('orders')) || [];
+            
+            // اضافه کردن سفارش جدید
+            orders.push(order);
+            
+            // ذخیره
+            localStorage.setItem('orders', JSON.stringify(orders));
+            
+            // پاک کردن سبد خرید و داده‌های موقت
+            localStorage.removeItem('cart');
+            localStorage.removeItem('currentOrder');
+            
+            console.log('سفارش ذخیره شد:', order);
+            console.log('تعداد سفارشات کل:', orders.length);
+        }
+        
+        // ==================== نمایش پیام موفقیت ====================
+        function showSuccessMessage(order) {
+            const successMessage = document.getElementById('successMessage');
+            const successText = document.getElementById('successText');
+            
+            successText.innerHTML = `
+                سفارش شما با موفقیت ثبت و پرداخت شد.<br>
+                <strong>کد رهگیری: ${order.trackingCode}</strong><br>
+                مبلغ پرداختی: ${order.total.toLocaleString('fa-IR')} تومان
+            `;
+            
+            successMessage.style.display = 'flex';
+        }
+        
+        // ==================== هدایت به صفحه تأیید ====================
+        function redirectToConfirmation() {
+            const orders = JSON.parse(localStorage.getItem('orders')) || [];
+            const latestOrder = orders[orders.length - 1];
+            
+            window.location.href = 'order-confirmation.html?order=' + latestOrder.id + '&tracking=' + latestOrder.trackingCode;
+        }
+    </script>
+</body>
+</html>
