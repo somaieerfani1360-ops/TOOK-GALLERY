@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>صفحه محصول - Took Gallery</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #ff3b8d;
+            --primary-light: #ff6bac;
+            --dark: #333;
+            --light: #fff;
+            --border: #ffd6e8;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Vazirmatn', 'Segoe UI', sans-serif;
+        }
+        
+        body {
+            background: #fff5f9;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* هدر ساده */
+        .product-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 30px;
+        }
+        
+        .back-btn {
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .cart-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        /* محتوای محصول */
+        .product-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+        
+        @media (min-width: 992px) {
+            .product-container {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        /* گالری تصاویر */
+        .product-gallery {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+        
+        .main-image {
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 100px;
+            color: var(--primary);
+        }
+        
+        .image-thumbnails {
+            display: flex;
+            gap: 15px;
+            overflow-x: auto;
+            padding: 10px 0;
+        }
+        
+        .thumbnail {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            color: var(--primary);
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        
+        .thumbnail.active {
+            border: 3px solid var(--primary);
+        }
+        
+        /* اطلاعات محصول */
+        .product-info {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+        
+        .product-title {
+            color: var(--dark);
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+        
+        .product-category {
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+        
+        .product-price {
+            color: var(--primary);
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 25px;
+        }
+        
+        /* رنگ‌ها */
+        .color-selector {
+            margin-bottom: 30px;
+        }
+        
+        .color-selector h3 {
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        .colors {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .color-option {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 3px solid transparent;
+        }
+        
+        .color-option.active {
+            border-color: var(--primary);
+            transform: scale(1.1);
+        }
+        
+        /* تعداد */
+        .quantity-selector {
+            margin-bottom: 30px;
+        }
+        
+        .quantity-selector h3 {
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            max-width: 200px;
+        }
+        
+        .quantity-btn {
+            width: 45px;
+            height: 45px;
+            border: 2px solid var(--border);
+            background: white;
+            border-radius: 10px;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--primary);
+        }
+        
+        .quantity-input {
+            width: 70px;
+            height: 45px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        /* دکمه‌های اکشن */
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        @media (min-width: 576px) {
+            .action-buttons {
+                flex-direction: row;
+            }
+        }
+        
+        .add-to-cart-btn {
+            flex: 2;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .wishlist-btn {
+            flex: 1;
+            background: white;
+            border: 2px solid var(--border);
+            color: var(--primary);
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .wishlist-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        /* تب‌ها */
+        .product-tabs {
+            margin-top: 50px;
+        }
+        
+        .tabs-header {
+            display: flex;
+            border-bottom: 2px solid #eee;
+            margin-bottom: 30px;
+        }
+        
+        .tab-btn {
+            padding: 15px 30px;
+            background: none;
+            border: none;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            color: #666;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .tab-btn.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+        
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* نظرات */
+        .reviews-container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 20px;
+        }
+        
+        .review {
+            border-bottom: 1px solid #eee;
+            padding: 20px 0;
+        }
+        
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .reviewer-name {
+            font-weight: bold;
+        }
+        
+        .review-date {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .review-rating {
+            color: #ffc107;
+            margin: 5px 0;
+        }
+        
+        .add-review {
+            margin-top: 40px;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        
+        .rating-input {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 15px;
+        }
+        
+        .rating-star {
+            font-size: 24px;
+            color: #ddd;
+            cursor: pointer;
+        }
+        
+        .rating-star.active {
+            color: #ffc107;
+        }
+        
+        .review-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            margin-bottom: 15px;
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        /* ریسپانسیو */
+        @media (max-width: 768px) {
+            .product-title {
+                font-size: 24px;
+            }
+            
+            .product-price {
+                font-size: 28px;
+            }
+            
+            .main-image {
+                height: 300px;
+                font-size: 70px;
+            }
+            
+            .tabs-header {
+                flex-direction: column;
+            }
+            
+            .tab-btn {
+                text-align: right;
+                border-bottom: 1px solid #eee;
+            }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- هدر -->
+        <div class="product-header">
+            <a href="index.html" class="back-btn">
+                <i class="fas fa-arrow-right"></i>
+                بازگشت
+            </a>
+            
+            <a href="cart.html" class="cart-btn">
+                <i class="fas fa-shopping-bag"></i>
+                سبد خرید
+                <span id="cartCountMini">۰</span>
+            </a>
+        </div>
+        
+        <!-- محصول -->
+        <div class="product-container">
+            <!-- گالری -->
+            <div class="product-gallery">
+                <div class="main-image" id="mainImage">
+                    <i class="fas fa-headphones"></i>
+                </div>
+                
+                <div class="image-thumbnails">
+                    <div class="thumbnail active" onclick="changeImage(1)">
+                        <i class="fas fa-headphones"></i>
+                    </div>
+                    <div class="thumbnail" onclick="changeImage(2)">
+                        <i class="fas fa-image"></i>
+                    </div>
+                    <div class="thumbnail" onclick="changeImage(3)">
+                        <i class="fas fa-image"></i>
+                    </div>
+                    <div class="thumbnail" onclick="changeImage(4)">
+                        <i class="fas fa-image"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- اطلاعات -->
+            <div class="product-info">
+                <h1 class="product-title" id="productTitle">هدفون بی‌سیم بلوتوث مدل X200</h1>
+                <div class="product-category">دسته‌بندی: <span id="productCategory">الکترونیک</span></div>
+                <div class="product-price" id="productPrice">۲۹۰,۰۰۰ تومان</div>
+                
+                <!-- انتخاب رنگ -->
+                <div class="color-selector">
+                    <h3>انتخاب رنگ:</h3>
+                    <div class="colors">
+                        <div class="color-option active" style="background: #000;" onclick="selectColor('مشکی')"></div>
+                        <div class="color-option" style="background: #fff; border: 1px solid #ddd;" onclick="selectColor('سفید')"></div>
+                        <div class="color-option" style="background: #ff3b8d;" onclick="selectColor('صورتی')"></div>
+                        <div class="color-option" style="background: #2196F3;" onclick="selectColor('آبی')"></div>
+                    </div>
+                    <p style="margin-top: 10px; color: #666;" id="selectedColorText">رنگ انتخاب شده: مشکی</p>
+                </div>
+                
+                <!-- تعداد -->
+                <div class="quantity-selector">
+                    <h3>تعداد:</h3>
+                    <div class="quantity-control">
+                        <button class="quantity-btn" onclick="changeQuantity(-1)">-</button>
+                        <input type="text" class="quantity-input" value="1" id="quantityInput" readonly>
+                        <button class="quantity-btn" onclick="changeQuantity(1)">+</button>
+                    </div>
+                </div>
+                
+                <!-- دکمه‌های اکشن -->
+                <div class="action-buttons">
+                    <button class="add-to-cart-btn" onclick="addToCart()">
+                        <i class="fas fa-shopping-cart"></i>
+                        افزودن به سبد خرید
+                    </button>
+                    
+                    <button class="wishlist-btn" id="wishlistBtn" onclick="toggleWishlist()">
+                        <i class="far fa-heart"></i>
+                        علاقه‌مندی
+                    </button>
+                </div>
+                
+                <!-- توضیحات -->
+                <div style="color: #666; line-height: 1.8; margin-top: 30px;">
+                    <h3>توضیحات محصول:</h3>
+                    <p id="productDescription">
+                        هدفون بی‌سیم با کیفیت صدای عالی و باتری با عمر طولانی. مناسب برای موسیقی، تماس‌های تلفنی و بازی. قابلیت اتصال بلوتوث ۵.۰، میکروفون با کیفیت و طراحی ارگونومیک برای استفاده طولانی مدت.
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- تب‌ها -->
+        <div class="product-tabs">
+            <div class="tabs-header">
+                <button class="tab-btn active" onclick="openTab('details')">مشخصات فنی</button>
+                <button class="tab-btn" onclick="openTab('reviews')">نظرات کاربران</button>
+                <button class="tab-btn" onclick="openTab('shipping')">اطلاعات ارسال</button>
+            </div>
+            
+            <!-- مشخصات فنی -->
+            <div class="tab-content active" id="detailsTab">
+                <div class="reviews-container">
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <tr style="border-bottom: 1px solid #eee;">
+                            <td style="padding: 15px 10px; color: #666;">نوع اتصال</td>
+                            <td style="padding: 15px 10px; font-weight: 500;">بلوتوث ۵.۰</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #eee;">
+                            <td style="padding: 15px 10px; color: #666;">باتری</td>
+                            <td style="padding: 15px 10px; font-weight: 500;">۲۰ ساعت پخش مداوم</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #eee;">
+                            <td style="padding: 15px 10px; color: #666;">مقاومت در برابر آب</td>
+                            <td style="padding: 15px 10px; font-weight: 500;">IPX4 (مقاوم در برابر عرق و باران)</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #eee;">
+                            <td style="padding: 15px 10px; color: #666;">وزن</td>
+                            <td style="padding: 15px 10px; font-weight: 500;">۲۱۵ گرم</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #eee;">
+                            <td style="padding: 15px 10px; color: #666;">رنگ‌های موجود</td>
+                            <td style="padding: 15px 10px; font-weight: 500;">مشکی، سفید، صورتی، آبی</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #eee;">
+                            <td style="padding: 15px 10px; color: #666;">گارانتی</td>
+                            <td style="padding: 15px 10px; font-weight: 500;">۱۸ ماه گارانتی طلایی</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- نظرات -->
+            <div class="tab-content" id="reviewsTab">
+                <div class="reviews-container">
+                    <h3 style="margin-bottom: 25px;">نظرات کاربران</h3>
+                    
+                    <div class="review">
+                        <div class="review-header">
+                            <div class="reviewer-name">علی احمدی</div>
+                            <div class="review-date">۱۴۰۲/۱۲/۱۵</div>
+                        </div>
+                        <div class="review-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                        <p>کیفیت صدای عالی داره، من راضی هستم. باتری هم خوب جواب میده.</p>
+                    </div>
+                    
+                    <div class="review">
+                        <div class="review-header">
+                            <div class="reviewer-name">مریم کریمی</div>
+                            <div class="review-date">۱۴۰۲/۱۲/۱۰</div>
+                        </div>
+                        <div class="review-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p>بهترین هدفونی که تا حالا خریدم. طراحی شیک و راحت.</p>
+                    </div>
+                    
+                    <!-- افزودن نظر -->
+                    <div class="add-review">
+                        <h3 style="margin-bottom: 20px;">ثبت نظر جدید</h3>
+                        
+                        <div class="rating-input">
+                            <i class="far fa-star rating-star" data-rating="1"></i>
+                            <i class="far fa-star rating-star" data-rating="2"></i>
+                            <i class="far fa-star rating-star" data-rating="3"></i>
+                            <i class="far fa-star rating-star" data-rating="4"></i>
+                            <i class="far fa-star rating-star" data-rating="5"></i>
+                        </div>
+                        
+                        <textarea class="review-input" placeholder="نظر خود را درباره این محصول بنویسید..." id="newReview"></textarea>
+                        
+                        <button onclick="submitReview()" style="background: var(--primary); color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer;">
+                            ثبت نظر
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- ارسال -->
+            <div class="tab-content" id="shippingTab">
+                <div class="reviews-container">
+                    <h3 style="margin-bottom: 20px;">اطلاعات ارسال و بازگشت</h3>
+                    
+                    <div style="margin-bottom: 20px;">
+                        <h4 style="color: var(--primary); margin-bottom: 10px;">⏱️ زمان ارسال:</h4>
+                        <p>تهران: ۲۴ ساعت | شهرستان: ۲-۳ روز کاری</p>
+                    </div>
+                    
+                    <div style="margin-bottom: 20px;">
+                        <h4 style="color: var(--primary); margin-bottom: 10px;">🚚 هزینه ارسال:</h4>
+                        <p>خرید بالای ۲۰۰,۰۰۰ تومان: رایگان | کمتر از ۲۰۰,۰۰۰ تومان: ۲۵,۰۰۰ تومان</p>
+                    </div>
+                    
+                    <div style="margin-bottom: 20px;">
+                        <h4 style="color: var(--primary); margin-bottom: 10px;">🔙 بازگشت کالا:</h4>
+                        <p>تا ۷ روز پس از دریافت امکان بازگشت کالا وجود دارد (درصورت سلامت کامل)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ==================== متغیرها ====================
+        let currentColor = 'مشکی';
+        let currentQuantity = 1;
+        let currentRating = 0;
+        let isInWishlist = false;
+        
+        // ==================== تغییر تصویر ====================
+        function changeImage(imageNum) {
+            const mainImage = document.getElementById('mainImage');
+            const thumbnails = document.querySelectorAll('.thumbnail');
+            
+            // آیکون‌های مختلف
+            const icons = ['fa-headphones', 'fa-image', 'fa-image', 'fa-image'];
+            const colors = ['#ff3b8d', '#2196F3', '#4CAF50', '#FF9800'];
+            
+            mainImage.innerHTML = `<i class="fas ${icons[imageNum-1]}"></i>`;
+            mainImage.style.background = `linear-gradient(135deg, ${colors[imageNum-1]}20, ${colors[imageNum-1]}40)`;
+            
+            thumbnails.forEach(thumb => thumb.classList.remove('active'));
+            thumbnails[imageNum-1].classList.add('active');
+        }
+        
+        // ==================== انتخاب رنگ ====================
+        function selectColor(color) {
+            currentColor = color;
+            const colorOptions = document.querySelectorAll('.color-option');
+            
+            colorOptions.forEach(opt => opt.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            document.getElementById('selectedColorText').textContent = `رنگ انتخاب شده: ${color}`;
+        }
+        
+        // ==================== تغییر تعداد ====================
+        function changeQuantity(change) {
+            currentQuantity += change;
+            if (currentQuantity < 1) currentQuantity = 1;
+            if (currentQuantity > 99) currentQuantity = 99;
+            document.getElementById('quantityInput').value = currentQuantity;
+        }
+        
+        // ==================== علاقه‌مندی ====================
+        function toggleWishlist() {
+            const btn = document.getElementById('wishlistBtn');
+            const icon = btn.querySelector('i');
+            
+            if (!isInWishlist) {
+                isInWishlist = true;
+                icon.classList.remove('far');
+                icon.classList.add('fas');
+                btn.classList.add('active');
+                btn.innerHTML = '<i class="fas fa-heart"></i> افزوده شد';
+                setTimeout(() => {
+                    btn.innerHTML = '<i class="fas fa-heart"></i> حذف از علاقه‌مندی';
+                }, 2000);
+                alert('به علاقه‌مندی‌ها اضافه شد!');
+            } else {
+                isInWishlist = false;
+                icon.classList.remove('fas');
+                icon.classList.add('far');
+                btn.classList.remove('active');
+                btn.innerHTML = '<i class="far fa-heart"></i> علاقه‌مندی';
+                alert('از علاقه‌مندی‌ها حذف شد!');
+            }
+        }
+        
+        // ==================== افزودن به سبد ====================
+        function addToCart() {
+            const productId = new URLSearchParams(window.location.search).get('id') || 1;
+            const productName = document.getElementById('productTitle').textContent;
+            const priceText = document.getElementById('productPrice').textContent;
+            const price = parseInt(priceText.replace(/,/g, '').replace(' تومان', ''));
+            
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const existingItem = cart.find(item => item.id === productId && item.color === currentColor);
+            
+            if (existingItem) {
+                existingItem.quantity += currentQuantity;
+            } else {
+                cart.push({
+                    id: productId,
+                    name: productName,
+                    price: price,
+                    color: currentColor,
+                    quantity: currentQuantity,
+                    image: 'fa-headphones'
+                });
+            }
+            
+            localStorage.setItem('cart', JSON.stringify(cart));
+            
+            // به‌روزرسانی شماره سبد
+            updateCartCounts();
+            
+            // نمایش پیام
+            alert(`✅ ${currentQuantity} عدد ${productName} (رنگ: ${currentColor}) به سبد خرید اضافه شد!`);
+            
+            // ریست تعداد
+            currentQuantity = 1;
+            document.getElementById('quantityInput').value = 1;
+        }
+        
+        // ==================== تب‌ها ====================
+        function openTab(tabName) {
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabBtns.forEach(btn => btn.classList.remove('active'));
+            tabContents.forEach(content => content.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById(tabName + 'Tab').classList.add('active');
+        }
+        
+        // ==================== نظرات ====================
+        function setupRating() {
+            const stars = document.querySelectorAll('.rating-star');
+            stars.forEach(star => {
+                star.addEventListener('mouseenter', (e) => {
+                    const rating = parseInt(e.target.dataset.rating);
+                    highlightStars(rating);
+                });
+                
+                star.addEventListener('click', (e) => {
+                    currentRating = parseInt(e.target.dataset.rating);
+                    highlightStars(currentRating);
+                });
+            });
+            
+            // ریست هنگام خروج
+            document.querySelector('.rating-input').addEventListener('mouseleave', () => {
+                highlightStars(currentRating);
+            });
+        }
+        
+        function highlightStars(rating) {
+            const stars = document.querySelectorAll('.rating-star');
+            stars.forEach((star, index) => {
+                if (index < rating) {
+                    star.classList.remove('far');
+                    star.classList.add('fas', 'active');
+                } else {
+                    star.classList.remove('fas', 'active');
+                    star.classList.add('far');
+                }
+            });
+        }
+        
+        function submitReview() {
+            const reviewText = document.getElementById('newReview').value.trim();
+            
+            if (!currentRating) {
+                alert('لطفاً ابتدا امتیاز دهید');
+                return;
+            }
+            
+            if (!reviewText) {
+                alert('لطفاً متن نظر خود را بنویسید');
+                return;
+            }
+            
+            alert(`✅ نظر شما با امتیاز ${currentRating} از ۵ ثبت شد. پس از تایید مدیریت نمایش داده خواهد شد.`);
+            document.getElementById('newReview').value = '';
+            currentRating = 0;
+            highlightStars(0);
+        }
+        
+        // ==================== کارت ====================
+        function updateCartCounts() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cartCountMini').textContent = totalItems;
+        }
+        
+        // ==================== بارگذاری اولیه ====================
+        document.addEventListener('DOMContentLoaded', () => {
+            updateCartCounts();
+            setupRating();
+            
+            // بارگذاری اطلاعات محصول از URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = urlParams.get('id');
+            
+            // شبیه‌سازی بارگذاری محصول
+            if (productId) {
+                // در اینجا می‌توانید از سرور اطلاعات محصول را بگیرید
+                const products = {
+                    '1': { name: 'هدفون بی‌سیم بلوتوث مدل X200', price: '۲۹۰,۰۰۰', category: 'الکترونیک' },
+                    '2': { name: 'گوشی موبایل سامسونگ گلکسی S23', price: '۱۸,۵۰۰,۰۰۰', category: 'الکترونیک' },
+                    '3': { name: 'تلویزیون ۴۵ اینچ ال‌سی‌دی', price: '۳۸۰,۰۰۰', category: 'الکترونیک' },
+                    '4': { name: 'دوربین عکاسی حرفه‌ای کانن', price: '۴۲,۰۰۰,۰۰۰', category: 'الکترونیک' },
+                    '5': { name: 'ساعت هوشمند مدل جدید', price: '۹۵۰,۰۰۰', category: 'الکترونیک' },
+                    '6': { name: 'کفش ورزشی نایک', price: '۳۵۰,۰۰۰', category: 'پوشاک' },
+                    '7': { name: 'توپ بسکتبال اورجینال', price: '۲۲۰,۰۰۰', category: 'ورزشی' },
+                    '8': { name: 'گیتار کلاسیک', price: '۱,۳۰۰,۰۰۰', category: 'موسیقی' }
+                };
+                
+                if (products[productId]) {
+                    document.getElementById('productTitle').textContent = products[productId].name;
+                    document.getElementById('productPrice').textContent = products[productId].price + ' تومان';
+                    document.getElementById('productCategory').textContent = products[productId].category;
+                }
+            }
+        });
+    </script>
+</body>
+</html>
