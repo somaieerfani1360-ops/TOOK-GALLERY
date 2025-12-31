@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TOOK-GALLERY - فروشگاه آنلاین</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- دایره پشتیبان -->
+    <div class="support-circle" id="supportCircle">
+        <i class="fas fa-headset"></i>
+        <div class="support-menu" id="supportMenu">
+            <h3>پشتیبانی TOOK-GALLERY</h3>
+            <div class="support-chat" id="supportChat">
+                <div class="chat-messages">
+                    <div class="message admin">سلام! چگونه می‌توانم کمک کنم؟</div>
+                </div>
+                <div class="chat-input">
+                    <input type="text" id="userMessage" placeholder="سوال خود را بپرسید...">
+                    <button id="sendMessage"><i class="fas fa-paper-plane"></i></button>
+                </div>
+            </div>
+            <button class="admin-login-btn" id="adminLoginBtn">ورود پشتیبان</button>
+        </div>
+    </div>
+
+    <!-- نوار بالایی -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <!-- منو همبرگر -->
+                <button class="hamburger-menu" id="hamburgerMenu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                
+                <!-- لوگو -->
+                <div class="logo">
+                    <h1><span class="logo-text">TOOK</span>-<span class="logo-text">GALLERY</span></h1>
+                    <p class="logo-subtitle">گالری محصولات دیجیتال</p>
+                </div>
+                
+                <!-- جستجو -->
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="جستجوی محصولات...">
+                    <button id="searchBtn"><i class="fas fa-search"></i></button>
+                </div>
+                
+                <!-- آیکون‌های کاربر -->
+                <div class="user-actions">
+                    <a href="cart.html" class="cart-icon" id="cartIcon">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count" id="cartCount">0</span>
+                    </a>
+                    <a href="#" class="wishlist-icon" id="wishlistIcon">
+                        <i class="fas fa-heart"></i>
+                        <span class="wishlist-count" id="wishlistCount">0</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- منو همبرگر بازشونده -->
+        <nav class="mobile-nav" id="mobileNav">
+            <ul>
+                <li><a href="index.html"><i class="fas fa-home"></i> صفحه اصلی</a></li>
+                <li><a href="#categories"><i class="fas fa-th-large"></i> دسته‌بندی‌ها</a></li>
+                <li><a href="#special-offers"><i class="fas fa-bolt"></i> فروش ویژه</a></li>
+                <li><a href="#new-products"><i class="fas fa-star"></i> محصولات جدید</a></li>
+                <li><a href="cart.html"><i class="fas fa-shopping-cart"></i> سبد خرید</a></li>
+                <li><a href="#support" class="open-support"><i class="fas fa-comments"></i> پشتیبانی آنلاین</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main class="main-content">
+        <div class="container">
+            <!-- دسته‌بندی محصولات -->
+            <section class="categories-section" id="categories">
+                <h2 class="section-title">
+                    <i class="fas fa-th-large"></i>
+                    دسته‌بندی محصولات
+                </h2>
+                <div class="categories-grid">
+                    <div class="category-card" data-category="1">
+                        <div class="category-icon"><i class="fas fa-laptop"></i></div>
+                        <h3>کامپیوتر و لپ‌تاپ</h3>
+                        <p>۱۵۰ محصول</p>
+                    </div>
+                    <div class="category-card" data-category="2">
+                        <div class="category-icon"><i class="fas fa-mobile-alt"></i></div>
+                        <h3>موبایل و تبلت</h3>
+                        <p>۲۰۰ محصول</p>
+                    </div>
+                    <div class="category-card" data-category="3">
+                        <div class="category-icon"><i class="fas fa-headphones"></i></div>
+                        <h3>لوازم جانبی</h3>
+                        <p>۳۰۰ محصول</p>
+                    </div>
+                    <div class="category-card" data-category="4">
+                        <div class="category-icon"><i class="fas fa-tv"></i></div>
+                        <h3>تلویزیون و سینما</h3>
+                        <p>۸۰ محصول</p>
+                    </div>
+                    <div class="category-card" data-category="5">
+                        <div class="category-icon"><i class="fas fa-gamepad"></i></div>
+                        <h3>گیم و کنسول</h3>
+                        <p>۱۲۰ محصول</p>
+                    </div>
+                    <div class="category-card" data-category="6">
+                        <div class="category-icon"><i class="fas fa-camera"></i></div>
+                        <h3>دوربین و عکاسی</h3>
+                        <p>۹۰ محصول</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- فروش ویژه (کشویی) -->
+            <section class="special-offers-section" id="special-offers">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-fire"></i>
+                        فروش ویژه TOOK-GALLERY
+                    </h2>
+                    <div class="slider-controls">
+                        <button class="slider-prev" id="specialPrev">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                        <button class="slider-next" id="specialNext">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="special-offers-slider">
+                    <div class="slider-container">
+                        <div class="slider-track" id="specialSliderTrack">
+                            <!-- محصولات فروش ویژه -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- محصولات جدید -->
+            <section class="new-products-section" id="new-products">
+                <h2 class="section-title">
+                    <i class="fas fa-star"></i>
+                    محصولات جدید
+                </h2>
+                <div class="products-grid">
+                    <!-- محصولات جدید -->
+                </div>
+            </section>
+        </div>
+    </main>
+    
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h2>TOOK-GALLERY</h2>
+                    <p>گالری محصولات دیجیتال با بهترین کیفیت و قیمت</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h3>دسترسی سریع</h3>
+                        <ul>
+                            <li><a href="#categories">دسته‌بندی‌ها</a></li>
+                            <li><a href="#special-offers">فروش ویژه</a></li>
+                            <li><a href="#new-products">محصولات جدید</a></li>
+                            <li><a href="#support">پشتیبانی</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h3>خدمات مشتریان</h3>
+                        <ul>
+                            <li><a href="#">راهنمای خرید</a></li>
+                            <li><a href="#">روش‌های پرداخت</a></li>
+                            <li><a href="#">ضمانت بازگشت</a></li>
+                            <li><a href="#">حریم خصوصی</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2023 TOOK-GALLERY. تمامی حقوق محفوظ است.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+              </html>
