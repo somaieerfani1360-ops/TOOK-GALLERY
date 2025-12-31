@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ورود به پنل مدیریت - Took Gallery</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #ff3b8d;
+            --primary-light: #ff6bac;
+            --dark: #333;
+            --light: #fff;
+            --border: #ffd6e8;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Vazirmatn', 'Segoe UI', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #fff5f9 0%, #ffe6f2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .login-container {
+            background: white;
+            width: 100%;
+            max-width: 400px;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 50px rgba(255, 59, 141, 0.15);
+            text-align: center;
+        }
+        
+        .login-logo {
+            color: var(--primary);
+            font-size: 50px;
+            margin-bottom: 20px;
+        }
+        
+        .login-title {
+            color: var(--dark);
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        
+        .login-subtitle {
+            color: #666;
+            margin-bottom: 30px;
+        }
+        
+        .input-group {
+            margin-bottom: 25px;
+            text-align: right;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .input-group input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #eee;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(255, 59, 141, 0.1);
+        }
+        
+        .login-btn {
+            width: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--primary-light));
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+        
+        .login-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 59, 141, 0.3);
+        }
+        
+        .error-message {
+            color: #f44336;
+            margin-top: 15px;
+            font-size: 14px;
+            display: none;
+        }
+        
+        .back-link {
+            display: block;
+            margin-top: 25px;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        .admin-note {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 25px;
+            font-size: 14px;
+            color: #666;
+            text-align: right;
+        }
+        
+        .admin-note strong {
+            color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-logo">
+            <i class="fas fa-lock"></i>
+        </div>
+        
+        <h2 class="login-title">ورود به پنل مدیریت</h2>
+        <p class="login-subtitle">Took Gallery Admin Panel</p>
+        
+        <form onsubmit="login(event)">
+            <div class="input-group">
+                <label for="username">نام کاربری</label>
+                <input type="text" id="username" required placeholder="admin">
+            </div>
+            
+            <div class="input-group">
+                <label for="password">رمز عبور</label>
+                <input type="password" id="password" required placeholder="••••••••">
+            </div>
+            
+            <div class="error-message" id="errorMessage">
+                نام کاربری یا رمز عبور اشتباه است
+            </div>
+            
+            <button type="submit" class="login-btn">
+                <i class="fas fa-sign-in-alt"></i> ورود به پنل
+            </button>
+        </form>
+        
+        <div class="admin-note">
+            <p><strong>نکته:</strong> برای تست پنل از اطلاعات زیر استفاده کنید:</p>
+            <p>نام کاربری: <strong>admin</strong></p>
+            <p>رمز عبور: <strong>admin123</strong></p>
+        </div>
+        
+        <a href="index.html" class="back-link">
+            <i class="fas fa-arrow-right"></i> بازگشت به سایت
+        </a>
+    </div>
+
+    <script>
+        function login(event) {
+            event.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('errorMessage');
+            
+            // اطلاعات ورود پیش‌فرض
+            const defaultUsername = 'admin';
+            const defaultPassword = 'admin123';
+            
+            // بررسی اطلاعات ورود
+            if ((username === defaultUsername && password === defaultPassword) ||
+                (username === localStorage.getItem('adminUsername') && 
+                 password === localStorage.getItem('adminPassword'))) {
+                
+                // ذخیره اطلاعات ورود
+                if (username !== defaultUsername) {
+                    localStorage.setItem('adminUsername', username);
+                    localStorage.setItem('adminPassword', password);
+                }
+                
+                localStorage.setItem('adminLoggedIn', 'true');
+                
+                // هدایت به پنل
+                window.location.href = 'admin-panel.html';
+            } else {
+                errorMessage.style.display = 'block';
+                setTimeout(() => {
+                    errorMessage.style.display = 'none';
+                }, 3000);
+            }
+        }
+    </script>
+</body>
+</html>
