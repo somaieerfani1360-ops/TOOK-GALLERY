@@ -9,173 +9,260 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
-        <nav class="nav">
-            <div class="nav-top">
-                <button class="hamburger" id="hamburger">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
-                
-                <div class="logo">
-                    <h1>TOOK GALLERY</h1>
+    <!-- Top Header -->
+    <div class="top-header">
+        <div class="container">
+            <div class="top-header-content">
+                <div class="contact-info">
+                    <span><i class="fas fa-phone"></i> 021-12345678</span>
+                    <span><i class="fas fa-envelope"></i> info@tookgallery.ir</span>
                 </div>
-                
+                <div class="auth-links">
+                    <a href="profile.html"><i class="fas fa-user"></i> حساب کاربری</a>
+                    <a href="#"><i class="fas fa-heart"></i> علاقه‌مندی‌ها</a>
+                    <a href="cart.html"><i class="fas fa-shopping-cart"></i> سبد خرید</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Header -->
+    <header class="main-header">
+        <div class="container">
+            <div class="header-content">
+                <!-- Logo -->
+                <div class="logo">
+                    <a href="index.html">TOOK GALLERY</a>
+                </div>
+
+                <!-- Search Box -->
                 <div class="search-box">
                     <input type="text" placeholder="جستجوی محصولات...">
                     <button><i class="fas fa-search"></i></button>
                 </div>
-                
-                <div class="user-icons">
+
+                <!-- User Actions -->
+                <div class="user-actions">
                     <a href="profile.html" class="user-icon">
                         <i class="fas fa-user"></i>
                     </a>
                     <a href="#" class="user-icon" id="wishlist-btn">
                         <i class="fas fa-heart"></i>
-                        <span class="badge" id="wishlist-count">0</span>
+                        <span class="badge">0</span>
                     </a>
                     <a href="cart.html" class="user-icon" id="cart-btn">
                         <i class="fas fa-shopping-cart"></i>
-                        <span class="badge" id="cart-count">0</span>
+                        <span class="badge">0</span>
                     </a>
+                    <button class="hamburger" id="hamburger">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
                 </div>
             </div>
-            
-            <!-- Mobile Menu -->
-            <div class="mobile-menu" id="mobileMenu">
-                <ul>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="main-nav">
+            <div class="container">
+                <ul class="nav-list">
                     <li><a href="index.html">خانه</a></li>
-                    <li><a href="#categories">دسته‌بندی‌ها</a></li>
-                    <li><a href="#special">پیشنهاد ویژه</a></li>
-                    <li><a href="#new">جدیدترین‌ها</a></li>
-                    <li><a href="profile.html">پروفایل</a></li>
-                    <li><a href="cart.html">سبد خرید</a></li>
+                    <li><a href="#categories">دسته‌بندی محصولات</a></li>
+                    <li><a href="#new-products">محصولات جدید</a></li>
+                    <li><a href="#special-offers">تخفیف‌ها و پیشنهادها</a></li>
+                    <li><a href="#">وبلاگ</a></li>
+                    <li><a href="#">تماس با ما</a></li>
                 </ul>
             </div>
         </nav>
+
+        <!-- Mobile Menu -->
+        <div class="mobile-menu" id="mobileMenu">
+            <div class="mobile-menu-header">
+                <h3>منو</h3>
+                <button class="close-menu" id="closeMenu"><i class="fas fa-times"></i></button>
+            </div>
+            <ul class="mobile-nav-list">
+                <li><a href="index.html"><i class="fas fa-home"></i> خانه</a></li>
+                <li><a href="#categories"><i class="fas fa-th-large"></i> دسته‌بندی‌ها</a></li>
+                <li><a href="#new-products"><i class="fas fa-star"></i> محصولات جدید</a></li>
+                <li><a href="#special-offers"><i class="fas fa-fire"></i> تخفیف‌ها</a></li>
+                <li><a href="profile.html"><i class="fas fa-user"></i> حساب کاربری</a></li>
+                <li><a href="#"><i class="fas fa-heart"></i> علاقه‌مندی‌ها</a></li>
+                <li><a href="cart.html"><i class="fas fa-shopping-cart"></i> سبد خرید</a></li>
+            </ul>
+        </div>
     </header>
 
     <!-- Support Button -->
-    <div class="support-btn" id="supportBtn">
+    <div class="support-circle" id="supportBtn">
         <i class="fas fa-headset"></i>
         <div class="support-box" id="supportBox">
-            <h3>پشتیبانی آنلاین</h3>
-            <div class="chat-area">
-                <div class="messages" id="chatMessages">
-                    <div class="msg admin">سلام! چطور می‌تونم کمکتون کنم؟</div>
+            <h3><i class="fas fa-comments"></i> پشتیبانی آنلاین</h3>
+            <div class="chat-container">
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message admin">
+                        <div class="msg-text">سلام! چطور می‌تونم کمکتون کنم؟</div>
+                        <div class="msg-time">14:30</div>
+                    </div>
                 </div>
                 <div class="chat-input">
-                    <input type="text" id="userMsg" placeholder="سوال خود را بنویسید...">
-                    <button id="sendMsg"><i class="fas fa-paper-plane"></i></button>
+                    <input type="text" id="userMessage" placeholder="پیام خود را بنویسید...">
+                    <button id="sendMessage"><i class="fas fa-paper-plane"></i></button>
                 </div>
             </div>
-            <button class="admin-login" onclick="location.href='admin-login.html'">
-                <i class="fas fa-user-shield"></i> ورود پشتیبان
+            <button class="admin-login-btn" onclick="location.href='admin.html'">
+                <i class="fas fa-user-shield"></i> ورود ادمین
             </button>
         </div>
     </div>
 
     <!-- Main Content -->
-    <main class="main">
+    <main class="main-content">
+        <!-- Hero Slider -->
+        <section class="hero-slider">
+            <div class="slider-container">
+                <div class="slider-track">
+                    <div class="slide">اسلاید 1</div>
+                    <div class="slide">اسلاید 2</div>
+                    <div class="slide">اسلاید 3</div>
+                </div>
+                <button class="slider-btn prev"><i class="fas fa-chevron-right"></i></button>
+                <button class="slider-btn next"><i class="fas fa-chevron-left"></i></button>
+            </div>
+        </section>
+
         <!-- Categories -->
-        <section class="categories" id="categories">
-            <h2 class="section-title">دسته‌بندی محصولات</h2>
-            <div class="categories-grid">
-                <div class="category" data-cat="1">
-                    <div class="cat-icon">1</div>
-                    <h3>دسته‌بندی 1</h3>
-                </div>
-                <div class="category" data-cat="2">
-                    <div class="cat-icon">2</div>
-                    <h3>دسته‌بندی 2</h3>
-                </div>
-                <div class="category" data-cat="3">
-                    <div class="cat-icon">3</div>
-                    <h3>دسته‌بندی 3</h3>
-                </div>
-                <div class="category" data-cat="4">
-                    <div class="cat-icon">4</div>
-                    <h3>دسته‌بندی 4</h3>
-                </div>
-                <div class="category" data-cat="5">
-                    <div class="cat-icon">5</div>
-                    <h3>دسته‌بندی 5</h3>
-                </div>
-                <div class="category" data-cat="6">
-                    <div class="cat-icon">6</div>
-                    <h3>دسته‌بندی 6</h3>
+        <section class="categories-section" id="categories">
+            <div class="container">
+                <h2 class="section-title">دسته‌بندی محصولات</h2>
+                <div class="categories-grid">
+                    <div class="category-card" data-cat="1">
+                        <div class="category-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <h3>موبایل</h3>
+                        <p>محصولات نمونه 1</p>
+                    </div>
+                    <div class="category-card" data-cat="2">
+                        <div class="category-icon">
+                            <i class="fas fa-laptop"></i>
+                        </div>
+                        <h3>لپ‌تاپ</h3>
+                        <p>محصولات نمونه 2</p>
+                    </div>
+                    <div class="category-card" data-cat="3">
+                        <div class="category-icon">
+                            <i class="fas fa-headphones"></i>
+                        </div>
+                        <h3>هدفون</h3>
+                        <p>محصولات نمونه 3</p>
+                    </div>
+                    <div class="category-card" data-cat="4">
+                        <div class="category-icon">
+                            <i class="fas fa-tablet-alt"></i>
+                        </div>
+                        <h3>تبلت</h3>
+                        <p>محصولات نمونه 4</p>
+                    </div>
+                    <div class="category-card" data-cat="5">
+                        <div class="category-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <h3>ساعت هوشمند</h3>
+                        <p>محصولات نمونه 5</p>
+                    </div>
+                    <div class="category-card" data-cat="6">
+                        <div class="category-icon">
+                            <i class="fas fa-gamepad"></i>
+                        </div>
+                        <h3>گیمینگ</h3>
+                        <p>محصولات نمونه 6</p>
+                    </div>
                 </div>
             </div>
         </section>
 
         <!-- Special Offers -->
-        <section class="special-offers" id="special">
-            <div class="section-header">
-                <h2 class="section-title">پیشنهادهای ویژه</h2>
-                <div class="slider-controls">
-                    <button class="slider-btn prev"><i class="fas fa-chevron-right"></i></button>
-                    <button class="slider-btn next"><i class="fas fa-chevron-left"></i></button>
+        <section class="special-offers" id="special-offers">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">پیشنهادهای ویژه</h2>
+                    <a href="#" class="view-all">مشاهده همه <i class="fas fa-arrow-left"></i></a>
                 </div>
-            </div>
-            <div class="slider-container">
-                <div class="slider-track" id="sliderTrack">
-                    <!-- محصولات ویژه -->
-                    <div class="product-card" data-id="1">
-                        <div class="product-img">تصویر محصول 1</div>
-                        <div class="product-info">
-                            <h3>محصول ویژه 1</h3>
-                            <p class="price">قیمت: نمونه 1</p>
-                            <button class="view-btn" onclick="viewProduct(1)">مشاهده</button>
+                <div class="offers-slider">
+                    <div class="slider-wrapper">
+                        <div class="offers-track" id="offersTrack">
+                            <div class="offer-card">
+                                <div class="offer-img">تصویر محصول 1</div>
+                                <div class="offer-info">
+                                    <h3>محصول ویژه 1</h3>
+                                    <div class="price">
+                                        <span class="current-price">قیمت نمونه 1</span>
+                                        <span class="old-price">قیمت قبلی نمونه</span>
+                                    </div>
+                                    <button class="view-btn" onclick="viewProduct(1)">مشاهده محصول</button>
+                                </div>
+                            </div>
+                            <div class="offer-card">
+                                <div class="offer-img">تصویر محصول 2</div>
+                                <div class="offer-info">
+                                    <h3>محصول ویژه 2</h3>
+                                    <div class="price">
+                                        <span class="current-price">قیمت نمونه 2</span>
+                                        <span class="old-price">قیمت قبلی نمونه</span>
+                                    </div>
+                                    <button class="view-btn" onclick="viewProduct(2)">مشاهده محصول</button>
+                                </div>
+                            </div>
+                            <div class="offer-card">
+                                <div class="offer-img">تصویر محصول 3</div>
+                                <div class="offer-info">
+                                    <h3>محصول ویژه 3</h3>
+                                    <div class="price">
+                                        <span class="current-price">قیمت نمونه 3</span>
+                                        <span class="old-price">قیمت قبلی نمونه</span>
+                                    </div>
+                                    <button class="view-btn" onclick="viewProduct(3)">مشاهده محصول</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="product-card" data-id="2">
-                        <div class="product-img">تصویر محصول 2</div>
-                        <div class="product-info">
-                            <h3>محصول ویژه 2</h3>
-                            <p class="price">قیمت: نمونه 2</p>
-                            <button class="view-btn" onclick="viewProduct(2)">مشاهده</button>
-                        </div>
-                    </div>
-                    <div class="product-card" data-id="3">
-                        <div class="product-img">تصویر محصول 3</div>
-                        <div class="product-info">
-                            <h3>محصول ویژه 3</h3>
-                            <p class="price">قیمت: نمونه 3</p>
-                            <button class="view-btn" onclick="viewProduct(3)">مشاهده</button>
-                        </div>
-                    </div>
+                    <button class="slider-nav prev"><i class="fas fa-chevron-right"></i></button>
+                    <button class="slider-nav next"><i class="fas fa-chevron-left"></i></button>
                 </div>
             </div>
         </section>
 
         <!-- New Products -->
-        <section class="new-products" id="new">
-            <h2 class="section-title">جدیدترین محصولات</h2>
-            <div class="products-grid">
-                <div class="product-card" data-id="4">
-                    <div class="product-img">تصویر محصول 4</div>
-                    <div class="product-info">
-                        <h3>محصول جدید 1</h3>
-                        <p class="price">قیمت: نمونه 4</p>
-                        <button class="view-btn" onclick="viewProduct(4)">مشاهده</button>
+        <section class="new-products" id="new-products">
+            <div class="container">
+                <h2 class="section-title">جدیدترین محصولات</h2>
+                <div class="products-grid">
+                    <div class="product-card" data-id="4">
+                        <div class="product-img">تصویر محصول 4</div>
+                        <div class="product-info">
+                            <h3>محصول جدید 1</h3>
+                            <div class="price">قیمت: نمونه 4</div>
+                            <button class="add-to-cart" onclick="addToCart(4)">افزودن به سبد</button>
+                        </div>
                     </div>
-                </div>
-                <div class="product-card" data-id="5">
-                    <div class="product-img">تصویر محصول 5</div>
-                    <div class="product-info">
-                        <h3>محصول جدید 2</h3>
-                        <p class="price">قیمت: نمونه 5</p>
-                        <button class="view-btn" onclick="viewProduct(5)">مشاهده</button>
+                    <div class="product-card" data-id="5">
+                        <div class="product-img">تصویر محصول 5</div>
+                        <div class="product-info">
+                            <h3>محصول جدید 2</h3>
+                            <div class="price">قیمت: نمونه 5</div>
+                            <button class="add-to-cart" onclick="addToCart(5)">افزودن به سبد</button>
+                        </div>
                     </div>
-                </div>
-                <div class="product-card" data-id="6">
-                    <div class="product-img">تصویر محصول 6</div>
-                    <div class="product-info">
-                        <h3>محصول جدید 3</h3>
-                        <p class="price">قیمت: نمونه 6</p>
-                        <button class="view-btn" onclick="viewProduct(6)">مشاهده</button>
+                    <div class="product-card" data-id="6">
+                        <div class="product-img">تصویر محصول 6</div>
+                        <div class="product-info">
+                            <h3>محصول جدید 3</h3>
+                            <div class="price">قیمت: نمونه 6</div>
+                            <button class="add-to-cart" onclick="addToCart(6)">افزودن به سبد</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -184,34 +271,57 @@
 
     <!-- Footer -->
     <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>TOOK GALLERY</h3>
-                <p>فروشگاه آنلاین محصولات</p>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3>TOOK GALLERY</h3>
+                    <p>توضیحات کوتاه درباره فروشگاه</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-telegram"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h3>دسترسی سریع</h3>
+                    <ul>
+                        <li><a href="index.html">خانه</a></li>
+                        <li><a href="#categories">دسته‌بندی‌ها</a></li>
+                        <li><a href="#new-products">محصولات جدید</a></li>
+                        <li><a href="#special-offers">پیشنهادهای ویژه</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>خدمات مشتریان</h3>
+                    <ul>
+                        <li><a href="#">حریم خصوصی</a></li>
+                        <li><a href="#">قوانین و مقررات</a></li>
+                        <li><a href="#">پرسش‌های متداول</a></li>
+                        <li><a href="#">راهنمای خرید</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>تماس با ما</h3>
+                    <p><i class="fas fa-phone"></i> 021-12345678</p>
+                    <p><i class="fas fa-envelope"></i> info@tookgallery.ir</p>
+                    <p><i class="fas fa-map-marker-alt"></i> آدرس نمونه</p>
+                </div>
             </div>
-            <div class="footer-section">
-                <h3>دسترسی سریع</h3>
-                <ul>
-                    <li><a href="#categories">دسته‌بندی‌ها</a></li>
-                    <li><a href="#special">پیشنهاد ویژه</a></li>
-                    <li><a href="#new">جدیدترین‌ها</a></li>
-                </ul>
+            <div class="footer-bottom">
+                <p>© 2023 TOOK GALLERY - تمامی حقوق محفوظ است.</p>
             </div>
-            <div class="footer-section">
-                <h3>تماس با ما</h3>
-                <p>پشتیبانی آنلاین 24 ساعته</p>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>© 2023 TOOK GALLERY</p>
         </div>
     </footer>
 
     <script src="js/main.js"></script>
     <script>
         function viewProduct(id) {
-            window.location.href = 'products.html?id=' + id;
+            window.location.href = 'product.html?id=' + id;
+        }
+        
+        function addToCart(id) {
+            alert('محصول به سبد خرید اضافه شد');
         }
     </script>
 </body>
-        </html>
+                </html>
